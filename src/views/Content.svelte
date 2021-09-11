@@ -8,8 +8,6 @@
 
     import { Navigation, Mousewheel, Scrollbar, A11y } from 'swiper';
 
-    import './style.css';
-
     let date = new Date();
 
     const fetchItems = async () => {

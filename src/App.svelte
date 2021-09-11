@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Content from './Content.svelte';
+    import Router from './Router.svelte';
 
     import './tailwind.scss';
 </script>
 
-<Content />
+<Router />
 
 <style>
 </style>
