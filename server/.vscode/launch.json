@@ -1,0 +1,39 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Deno: Run",
+            "request": "launch",
+            "type": "pwa-node",
+            "program": "server.ts",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "vr",
+            "runtimeArgs": [
+                "start"
+            ]
+        },
+        {
+            "name": "Deno: Watch",
+            "request": "launch",
+            "type": "pwa-node",
+            "program": "server.ts",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "vr",
+            "runtimeArgs": [
+                "watch"
+            ]
+        },
+        {
+            "name": "Deno: Inspect",
+            "request": "launch",
+            "type": "pwa-node",
+            "program": "server.ts",
+            "cwd": "${workspaceFolder}",
+            "runtimeExecutable": "vr",
+            "runtimeArgs": [
+                "inspect"
+            ],
+            "attachSimplePort": 9229
+        },
+    ]
+}

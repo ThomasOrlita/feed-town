@@ -1,0 +1,19 @@
+# usage: `vr <script name>`
+# https://velociraptor.run
+
+# options for all scripts
+allow:
+  - net
+
+scripts:
+  start:
+    cmd: server.ts
+    desc: Start server
+  watch:
+    cmd: server.ts
+    desc: Start server and reload on changes
+    watch: true
+  inspect:
+    cmd: server.ts
+    desc: Start and inspect server
+    inspect: 127.0.0.1:9229

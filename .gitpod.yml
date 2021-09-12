@@ -1,13 +1,13 @@
 image:
   file: .gitpod.Dockerfile
 tasks:
-  - name: init and start frontend
+  - name: frontend
     init: cd frontend && npm install && npm run dev
-  - name: init and start backend
-    init: cd backend && echo 'todo'
+  - name: backend
+    init: cd server && echo 'todo'
 ports:
   - port: 8000
-    onOpen: open-preview
+    onOpen: ignore
   - port: 4000
     onOpen: ignore
 vscode:
