@@ -1,0 +1,19 @@
+image:
+  file: .gitpod.Dockerfile
+tasks:
+  - name: init and start frontend
+    init: cd frontend && npm install && npm run dev
+  - name: init and start backend
+    init: cd backend && echo 'todo'
+ports:
+  - port: 8000
+    onOpen: open-preview
+  - port: 4000
+    onOpen: ignore
+vscode:
+  extensions:
+    - "bradlc.vscode-tailwindcss"
+    - "svelte.svelte-vscode"
+    - "github.vscode-pull-request-github"
+    - "denoland.vscode-deno"
+    - "akamud.vscode-theme-onedark"

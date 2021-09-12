@@ -1,13 +1,15 @@
 {
-  "name": "feed-town",
+  "name": "feed-town-frontend",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
     "test": "jest"
   },
   "devDependencies": {
+    "@msgpack/msgpack": "^2.7.1",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.22",
     "@types/jest": "^27.0.1",
+    "async-call-rpc": "^6.0.0",
     "attractions": "^3.3.0",
     "postcss": "^8.3.6",
     "sass": "^1.39.2",
