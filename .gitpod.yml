@@ -3,8 +3,8 @@ image:
 tasks:
   - name: frontend
     init: cd frontend && npm install && npm run dev
-  - name: backend
-    init: cd server && echo 'todo'
+  - name: server
+    init: cd server && vr start
 ports:
   - port: 8000
     onOpen: ignore
