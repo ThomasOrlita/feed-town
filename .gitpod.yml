@@ -5,6 +5,7 @@ tasks:
     init: cd frontend && npm install && npm run dev
   - name: server
     init: cd server && vr start
+    openMode: split-right
 ports:
   - port: 8000
     onOpen: ignore
