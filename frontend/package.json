@@ -6,7 +6,6 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@msgpack/msgpack": "^2.7.1",
     "@sveltejs/vite-plugin-svelte": "^1.0.0-next.22",
     "@types/jest": "^27.0.1",
     "async-call-rpc": "^6.0.0",
