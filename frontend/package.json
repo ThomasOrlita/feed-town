@@ -6,19 +6,19 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.22",
-    "@types/jest": "^27.0.1",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+    "@types/jest": "^27.0.3",
     "async-call-rpc": "^6.0.0",
-    "attractions": "^3.3.0",
-    "postcss": "^8.3.6",
-    "sass": "^1.39.2",
-    "svelte": "^3.42.4",
-    "svelte-preprocess": "^4.9.4",
+    "attractions": "^3.5.0",
+    "postcss": "^8.3.11",
+    "sass": "^1.43.4",
+    "svelte": "^3.44.2",
+    "svelte-preprocess": "^4.9.8",
     "svelte-routing": "^1.6.0",
-    "swiper": "^7.0.5",
-    "ts-jest": "^27.0.5",
-    "typescript": "^4.4.2",
-    "vite": "^2.5.6"
+    "swiper": "^7.3.0",
+    "ts-jest": "^27.0.7",
+    "typescript": "^4.5.2",
+    "vite": "^2.6.14"
   },
   "dependencies": {
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.14"
