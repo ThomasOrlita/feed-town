@@ -2,8 +2,11 @@
 # https://velociraptor.run
 
 # options for all scripts
+unstable: true
 allow:
   - net
+  - read
+  - env
 
 scripts:
   start:
