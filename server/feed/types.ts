@@ -1,3 +1,7 @@
+export type FeedSourceType = 'RSS';
+
+// export type FeedSource
+
 export type FeedItemType = 'WIKIPEDIA_ARTICLE' | 'RSS_ITEM';
 
 export type GeneralContent = {
@@ -18,6 +22,7 @@ export type FeedItemRss = {
     content: GeneralContent;
 };
 
+
 export type FeedItem = FeedItemWikipediaArticle | FeedItemRss;
 
-export type FeedParser<T extends FeedItemType> = (url: string) => (FeedItem | {type: T})[];
+export type FeedParser<T extends FeedItemType> = (url: string) => Promise<(FeedItem | {type: T})[]>;

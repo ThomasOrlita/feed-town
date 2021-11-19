@@ -47,7 +47,9 @@ export class WebSocketChannel extends EventTarget implements CallbackBasedChanne
     }
 }
 
+/*
 import * as rss from './feed/parser/rss.ts';
+import db from './db/db.ts';
 import {
     DublinCore,
     MediaRss,
@@ -71,19 +73,19 @@ import {
     console.log(entries);
 
 }
-
+*/
 
 try {
-
+    const port = 4000;
     AsyncCall(api, {
-        channel: new WebSocketChannel(serve({ port: 4000 })),
+        channel: new WebSocketChannel(serve({ port })),
         serializer: {
             deserialization: (data: string) => JSON.parse(data),
             serialization: (data: any) => JSON.stringify(data)
         },
         log: { type: 'basic' },
     });
-    console.info('Server is running');
+    console.info('Server is running on :' + port);
 } catch (e) {
     console.log('error!');
     console.error(e);
