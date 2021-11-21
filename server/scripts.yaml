@@ -6,6 +6,8 @@ unstable: true
 allow:
   - net
   - read
+  - write
+  - ffi
   - env
 
 scripts:

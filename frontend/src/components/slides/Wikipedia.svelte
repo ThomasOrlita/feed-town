@@ -3,7 +3,7 @@
 
     export let title: string;
     export let imageUrl: string;
-    export let content: string;
+    // export let content: string;
     export let url: string;
 </script>
 
@@ -23,7 +23,7 @@
                             -webkit-line-clamp: 8;
                             -webkit-box-orient: vertical;
                             overflow: hidden;">
-                    {content}
+                    <!-- {content} --> WIKIPEDIA
                 </div>
             </div>
         </div>

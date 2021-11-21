@@ -1,9 +1,5 @@
-import { Bson } from "https://deno.land/x/mongo@v0.27.0/deps.ts";
+import { Feed } from "../../api/Api.types.ts";
 import db from "../mongo.ts";
 
-export interface FeedItem {
-    _id: Bson.ObjectId;
-    
-};
 
-export const feeds = db.collection<FeedItem>('feedItems');
+export const feedItems = db.collection<Feed.Item.FeedItem>('feedItems');

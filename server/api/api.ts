@@ -1,2 +1,2 @@
-export { getFeed } from "../feed/feed.ts";
-export { addFeed } from "../feed/newFeed.ts";
+export { getFeed } from "./getFeed.ts";
+export { addFeed } from "./newFeed.ts";

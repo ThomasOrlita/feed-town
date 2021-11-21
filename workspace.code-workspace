@@ -17,7 +17,8 @@
 		"typescript.format.semicolons": "insert",
 		"typescript.tsdk": "Frontend/node_modules/typescript/lib",
 		"deno.suggest.imports.hosts": {
-			"https://cdn.jsdelivr.net": false
+			"https://cdn.jsdelivr.net": false,
+			"https://deno.land": false
 		}
 	}
 }

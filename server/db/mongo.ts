@@ -1,4 +1,4 @@
-import { Bson, MongoClient,  } from 'https://deno.land/x/mongo@v0.27.0/mod.ts';
+import { Bson, MongoClient,  } from 'https://deno.land/x/mongo@v0.28.0/mod.ts';
 
 import { config } from 'https://deno.land/x/dotenv@v3.0.0/mod.ts';
 
