@@ -1,4 +1,5 @@
 import { defineConfig } from "vite";
+import WindiCSS from 'vite-plugin-windicss';
 import { svelte } from "@sveltejs/vite-plugin-svelte";
 
 export default defineConfig({
@@ -9,7 +10,9 @@ export default defineConfig({
       port: 443
     },
   },
-  plugins: [svelte({
+  plugins: [
+    WindiCSS(),
+    svelte({
 
-  })]
+    })]
 });

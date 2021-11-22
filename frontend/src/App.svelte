@@ -1,7 +1,5 @@
 <script lang="ts">
-    import Router from './Router.svelte';
-
-    import './tailwind.scss';
+  import Router from './Router.svelte';
 </script>
 
 <Router />

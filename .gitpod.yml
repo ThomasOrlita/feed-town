@@ -13,7 +13,8 @@ ports:
     onOpen: ignore
 vscode:
   extensions:
-    - "bradlc.vscode-tailwindcss"
+    - "voorjaar.windicss-intellisense"
+    - "k--kato.intellij-idea-keybindings"
     - "svelte.svelte-vscode"
     - "github.vscode-pull-request-github"
     - "denoland.vscode-deno"
