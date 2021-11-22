@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Autocomplete, Button, Dialog, FormField, Modal, TextField } from 'attractions';
+  import { Autocomplete, Button, Dialog, FormField, Loading, Modal, TextField } from 'attractions';
   import server from '../api/api';
   import { CheckIcon } from 'svelte-feather-icons';
   import { navigate } from 'svelte-routing';
@@ -11,13 +11,14 @@
   };
 
   let title: string;
-  let url: string;
-  let input: {
+
+  type Input = {
     RSS: Feed.Source.Rss;
     WIKIPEDIA_ARTICLE: Feed.Source.WikipediaArticle;
     TWITTER_USER_TIMELINE: Feed.Source.TwitterUserTimeline;
     REDDIT_SUBREDDIT: Feed.Source.RedditSubreddit;
-  } = {
+  };
+  const defaultInput: Input = {
     RSS: {
       type: 'RSS',
       url: '',
@@ -34,7 +35,9 @@
       subreddit: 'r/',
     },
   };
+  let input: Input = defaultInput;
   let error: string;
+  let loading: boolean = false;
 
   type SelectedFeedType = {
     type: Feed.Type;
@@ -54,19 +57,24 @@
     }
 
     try {
+      loading = true;
       const newFeedResult = await server.addFeed(title, {
         type: selectedType,
         ...input[selectedType],
       });
       title = '';
-      url = '';
+      selectedTypes = [];
+      input = defaultInput;
 
       modalOpen = false;
       navigate(`/feed/${newFeedResult.feedId}`);
 
       console.log(newFeedResult);
+      title = '';
     } catch (e) {
       error = e.message;
+    } finally {
+      loading = false;
     }
   };
 
@@ -94,33 +102,62 @@
 </script>
 
 <Modal bind:open={modalOpen} let:closeCallback noClickaway>
-  <Dialog title="Add new feed" {closeCallback}>
-    <FormField name="Title" optional>
-      <TextField bind:value={title} />
-    </FormField>
-    <FormField name="Feed type">
-      <Autocomplete {getOptions} maxOptions={1} bind:selection={selectedTypes} minSearchLength={0} />
-    </FormField>
-    {#if selectedType === 'RSS'}
-      <FormField name="Feed URL" required errors={[url && !(url.startsWith('http://') || url.startsWith('https://')) && 'Invalid URL']}>
-        <TextField type="url" bind:value={input.RSS.url} />
+  <div class="<sm:w-full sm:min-w-lg m-8">
+    <Dialog title="Add new feed" {closeCallback}>
+      <FormField name="Title" optional>
+        <TextField bind:value={title} />
       </FormField>
-    {:else if selectedType === 'WIKIPEDIA_ARTICLE'}
-      not implemented
-    {:else if selectedType === 'TWITTER_USER_TIMELINE'}
-      <FormField name="Twitter username" required errors={[]}>
-        <TextField type="text" bind:value={input.TWITTER_USER_TIMELINE.username} />
+      <FormField name="Feed type">
+        <Autocomplete {getOptions} maxOptions={1} bind:selection={selectedTypes} minSearchLength={0} />
       </FormField>
-    {:else if selectedType === 'REDDIT_SUBREDDIT'}
-      <FormField name="Subreddit" required errors={[]}>
-        <TextField type="text" bind:value={input.REDDIT_SUBREDDIT.subreddit} />
-      </FormField>
-    {/if}
-    <FormField errors={[error]}>
-      <Button filled on:click={addFeed}>
-        <CheckIcon size="20" class="mr-2" />
-        Add Feed
-      </Button>
-    </FormField>
-  </Dialog>
+      {#if selectedType === 'RSS'}
+        <FormField name="Feed URL" required errors={[input.RSS.url && !(input.RSS.url.startsWith('http://') || input.RSS.url.startsWith('https://')) && 'Invalid URL']}>
+          <TextField type="url" bind:value={input.RSS.url} />
+        </FormField>
+      {:else if selectedType === 'WIKIPEDIA_ARTICLE'}
+        not implemented
+      {:else if selectedType === 'TWITTER_USER_TIMELINE'}
+        <FormField
+          name="Twitter username"
+          required
+          errors={[
+            input.TWITTER_USER_TIMELINE.username.replaceAll('@', '') &&
+              !input.TWITTER_USER_TIMELINE.username
+                .replaceAll('@', '')
+                .toLowerCase()
+                .match(/^[a-zA-Z0-9_]{1,15}$/) &&
+              'Invalid Twitter username',
+          ]}>
+          <TextField type="text" bind:value={input.TWITTER_USER_TIMELINE.username} />
+        </FormField>
+      {:else if selectedType === 'REDDIT_SUBREDDIT'}
+        <FormField
+          name="Subreddit"
+          required
+          errors={[
+            input.REDDIT_SUBREDDIT.subreddit.replaceAll('r/', '').replaceAll('/r/', '') &&
+              !input.REDDIT_SUBREDDIT.subreddit
+                .replaceAll('r/', '')
+                .replaceAll('/r/', '')
+                .toLowerCase()
+                .match(/^[a-zA-Z0-9_]{1,21}$/) &&
+              'Invalid subreddit name',
+          ]}>
+          <TextField type="text" bind:value={input.REDDIT_SUBREDDIT.subreddit} />
+        </FormField>
+      {/if}
+      <div class="min-h-24">
+        <FormField errors={[error ?? '\n\n']}>
+          {#if loading}
+            <Loading />
+          {:else}
+            <Button filled on:click={addFeed} disabled={loading}>
+              <CheckIcon size="20" class="mr-2" />
+              Add Feed
+            </Button>
+          {/if}
+        </FormField>
+      </div>
+    </Dialog>
+  </div>
 </Modal>

@@ -34,7 +34,7 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
                     username: feedItem.url.split('/')[3],
                     type: feed.input.type
                 };
-            } else if (feed.input.type === 'REDDIT_SUBREDDIT') {
+            } else if (feed.input.type === 'REDDIT_SUBREDDIT' || feed.input.type === 'RSS') {
                 content = {
                     ...feedItem,
                     type: feed.input.type
@@ -46,6 +46,7 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
             await feedItems.insertOne({
                 feed: feedId,
                 content,
+                dateCreated: new Date(),
             });
         }
     }

@@ -7,6 +7,7 @@
   import HomeFeed from './views/HomeFeed.svelte';
   import Header from './components/Header.svelte';
   import SingleFeed from './views/SingleFeed.svelte';
+  import Feeds from './views/Feeds.svelte';
 
   export let url = '';
 </script>
@@ -20,6 +21,7 @@
     <Route path="feed/:id" let:params>
       <SingleFeed feedId={params.id} />
     </Route>
+    <Route path="feeds" component={Feeds} />
     <Route path="feed" component={HomeFeed} />
     <Route path="/"><Content /></Route>
   </main>
@@ -29,6 +31,9 @@
     </Link>
     <Link to="feed">
       <Tab value="feed">Feed</Tab>
+    </Link>
+    <Link to="feeds">
+      <Tab value="feeds">Feeds</Tab>
     </Link>
     <Link to="about">
       <Tab value="about">About</Tab>

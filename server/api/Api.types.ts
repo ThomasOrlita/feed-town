@@ -34,6 +34,7 @@ export namespace Feed {
             // owner: Bson.ObjectId;
             title: string;
             input: Feed.Source.Input;
+            dateCreated: Date;
             lastChecked?: Date;
         };
 
@@ -73,6 +74,7 @@ export namespace Feed {
             _id: Bson.ObjectId;
             feed: Bson.ObjectId;
             content: Feed.Item.Content;
+            dateCreated: Date;
         };
     }
 
@@ -83,6 +85,7 @@ export namespace Feed {
 // must be top-level keys
 // and not use 'typeof' other functions
 export type Api = {
-    addFeed: (type: string, input: Feed.Source.Input) => Promise<{ feedId: string; }>;
-    getFeed: (options: { feedId: string; }) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
+    addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedId: string; }>;
+    getFeed: (options: { feedId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
+    getFeeds: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
 };

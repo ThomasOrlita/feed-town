@@ -3,7 +3,7 @@ import { feeds } from "../db/models/Feed.ts";
 import { fetchFeedItems } from "../feed/fetchFeedItems.ts";
 import type { Feed } from '../api/Api.types.ts';
 
-export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.Input) => {
+export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.Input, jwt?: string) => {
     if (input.type === 'RSS') {
         if (!(input.url?.startsWith('http://') || input.url?.startsWith('https://'))) {
             throw new Error('Invalid URL');
@@ -32,10 +32,10 @@ export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.
         throw new Error('Invalid feed type');
     }
 
-
     const feedId = await feeds.insertOne({
         input,
         title,
+        dateCreated: new Date(),
     });
 
     await fetchFeedItems(feedId);
@@ -43,5 +43,4 @@ export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.
     return {
         feedId: feedId.toHexString()
     };
-    //console.log((await test.find(undefined, { noCursorTimeout: false }).toArray())[0]);
 };
