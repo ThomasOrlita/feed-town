@@ -44,7 +44,8 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
             }
 
             await feedItems.insertOne({
-                feed: feedId,
+                feedId,
+                comments: [],
                 content,
                 dateCreated: new Date(),
             });

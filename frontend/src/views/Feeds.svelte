@@ -15,8 +15,8 @@
 {:catch error}
   <div class="m-auto">
     <Card outline class="m-4 !overflow-visible">
-      <p>
-        <AlertCircleIcon size="20" />
+      <p class="flex items-center">
+        <AlertCircleIcon size="20" class="mr-2" />
         {error.message}
       </p>
     </Card>

@@ -8,6 +8,7 @@
   import Header from './components/Header.svelte';
   import SingleFeed from './views/SingleFeed.svelte';
   import Feeds from './views/Feeds.svelte';
+  import FeedItemComments from './views/FeedItemComments.svelte';
 
   export let url = '';
 </script>
@@ -18,8 +19,11 @@
   </header>
   <main class="flex flex-col flex-1 overflow-y-auto">
     <Route path="about" component={About} />
-    <Route path="feed/:id" let:params>
-      <SingleFeed feedId={params.id} />
+    <Route path="feed/:feedId/:itemId/comments" let:params>
+      <FeedItemComments feedId={params.feedId} itemId={params.itemId} />
+    </Route>
+    <Route path="feed/:feedId" let:params>
+      <SingleFeed feedId={params.feedId} />
     </Route>
     <Route path="feeds" component={Feeds} />
     <Route path="feed" component={HomeFeed} />

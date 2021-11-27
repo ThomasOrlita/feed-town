@@ -10,6 +10,7 @@
   import type { Feed } from '../../../server/api/Api.types';
   import Tweet from './slides/Tweet.svelte';
   export let posts: Feed.Item.FeedItem[];
+  export let feedId: string;
 </script>
 
 <Swiper modules={[Mousewheel, Navigation]} direction={'vertical'} mousewheel={true}>
@@ -17,6 +18,8 @@
     <SwiperSlide>
       {#if post.content.type === 'RSS'}
         <RssItem
+          {feedId}
+          itemId={post._id}
           title={post.content.title}
           imageUrl={post.content.imageUrl}
           url={post.content.url}
@@ -27,6 +30,8 @@
         <Tweet url={post.content.url} />
       {:else if post.content.type === 'REDDIT_SUBREDDIT'}
         <RssItem
+          {feedId}
+          itemId={post._id}
           title={post.content.title}
           imageUrl={post.content.imageUrl}
           url={post.content.url}

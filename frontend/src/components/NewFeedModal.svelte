@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Autocomplete, Button, Dialog, FormField, Loading, Modal, TextField } from 'attractions';
   import server from '../api/api';
-  import { CheckIcon } from 'svelte-feather-icons';
+  import { AtSignIcon, CheckIcon } from 'svelte-feather-icons';
   import { navigate } from 'svelte-routing';
   import type { Feed } from '../../../server/api/Api.types';
 
@@ -28,11 +28,11 @@
     },
     TWITTER_USER_TIMELINE: {
       type: 'TWITTER_USER_TIMELINE',
-      username: '@',
+      username: '',
     },
     REDDIT_SUBREDDIT: {
       type: 'REDDIT_SUBREDDIT',
-      subreddit: 'r/',
+      subreddit: '',
     },
   };
   let input: Input = defaultInput;
@@ -111,7 +111,9 @@
         <Autocomplete {getOptions} maxOptions={1} bind:selection={selectedTypes} minSearchLength={0} />
       </FormField>
       {#if selectedType === 'RSS'}
-        <FormField name="Feed URL" required errors={[input.RSS.url && !(input.RSS.url.startsWith('http://') || input.RSS.url.startsWith('https://')) && 'Invalid URL']}>
+        <FormField
+          name="Feed URL"
+          errors={[input.RSS.url && !(input.RSS.url.startsWith('http://') || input.RSS.url.startsWith('https://')) && 'Invalid URL']}>
           <TextField type="url" bind:value={input.RSS.url} />
         </FormField>
       {:else if selectedType === 'WIKIPEDIA_ARTICLE'}
@@ -119,7 +121,6 @@
       {:else if selectedType === 'TWITTER_USER_TIMELINE'}
         <FormField
           name="Twitter username"
-          required
           errors={[
             input.TWITTER_USER_TIMELINE.username.replaceAll('@', '') &&
               !input.TWITTER_USER_TIMELINE.username
@@ -128,12 +129,13 @@
                 .match(/^[a-zA-Z0-9_]{1,15}$/) &&
               'Invalid Twitter username',
           ]}>
-          <TextField type="text" bind:value={input.TWITTER_USER_TIMELINE.username} />
+          <TextField type="text" bind:value={input.TWITTER_USER_TIMELINE.username} withItem>
+            <AtSignIcon size="24" class="item" />
+          </TextField>
         </FormField>
       {:else if selectedType === 'REDDIT_SUBREDDIT'}
         <FormField
           name="Subreddit"
-          required
           errors={[
             input.REDDIT_SUBREDDIT.subreddit.replaceAll('r/', '').replaceAll('/r/', '') &&
               !input.REDDIT_SUBREDDIT.subreddit
@@ -143,7 +145,9 @@
                 .match(/^[a-zA-Z0-9_]{1,21}$/) &&
               'Invalid subreddit name',
           ]}>
-          <TextField type="text" bind:value={input.REDDIT_SUBREDDIT.subreddit} />
+          <TextField type="text" bind:value={input.REDDIT_SUBREDDIT.subreddit} withItem>
+            <span class="item ml-3 leading-4">r/</span>
+          </TextField>
         </FormField>
       {/if}
       <div class="min-h-24">

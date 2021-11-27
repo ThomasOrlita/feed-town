@@ -14,7 +14,7 @@
   </div>
 {:then result}
   {result.feed.title}
-  <Feed posts={result.items} />
+  <Feed {feedId} posts={result.items} />
 {:catch error}
   <div class="m-auto">
     <Card outline class="m-4 !overflow-visible">

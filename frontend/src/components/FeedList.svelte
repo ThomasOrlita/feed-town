@@ -21,6 +21,7 @@
 
     {feed.input.type}<br />
     {feed.lastChecked}<br />
+    {feed.dateCreated}<br />
   </Card>
 {:else}
   <div class="m-auto">
