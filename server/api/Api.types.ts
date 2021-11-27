@@ -73,7 +73,7 @@ export namespace Feed {
             _id: Bson.ObjectId;
             content: string;
             dateCreated: Date;
-            author: Bson.ObjectId;
+            author?: Bson.ObjectId;
         };
 
         export interface FeedItem {
@@ -95,5 +95,6 @@ export type Api = {
     addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedId: string; }>;
     getFeed: (options: { feedId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
     getFeeds: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
-    getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<Feed.Item.FeedItem>;
+    getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, item: Feed.Item.FeedItem; }>;
+    addComment: (options: { itemId: string; comment: string; }, jwt?: string) => Promise<{ _id: string; }>;
 };

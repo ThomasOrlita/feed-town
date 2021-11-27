@@ -13,8 +13,9 @@ export const getFeed: Api['getFeed'] = async ({ feedId }: { feedId: string; }, j
     }
 
     const items = await feedItems.find({
-        feed: new ObjectId(feedId),
+        feedId: new ObjectId(feedId),
     }, { noCursorTimeout: false }).toArray();
+
     return {
         feed,
         items

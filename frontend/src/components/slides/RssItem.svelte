@@ -32,8 +32,8 @@
         </div>
       </div>
       <div class="flex flex-row flex-wrap" use:links>
-        <Button class="underline mt-4 text-sm mr-auto" href={url} outline target="_blank">Read more</Button>
-        <Button class="underline mt-4 text-sm" href={`/feed/${feedId}/${itemId}/comments`} outline>Comments</Button>
+        <Button class="mt-4 text-sm mr-auto" href={url} outline target="_blank">Read more</Button>
+        <Button class="mt-4 text-sm" href={`/feed/${feedId}/${itemId}/comments`} outline>Comments</Button>
       </div>
     </Card>
   </section>

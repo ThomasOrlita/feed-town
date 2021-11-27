@@ -4,6 +4,7 @@
 
   import server from '../api/api';
   import { AlertCircleIcon } from 'svelte-feather-icons';
+  import GenericMessage from '../components/GenericMessage.svelte';
 </script>
 
 {#await server.getFeeds()}
@@ -13,12 +14,8 @@
 {:then feeds}
   <FeedList {feeds} />
 {:catch error}
-  <div class="m-auto">
-    <Card outline class="m-4 !overflow-visible">
-      <p class="flex items-center">
-        <AlertCircleIcon size="20" class="mr-2" />
-        {error.message}
-      </p>
-    </Card>
-  </div>
+  <GenericMessage>
+    <AlertCircleIcon size="20" class="mr-2" />
+    {error.message}
+  </GenericMessage>
 {/await}

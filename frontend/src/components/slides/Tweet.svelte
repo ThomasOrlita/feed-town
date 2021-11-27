@@ -1,6 +1,9 @@
 <script lang="ts">
   import { Button } from 'attractions';
+  import { links } from 'svelte-routing';
 
+  export let feedId: string;
+  export let itemId: string;
   export let url: string;
 </script>
 
@@ -13,7 +16,10 @@
     }`}
     title="Tweet embed" />
 
-  <Button outline href={url} target="_blank">Open Tweet</Button>
+  <div class="flex flex-col flex-wrap items-center" use:links>
+    <Button class="mt-4 text-sm mr-auto" href={url} target="_blank" outline>Open Tweet</Button>
+    <Button class="mt-4 text-sm" href={`/feed/${feedId}/${itemId}/comments`} outline>Comments</Button>
+  </div>
 </section>
 
 <style>

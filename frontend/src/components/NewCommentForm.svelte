@@ -1,28 +1,40 @@
 <script lang="ts">
-    import type { Feed } from '../../../server/api/Api.types';
-    import { link } from 'svelte-routing';
-    import { Button, Card, FormField, H2, Loading, TextField } from 'attractions';
-    import { FrownIcon, RssIcon, SendIcon, TwitterIcon } from 'svelte-feather-icons';
+  import { link } from 'svelte-routing';
+  import { Button, Card, FormField, H2, H3, Label, Loading, TextField } from 'attractions';
+  import { FrownIcon, RssIcon, SendIcon, TwitterIcon } from 'svelte-feather-icons';
+  import { createEventDispatcher } from 'svelte';
+  import server from '../api/api';
 
-    let content: string = '';
-    let loading: boolean = false;
+  let comment: string = '';
+  let loading: boolean = false;
 
-    const addComment = () => {
-        loading = true;
-    };
+  const dispatch = createEventDispatcher();
 
-    export let feedItemId: string;
+  const addComment = async () => {
+    loading = true;
+    const commentResult = await server.addComment({
+      comment,
+      itemId: feedItemId,
+    });
+    loading = false;
+    comment = '';
+
+    dispatch('comment', {
+      commentId: commentResult._id,
+    });
+  };
+
+  export let feedItemId: string;
 </script>
 
-<FormField name="Add New Comment">
-    <TextField bind:value={content} placeholder="Comment" />
-</FormField>
+<H3 class="!mb-4">Add new comment</H3>
+<TextField bind:value={comment} placeholder="Comment" class="mb-6" />
 
 {#if loading}
-    <Loading />
+  <Loading />
 {:else}
-    <Button filled on:click={addComment} disabled={loading} class="ml-auto">
-        <SendIcon size="20" class="mr-2" />
-        Add Comment
-    </Button>
+  <Button filled on:click={addComment} disabled={loading} class="ml-auto">
+    <SendIcon size="20" class="mr-2" />
+    Add Comment
+  </Button>
 {/if}

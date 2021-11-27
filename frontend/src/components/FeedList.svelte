@@ -3,6 +3,7 @@
   import { link } from 'svelte-routing';
   import { Button, Card, H2 } from 'attractions';
   import { FrownIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
+  import GenericMessage from './GenericMessage.svelte';
 
   export let feeds: Feed.Source.FeedSource[];
 </script>
@@ -24,12 +25,8 @@
     {feed.dateCreated}<br />
   </Card>
 {:else}
-  <div class="m-auto">
-    <Card outline class="m-4 !overflow-visible">
-      <p class="flex items-center">
-        <FrownIcon size="20" class="mr-2" />
-        No feeds found
-      </p>
-    </Card>
-  </div>
+  <GenericMessage>
+    <FrownIcon size="20" class="mr-2" />
+    No feeds found
+  </GenericMessage>
 {/each}
