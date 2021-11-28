@@ -5,6 +5,7 @@
   import server from '../api/api';
   import { AlertCircleIcon } from 'svelte-feather-icons';
   import GenericMessage from '../components/GenericMessage.svelte';
+  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
 </script>
 
 {#await server.getFeeds()}
@@ -12,6 +13,13 @@
     <Loading />
   </div>
 {:then feeds}
+  <SetBreadcrumbs
+    items={[
+      {
+        href: `/feeds/`,
+        text: `My Feeds`,
+      },
+    ]} />
   <FeedList {feeds} />
 {:catch error}
   <GenericMessage>

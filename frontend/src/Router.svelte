@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Router, Link, Route } from 'svelte-routing';
-  import About from './views/About.svelte';
+  import Account from './views/Account.svelte';
   import Content from './views/Content.svelte';
 
   import HomeFeed from './views/HomeFeed.svelte';
@@ -16,7 +16,7 @@
 <Router {url}>
   <Header />
   <main class="flex flex-col flex-1 overflow-y-auto p-2">
-    <Route path="about" component={About} />
+    <Route path="account" component={Account} />
     <Route path="feed/:feedId/:itemId/comments" let:params>
       <FeedItemComments feedId={params.feedId} itemId={params.itemId} />
     </Route>

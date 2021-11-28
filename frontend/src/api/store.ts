@@ -1,3 +1,5 @@
 import { writable } from 'svelte/store';
+import type { Writable } from 'svelte/store';
 
-const messageStore = writable('');
+export type Breadcrumb = { href: string; text: string; };
+export const breadcrumbs: Writable<Breadcrumb[]> = writable([]);

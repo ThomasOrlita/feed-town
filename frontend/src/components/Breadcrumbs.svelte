@@ -1,22 +1,17 @@
 <script lang="ts">
-  import { Breadcrumbs, Button, Chip } from 'attractions';
-  import { ChevronRightIcon, HomeIcon } from 'svelte-feather-icons';
-  import { Link, links } from 'svelte-routing';
+  import { Breadcrumbs, Button } from 'attractions';
+  import type { Breadcrumb } from 'src/api/store';
+  import { ChevronRightIcon } from 'svelte-feather-icons';
+  import { links } from 'svelte-routing';
 
-  export let items: { href: string; text: string }[];
+  export let items: Breadcrumb[];
 </script>
 
-<div class="<sm:hidden">
-  <Breadcrumbs items={[{ href: '/', text: 'Home' }, ...items]}>
-    <div slot="item" let:item use:links>
-      {#if item.href === '/'}
-        <Button href="/" round small>
-          <HomeIcon size="20" />
-        </Button>
-      {:else}
-        <Chip small><Link to={item.href}>{item.text}</Link></Chip>
-      {/if}
+<div class="flex-shrink-0">
+  <Breadcrumbs items={[{ href: '', text: '' }, ...items]}>
+    <div slot="item" let:item use:links class:-ml-10={item.href === ''}>
+      <Button small href={item.href} class="!px-2.5 !py-1 !text-sm">{item.text}</Button>
     </div>
-    <ChevronRightIcon slot="separator" size="18" class="mx-1.5 text-gray-600" />
+    <ChevronRightIcon slot="separator" size="16" class="<md:-mx-0.5 text-gray-500" />
   </Breadcrumbs>
 </div>

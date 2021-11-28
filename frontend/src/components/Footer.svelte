@@ -11,13 +11,13 @@
 <NewFeedModal bind:this={newFeedModal} />
 <footer class="flex flex-row justify-between">
   <Link to="/">
-    <Tab value="home">
+    <Tab>
       <HomeIcon size="20" />
       <span class="ml-2.5 <md:hidden">Home</span>
     </Tab>
   </Link>
   <Link to="feeds">
-    <Tab value="feeds">
+    <Tab>
       <ListIcon size="20" />
       <span class="ml-2.5 <md:hidden"> My Feeds</span>
     </Tab>
@@ -39,8 +39,8 @@
       <span class="ml-2.5 <md:hidden">Explore</span>
     </Tab>
   </Link>
-  <Link to="about">
-    <Tab value="about">
+  <Link to="account">
+    <Tab>
       <UserIcon size="20" />
       <span class="ml-2.5 <md:hidden">Account</span>
     </Tab>

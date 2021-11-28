@@ -6,6 +6,8 @@
 
   import server from '../api/api';
   import Feed from '../components/Feed.svelte';
+  import { breadcrumbs } from '../api/store';
+  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
 
   export let feedId: string;
 
@@ -21,6 +23,13 @@
     <Loading />
   </div>
 {:then result}
+  <SetBreadcrumbs
+    items={[
+      {
+        href: `/feed/${result.feed._id}`,
+        text: result.feed.title,
+      },
+    ]} />
   {result.feed.title}
   <Feed {feedId} posts={result.items} />
 {:catch error}

@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Card, H2, Loading } from 'attractions';
-  import Breadcrumbs from '../components/Breadcrumbs.svelte';
   import { AlertCircleIcon } from 'svelte-feather-icons';
   import { Link } from 'svelte-routing';
 
@@ -8,12 +7,12 @@
   import CommentsList from '../components/CommentsList.svelte';
   import NewCommentForm from '../components/NewCommentForm.svelte';
   import GenericMessage from '../components/GenericMessage.svelte';
+  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
 
   let latestCommentId: string;
   const newComment = (event: CustomEvent) => {
     latestCommentId = event.detail.commentId;
   };
-
   export let feedId: string;
   export let itemId: string;
 </script>
@@ -24,7 +23,7 @@
       <Loading />
     </div>
   {:then result}
-    <Breadcrumbs
+    <SetBreadcrumbs
       items={[
         {
           href: `/feed/${result.feed._id}`,
