@@ -111,9 +111,7 @@
         <Autocomplete {getOptions} maxOptions={1} bind:selection={selectedTypes} minSearchLength={0} />
       </FormField>
       {#if selectedType === 'RSS'}
-        <FormField
-          name="Feed URL"
-          errors={[input.RSS.url && !(input.RSS.url.startsWith('http://') || input.RSS.url.startsWith('https://')) && 'Invalid URL']}>
+        <FormField name="Feed URL" errors={[input.RSS.url && !(input.RSS.url.startsWith('http://') || input.RSS.url.startsWith('https://')) && 'Invalid URL']}>
           <TextField type="url" bind:value={input.RSS.url} />
         </FormField>
       {:else if selectedType === 'WIKIPEDIA_ARTICLE'}

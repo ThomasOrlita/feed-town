@@ -1,3 +1,10 @@
+$main: #388e3c;
+
 @forward '~attractions/_variables' with (
-  $main: #388e3c,
+  $main: $main,
+  $font: 'Open Sans',
 );
+
+:root {
+  --main: $main;
+}

@@ -3,8 +3,9 @@ body {
   position: relative;
   height: 100%;
   margin: 0;
+  font-family: "Open Sans", sans-serif !important;
   background-color: #f5f5f5;
-  background-color: #222;
+  // background-color: #222;
 }
 
 .swiper {
@@ -15,4 +16,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.modal-overlay {
+  background-color: rgb(0 0 0 / 50%) !important;
 }

@@ -1,13 +1,9 @@
 <script lang="ts">
-  import { Button } from 'attractions';
-  import NewFeedModal from './NewFeedModal.svelte';
-
-  let newFeedModal: NewFeedModal;
+  import { RssIcon } from 'svelte-feather-icons';
 </script>
 
-<Button
-  on:click={() => {
-    newFeedModal.open();
-  }}>new feed</Button>
-
-<NewFeedModal bind:this={newFeedModal} />
+<header class="px-4 py-3 bg-white border-b-gray-200 border-b-width-1px">
+  <section class="flex items-center font-medium">
+    <RssIcon size="20" class="mr-2" /> Feed&thinsp;Town
+  </section>
+</header>
