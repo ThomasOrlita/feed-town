@@ -85,6 +85,20 @@ export namespace Feed {
         };
     }
 
+    export namespace Collection {
+        export interface FeedCollection {
+            _id: Bson.ObjectId;
+            title: string;
+            dateCreated: Date;
+            author?: Bson.ObjectId;
+            feedSources: Bson.ObjectId[];
+        };
+        export interface FeedCollectionWithFeedSources extends Omit<FeedCollection, 'feedSources'> {
+            feedSources: Feed.Source.FeedSource[];
+        };
+    }
+
+
     export type FeedParser<T extends Feed.Type> = (url: string) => Promise<(Feed.Item.Content & { type: T; })[]>;
 }
 
@@ -92,9 +106,24 @@ export namespace Feed {
 // must be top-level keys
 // and not use 'typeof' other functions
 export type Api = {
+    // feeds
+    getFeeds: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
+
+    // feed
     addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedId: string; }>;
     getFeed: (options: { feedId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
-    getFeeds: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
+
+    // feed item
     getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, item: Feed.Item.FeedItem; }>;
+
+    // comments
     addComment: (options: { itemId: string; comment: string; }, jwt?: string) => Promise<{ _id: string; }>;
+
+    // collections
+    getFeedCollections: (jwt?: string) => Promise<Feed.Collection.FeedCollection[]>;
+
+    // collection
+    addFeedCollection: (options: { title: string; }, jwt?: string) => Promise<{ _id: string; }>;
+    addFeedToCollection: (options: { collectionId: string; feedId: string; }, jwt?: string) => Promise<{}>;
+    getFeedCollection: (options: { feedCollectionId: string; }, jwt?: string) => Promise<Feed.Collection.FeedCollectionWithFeedSources>;
 };

@@ -17,9 +17,11 @@
         {title}
       </H2>
       <div class="flex flex-row">
-        <div class="justify-center" style="max-width: 30%;">
-          <img src={imageUrl} alt={title} />
-        </div>
+        {#if imageUrl}
+          <div class="justify-center" style="max-width: 30%;">
+            <img src={imageUrl} alt={title} />
+          </div>
+        {/if}
         <div class="flex-1 p-4">
           <div
             style="

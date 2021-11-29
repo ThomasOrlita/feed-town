@@ -4,9 +4,14 @@
   import { Button, Card, H2 } from 'attractions';
   import { FrownIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
   import GenericMessage from './GenericMessage.svelte';
+  import AddToCollectionModal from './AddToCollectionModal.svelte';
 
   export let feeds: Feed.Source.FeedSource[];
+
+  let addToCollectionModal: AddToCollectionModal;
 </script>
+
+<AddToCollectionModal bind:this={addToCollectionModal} />
 
 {#each feeds as feed}
   <Card outline class="m-4 !overflow-visible">
@@ -18,7 +23,12 @@
       {/if}
       <a href={`/feed/${feed._id}`} use:link> {feed.title}</a>
     </H2>
-    <Button small rectangle selected>button</Button>
+    <Button
+      small
+      rectangle
+      on:click={() => {
+        addToCollectionModal.open(feed._id);
+      }}>add to collection</Button>
 
     {feed.input.type}<br />
     {feed.lastChecked}<br />
