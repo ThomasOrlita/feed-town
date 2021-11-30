@@ -1,23 +1,54 @@
-import { AsyncCall, } from 'async-call-rpc';
+import { AsyncCall } from 'async-call-rpc';
+import type { _AsyncVersionOf } from 'async-call-rpc';
 import { WebSocketMessageChannel } from 'async-call-rpc/utils/web/websocket.client';
 import type { Api } from '../../../server/api/Api.types';
+import { isConnectionError } from './store';
 
-const serverApi = AsyncCall<Api>(
-    {},
-    {
-        channel: new WebSocketMessageChannel('wss://' + location.hostname.replace('8000', '4000') + ':443'),
-        serializer: {
-            deserialization: (data: string) => JSON.parse(data),
-            serialization: (data: any) => JSON.stringify(data)
+let serverApi: _AsyncVersionOf<Api>;
+let wsChannel: WebSocketMessageChannel;
+const startServerConnection = (timeout?: number) => {
+    wsChannel = new WebSocketMessageChannel('wss://' + location.hostname.replace('8000', '4000') + ':443');
+
+    if (timeout) {
+        wsChannel.addEventListener('error', () => {
+            isConnectionError.set(true);
+            setTimeout(() => {
+                // exponential backoff
+                startServerConnection(timeout * 2);
+            }, timeout);
+        }, {
+            once: true
+        });
+
+        wsChannel.addEventListener('open', () => {
+            isConnectionError.set(false);
+        }, {
+            once: true
+        });
+    }
+
+    serverApi = AsyncCall<Api>(
+        {},
+        {
+            channel: wsChannel,
+            serializer: {
+                deserialization: (data: string) => JSON.parse(data),
+                serialization: (data: any) => JSON.stringify(data)
+            },
         },
-    },
-);
+    );
+};
+
+startServerConnection();
 
 // JWT middleware
 // token will be added as the last parameter for all API methods
 const server = new Proxy(serverApi, {
     get(target, key) {
-        return new Proxy(target[key], {
+        if (wsChannel.readyState === wsChannel.CLOSING || wsChannel.readyState === wsChannel.CLOSED) {
+            startServerConnection(500);
+        }
+        return new Proxy(serverApi[key], {
             apply: (target, _, argumentsList) =>
                 target(...argumentsList, 'jwt_will_be_here')
         });
