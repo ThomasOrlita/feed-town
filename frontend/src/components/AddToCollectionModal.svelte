@@ -1,19 +1,19 @@
 <script lang="ts">
-  import { Autocomplete, Button, Dialog, FormField, Loading, Modal, TextField } from 'attractions';
-  import { PlusIcon, XIcon } from 'svelte-feather-icons';
+  import { Button, Checkbox, Dialog, Divider, Label, Loading, Modal, TextField } from 'attractions';
+  import { s } from 'attractions/utils';
+  import { PackageIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
   import type { Feed } from '../../../server/api/Api.types';
   import server from '../api/api';
 
   let modalOpen: boolean = false;
   let feedId: string;
-  let feedCollections: Promise<Feed.Collection.FeedCollection[]>;
-  const loadFeedCollections = () => (feedCollections = server.getFeedCollections());
-
+  
   let newCollectionTitle: string;
   let newCollectionLoading: boolean = false;
-
+  
+  let feedCollections: Promise<Feed.Collection.FeedCollection[]>;
   export const open = (feedIdToAdd: string) => {
-    loadFeedCollections();
+    feedCollections = server.getFeedCollections()
     modalOpen = true;
     feedId = feedIdToAdd;
   };
@@ -24,50 +24,71 @@
     <Dialog title="Add feed to collection" {closeCallback}>
       {#if feedCollections}
         {#await feedCollections}
-          <Loading />
+          <div class="m-8">
+            <Loading />
+          </div>
         {:then collections}
           {#each collections as collection}
-            {collection._id}
-            {collection.title}
-            {#if collection.feedSources.includes(feedId)}
-              <Button disabled on:click={async () => {}}>
-                <XIcon size="20" class="mr-2" />
-                remove from {collection.title}</Button>
-            {:else}
-              <Button
-                on:click={async () => {
+            <Checkbox
+              class="mb-4"
+              checked={collection.feedSources.includes(feedId)}
+              on:change={async (event) => {
+                if (event.detail.checked) {
                   await server.addFeedToCollection({
                     collectionId: collection._id,
                     feedId: feedId,
                   });
-                  loadFeedCollections();
-                }}>
-                <PlusIcon size="20" class="mr-2" />
-                add to {collection.title}</Button>
-            {/if}
-            <br />
+                } else {
+                  await server.removeFeedFromCollection({
+                    collectionId: collection._id,
+                    feedId: feedId,
+                  });
+                }
+                collections = await server.getFeedCollections();
+              }}>
+              <div class="ml-4 flex flex-col">
+                {collection.title} <small>{collection._id}</small>
+                <Label class="w-full" small>{collection.feedSources.length} feed{s(collection.feedSources.length)}</Label>
+              </div>
+            </Checkbox>
           {/each}
 
-          {#if newCollectionLoading}
-            <Loading />
+          {#if collections.length === 0}
+            <div class="my-6 flex items-center">
+              <PackageIcon size="20" class="mr-4 flex-shrink-0" />
+              Collections allow you to organize feeds together and view them in one place.
+            </div>
           {:else}
-            <FormField name="Add to new collection">
-              <TextField placeholder="New collection title" bind:value={newCollectionTitle} />
-              <Button
-                on:click={async () => {
-                  newCollectionLoading = true;
-                  const newCollection = await server.addFeedCollection({
-                    title: newCollectionTitle,
-                  });
-                  await server.addFeedToCollection({
-                    collectionId: newCollection._id,
-                    feedId,
-                  });
-                  loadFeedCollections();
-                  newCollectionTitle = '';
-                  newCollectionLoading = false;
-                }}>Add</Button>
-            </FormField>
+            <Divider class="!mt-6 mb-6" />
+          {/if}
+
+          {#if newCollectionLoading}
+            <div class="m-4">
+              <Loading />
+            </div>
+          {:else}
+            <div class="flex <sm:flex-col">
+              <TextField class="flex-1" outline label="Add to new collection" placeholder="New collection title" bind:value={newCollectionTitle} />
+              <div class="flex items-end ml-2 <sm:mt-2 <sm:ml-auto">
+                <Button
+                  on:click={async () => {
+                    newCollectionLoading = true;
+                    const newCollection = await server.addFeedCollection({
+                      title: newCollectionTitle,
+                    });
+                    await server.addFeedToCollection({
+                      collectionId: newCollection._id,
+                      feedId,
+                    });
+                    collections = await server.getFeedCollections();
+                    newCollectionTitle = '';
+                    newCollectionLoading = false;
+                  }}>
+                  <PlusIcon size="20" class="mr-2" />
+                  Create collection
+                </Button>
+              </div>
+            </div>
           {/if}
         {/await}
       {/if}

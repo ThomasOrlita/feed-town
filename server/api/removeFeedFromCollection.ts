@@ -4,7 +4,7 @@ import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 import { feedCollections } from "../db/models/FeedCollection.ts";
 import { feeds } from "../db/models/Feed.ts";
 
-export const addFeedToCollection: Api['addFeedToCollection'] = async ({ collectionId, feedId }: { collectionId: string; feedId: string; }, jwt?: string) => {
+export const removeFeedFromCollection: Api['removeFeedFromCollection'] = async ({ collectionId, feedId }: { collectionId: string; feedId: string; }, jwt?: string) => {
     const feedCollection = await feedCollections.findOne({
         _id: new ObjectId(collectionId),
     }, { noCursorTimeout: false });
@@ -21,16 +21,11 @@ export const addFeedToCollection: Api['addFeedToCollection'] = async ({ collecti
     if (await feedCollections.updateOne({
         _id: new ObjectId(collectionId),
     }, {
-        $addToSet: {
-            feedSources: {
-                $each: [new ObjectId(feedId)],
-            },
+        $pull: {
+            feedSources: feed._id,
         },
     })) {
-        return {
-
-        };
+        return {};
     }
-
-    throw new Error("Failed to add feed to collection");
+    throw new Error("Failed to remove feed from collection");
 };
