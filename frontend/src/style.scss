@@ -28,18 +28,20 @@ body {
   overflow-y: auto;
 }
 
-::-webkit-scrollbar {
-  width: 0.6em;
-}
+@media not screen and (hover: none) and (pointer: coarse) {
+  ::-webkit-scrollbar {
+    width: 0.6em;
+  }
 
-::-webkit-scrollbar-thumb {
-  background-color: rgba(182, 182, 182, 0.75);
-}
+  ::-webkit-scrollbar-thumb {
+    background-color: rgba(182, 182, 182, 0.75);
+  }
 
-::-webkit-scrollbar-thumb:hover {
-  background-color: rgba(177, 177, 177, 1);
-}
+  ::-webkit-scrollbar-thumb:hover {
+    background-color: rgba(177, 177, 177, 1);
+  }
 
-::-webkit-scrollbar-thumb:active {
-  background-color: rgba(173, 173, 173, 0.75);
+  ::-webkit-scrollbar-thumb:active {
+    background-color: rgba(173, 173, 173, 0.75);
+  }
 }
