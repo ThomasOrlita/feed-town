@@ -1,6 +1,7 @@
 <script lang="ts">
   import { Button, Checkbox, Divider, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
+  import { snackBarMessage } from '../api/store';
   import { PackageIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
   import type { Feed } from '../../../server/api/Api.types';
   import server from '../api/api';
@@ -33,21 +34,28 @@
           checked={collection.feedSources.includes(feedId)}
           on:change={async (event) => {
             if (event.detail.checked) {
-              await server.addFeedToCollection({
-                collectionId: collection._id,
-                feedId: feedId,
-              });
+              collection.feedSources = [...collection.feedSources, feedId];
             } else {
-              await server.removeFeedFromCollection({
+              collection.feedSources = collection.feedSources.filter((id) => id !== feedId);
+            }
+
+            try {
+              const params = {
                 collectionId: collection._id,
                 feedId: feedId,
-              });
+              };
+              if (event.detail.checked) {
+                await server.addFeedToCollection(params);
+              } else {
+                await server.removeFeedFromCollection(params);
+              }
+            } catch (error) {
+              snackBarMessage.set(error.message);
+              feedCollections = server.getFeedCollections();
             }
-            collections = await server.getFeedCollections();
           }}>
           <div class="ml-4 flex flex-col">
             {collection.title} <small>{collection._id}</small>
-            {collection.feedSources.join(',')}
             <Label class="w-full" small>{collection.feedSources.length} feed{s(collection.feedSources.length)}</Label>
           </div>
         </Checkbox>
@@ -68,26 +76,27 @@
         </div>
       {:else}
         <div class="flex <sm:flex-col">
-          <TextField
-            class="flex-1"
-            outline
-            label="Add to new collection"
-            placeholder="New collection title"
-            bind:value={newCollectionTitle} />
+          <TextField class="flex-1" outline label="Add to new collection" placeholder="New collection title" bind:value={newCollectionTitle} />
           <div class="flex items-end ml-2 <sm:mt-2 <sm:ml-auto">
             <Button
               on:click={async () => {
                 newCollectionLoading = true;
-                const newCollection = await server.addFeedCollection({
-                  title: newCollectionTitle,
-                });
-                await server.addFeedToCollection({
-                  collectionId: newCollection._id,
-                  feedId,
-                });
-                collections = await server.getFeedCollections();
-                newCollectionTitle = '';
-                newCollectionLoading = false;
+
+                try {
+                  const newCollection = await server.addFeedCollection({
+                    title: newCollectionTitle,
+                  });
+                  await server.addFeedToCollection({
+                    collectionId: newCollection._id,
+                    feedId,
+                  });
+                } catch (error) {
+                  snackBarMessage.set(error.message);
+                } finally {
+                  feedCollections = server.getFeedCollections();
+                  newCollectionTitle = '';
+                  newCollectionLoading = false;
+                }
               }}>
               <PlusIcon size="20" class="mr-2" />
               Create collection

@@ -9,10 +9,10 @@
   import Feeds from './views/Feeds.svelte';
   import FeedItemComments from './views/FeedItemComments.svelte';
   import Footer from './components/Footer.svelte';
-  import { isConnectionError } from './api/store';
+  import { isConnectionError, snackBarMessage } from './api/store';
   import GenericMessage from './components/GenericMessage.svelte';
   import { RefreshCcwIcon, WifiOffIcon } from 'svelte-feather-icons';
-  import { Button } from 'attractions';
+  import { Button, SnackbarContainer } from 'attractions';
 
   export let url = '';
 
@@ -20,7 +20,17 @@
   isConnectionError.subscribe((value) => {
     connectionError = value;
   });
+
+  let snackbar: SnackbarContainer;
+  snackBarMessage.subscribe((message) => {
+    if (!message) return;
+    snackBarMessage.set('');
+
+    if (snackbar) snackbar.showSnackbar({ props: { text: message }, component: undefined, duration: 7500 });
+  });
 </script>
+
+<SnackbarContainer bind:this={snackbar} />
 
 <Router {url}>
   <Header />

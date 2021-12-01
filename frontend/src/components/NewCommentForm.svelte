@@ -4,6 +4,7 @@
   import { FrownIcon, RssIcon, SendIcon, TwitterIcon } from 'svelte-feather-icons';
   import { createEventDispatcher } from 'svelte';
   import server from '../api/api';
+  import { snackBarMessage } from '../api/store';
 
   let comment: string = '';
   let loading: boolean = false;
@@ -12,16 +13,20 @@
 
   const addComment = async () => {
     loading = true;
-    const commentResult = await server.addComment({
-      comment,
-      itemId: feedItemId,
-    });
-    loading = false;
-    comment = '';
-
-    dispatch('comment', {
-      commentId: commentResult._id,
-    });
+    try {
+      const commentResult = await server.addComment({
+        comment,
+        itemId: feedItemId,
+      });
+      dispatch('comment', {
+        commentId: commentResult._id,
+      });
+    } catch (error) {
+      snackBarMessage.set(error.message);
+    } finally {
+      loading = false;
+      comment = '';
+    }
   };
 
   export let feedItemId: string;

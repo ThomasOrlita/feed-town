@@ -18,6 +18,14 @@ body {
   align-items: center;
 }
 
+.checkbox > .selector {
+  flex-shrink: 0;
+}
+
+.snackbar-stack.bottom {
+  bottom: 5em !important;
+}
+
 .modal-overlay {
   background-color: rgb(0 0 0 / 50%) !important;
   padding: 1em;
@@ -26,6 +34,7 @@ body {
 .modal-overlay > div {
   max-height: 100%;
   overflow-y: auto;
+  word-break: break-word;
 }
 
 @media not screen and (hover: none) and (pointer: coarse) {
