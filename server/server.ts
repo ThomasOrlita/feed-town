@@ -14,6 +14,8 @@ try {
             serialization: (data: any) => JSON.stringify(data, (_key, value) => {
                 if (typeof value.toHexString === "function") {
                     return value.toHexString();
+                } else if (value === null) {
+                    return undefined;
                 }
                 return value;
             })
