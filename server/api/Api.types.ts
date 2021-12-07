@@ -121,6 +121,7 @@ export type Api = {
 
     // collections
     getFeedCollections: (jwt?: string) => Promise<Feed.Collection.FeedCollection[]>;
+    getFeedCollectionsWithFeedSources: (jwt?: string) => Promise<Feed.Collection.FeedCollectionWithFeedSources[]>;
 
     // collection
     addFeedCollection: (options: { title: string; }, jwt?: string) => Promise<{ _id: string; }>;

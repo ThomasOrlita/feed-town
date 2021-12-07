@@ -2,26 +2,30 @@
   import { Button, Checkbox, Divider, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
   import { snackBarMessage } from '../api/store';
-  import { PackageIcon, PlusIcon, XIcon } from 'svelte-feather-icons';
+  import { PackageIcon, PlusIcon } from 'svelte-feather-icons';
   import type { Feed } from '../../../server/api/Api.types';
   import server from '../api/api';
   import ModalDialog from './ModalDialog.svelte';
 
+  import { createEventDispatcher } from 'svelte';
+
+  const dispatch = createEventDispatcher();
+
   let modalOpen: boolean = false;
-  let feedId: string;
+  let feed: Feed.Source.FeedSource;
 
   let newCollectionTitle: string;
   let newCollectionLoading: boolean = false;
 
   let feedCollections: Promise<Feed.Collection.FeedCollection[]>;
-  export const open = (feedIdToAdd: string) => {
+  export const open = (feedToAdd: Feed.Source.FeedSource) => {
     feedCollections = server.getFeedCollections();
     modalOpen = true;
-    feedId = feedIdToAdd;
+    feed = feedToAdd;
   };
 </script>
 
-<ModalDialog bind:open={modalOpen} noClickaway title="Add feed to collection">
+<ModalDialog bind:open={modalOpen} noClickaway title={`Manage ${feed?.title} in collections`}>
   {#if feedCollections}
     {#await feedCollections}
       <div class="m-8">
@@ -31,24 +35,28 @@
       {#each collections as collection}
         <Checkbox
           class="mb-4"
-          checked={collection.feedSources.includes(feedId)}
+          checked={collection.feedSources.includes(feed._id)}
           on:change={async (event) => {
             if (event.detail.checked) {
-              collection.feedSources = [...collection.feedSources, feedId];
+              collection.feedSources = [...collection.feedSources, feed._id];
             } else {
-              collection.feedSources = collection.feedSources.filter((id) => id !== feedId);
+              collection.feedSources = collection.feedSources.filter((id) => id !== feed._id);
             }
 
             try {
               const params = {
                 collectionId: collection._id,
-                feedId: feedId,
+                feedId: feed._id,
               };
               if (event.detail.checked) {
                 await server.addFeedToCollection(params);
               } else {
                 await server.removeFeedFromCollection(params);
               }
+              dispatch('feed' + (event.detail.checked ? 'Added' : 'Removed'), {
+                collection,
+                feed,
+              });
             } catch (error) {
               snackBarMessage.set(error.message);
               feedCollections = server.getFeedCollections();
@@ -76,7 +84,12 @@
         </div>
       {:else}
         <div class="flex <sm:flex-col">
-          <TextField class="flex-1" outline label="Add to new collection" placeholder="New collection title" bind:value={newCollectionTitle} />
+          <TextField
+            class="flex-1"
+            outline
+            label="Add to new collection"
+            placeholder="New collection title"
+            bind:value={newCollectionTitle} />
           <div class="flex items-end ml-2 <sm:mt-2 <sm:ml-auto">
             <Button
               on:click={async () => {
@@ -88,7 +101,7 @@
                   });
                   await server.addFeedToCollection({
                     collectionId: newCollection._id,
-                    feedId,
+                    feedId: feed._id,
                   });
                 } catch (error) {
                   snackBarMessage.set(error.message);

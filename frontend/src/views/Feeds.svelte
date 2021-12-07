@@ -1,18 +1,19 @@
 <script lang="ts">
-  import { Card, Loading } from 'attractions';
+  import { Loading } from 'attractions';
   import FeedList from '../components/FeedList.svelte';
 
   import server from '../api/api';
   import { AlertCircleIcon } from 'svelte-feather-icons';
   import GenericMessage from '../components/GenericMessage.svelte';
   import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
+  import FeedCollectionList from '../components/FeedCollectionList.svelte';
 </script>
 
-{#await server.getFeeds()}
+{#await Promise.all([server.getFeeds(), server.getFeedCollectionsWithFeedSources()])}
   <div class="m-auto">
     <Loading />
   </div>
-{:then feeds}
+{:then [feeds, feedCollections]}
   <SetBreadcrumbs
     items={[
       {
@@ -20,7 +21,8 @@
         text: `My Feeds`,
       },
     ]} />
-  <FeedList {feeds} />
+  <FeedCollectionList {feedCollections} />
+  <FeedList {feeds} hiddenFeedIds={feedCollections.flatMap((collection) => collection.feedSources.map((source) => source._id))} />
 {:catch error}
   <GenericMessage>
     <AlertCircleIcon size="20" class="mr-2" />

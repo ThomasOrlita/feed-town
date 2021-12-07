@@ -13,6 +13,7 @@ export { addComment } from "./addComment.ts";
 
 // collections
 export { getFeedCollections } from "./getFeedCollections.ts";
+export { getFeedCollectionsWithFeedSources } from "./getFeedCollectionsWithFeedSources.ts";
 
 // collection
 export { addFeedCollection } from "./addFeedCollection.ts";
