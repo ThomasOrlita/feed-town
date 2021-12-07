@@ -21,7 +21,7 @@
         <a href={`/feed/${feed._id}`} use:link> {feed.title}</a>
       </H2>
       <div use:links>
-        <Button small rectangle href={`/feed/${feed._id}/manage`}>add to collection</Button>
+        <Button small rectangle href={`/feed/${feed._id}/collections`}>add to collection</Button>
       </div>
 
       {feed.input.type}<br />

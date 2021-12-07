@@ -3,11 +3,11 @@
   import { AlertCircleIcon } from 'svelte-feather-icons';
   import { Link } from 'svelte-routing';
 
-  import server from '../api/api';
-  import CommentsList from '../components/CommentsList.svelte';
-  import NewCommentForm from '../components/NewCommentForm.svelte';
-  import GenericMessage from '../components/GenericMessage.svelte';
-  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
+  import server from '../../../../api/api';
+  import CommentsList from '../../../../components/CommentsList.svelte';
+  import NewCommentForm from '../../../../components/NewCommentForm.svelte';
+  import GenericMessage from '../../../../components/GenericMessage.svelte';
+  import SetBreadcrumbs from '../../../../components/SetBreadcrumbs.svelte';
 
   let latestCommentId: string;
   const newComment = (event: CustomEvent) => {

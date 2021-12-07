@@ -5,15 +5,15 @@
 
   import HomeFeed from './views/HomeFeed.svelte';
   import Header from './components/Header.svelte';
-  import SingleFeed from './views/SingleFeed.svelte';
+  import Feed from './views/feed/Feed.svelte';
   import Feeds from './views/Feeds.svelte';
-  import FeedItemComments from './views/FeedItemComments.svelte';
+  import Comments from './views/feed/_feedId/_itemId/Comments.svelte';
   import Footer from './components/Footer.svelte';
   import { isConnectionError, snackBarMessage } from './api/store';
   import GenericMessage from './components/GenericMessage.svelte';
   import { RefreshCcwIcon, WifiOffIcon } from 'svelte-feather-icons';
   import { Button, SnackbarContainer } from 'attractions';
-  import ManageCollection from './views/ManageCollection.svelte';
+  import Collections from './views/feed/_feedId/Collections.svelte';
 
   export let url = '';
 
@@ -47,14 +47,14 @@
       </GenericMessage>
     {:else}
       <Route path="account" component={Account} />
-      <Route path="feed/:feedId/manage" let:params>
-        <ManageCollection feedId={params.feedId} />
+      <Route path="feed/:feedId/collections" let:params>
+        <Collections feedId={params.feedId} />
       </Route>
       <Route path="feed/:feedId/:itemId/comments" let:params>
-        <FeedItemComments feedId={params.feedId} itemId={params.itemId} />
+        <Comments feedId={params.feedId} itemId={params.itemId} />
       </Route>
       <Route path="feed/:feedId" let:params>
-        <SingleFeed feedId={params.feedId} />
+        <Feed feedId={params.feedId} />
       </Route>
       <Route path="feeds" component={Feeds} />
       <Route path="feed" component={HomeFeed} />

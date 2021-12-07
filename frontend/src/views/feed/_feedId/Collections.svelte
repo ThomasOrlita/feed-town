@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Button, Card, Checkbox, Divider, H2, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
-  import { snackBarMessage } from '../api/store';
+  import { snackBarMessage } from '../../../api/store';
   import { PackageIcon, PlusIcon } from 'svelte-feather-icons';
-  import type { Feed } from '../../../server/api/Api.types';
-  import server from '../api/api';
-  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
+  import type { Feed } from '../../../../../server/api/Api.types';
+  import server from '../../../api/api';
+  import SetBreadcrumbs from '../../../components/SetBreadcrumbs.svelte';
 
   export let feedId: string;
 
@@ -28,7 +28,7 @@
         text: feed.title,
       },
       {
-        href: `/feed/${feedId}/manage`,
+        href: `/feed/${feedId}/collections`,
         text: 'Manage collections',
       },
     ]} />

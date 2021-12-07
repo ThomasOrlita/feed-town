@@ -1,13 +1,13 @@
 <script lang="ts">
   import { Card, Loading } from 'attractions';
-  import GenericMessage from '../components/GenericMessage.svelte';
+  import GenericMessage from '../../components/GenericMessage.svelte';
   import { AlertCircleIcon } from 'svelte-feather-icons';
   import { navigate } from 'svelte-routing';
 
-  import server from '../api/api';
-  import Feed from '../components/Feed.svelte';
-  import { breadcrumbs } from '../api/store';
-  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
+  import server from '../../api/api';
+  import Feed from '../../components/Feed.svelte';
+  import { breadcrumbs } from '../../api/store';
+  import SetBreadcrumbs from '../../components/SetBreadcrumbs.svelte';
 
   export let feedId: string;
 
