@@ -1,37 +1,42 @@
 <script lang="ts">
-  import { Button, Checkbox, Divider, Label, Loading, TextField } from 'attractions';
+  import { Button, Card, Checkbox, Divider, H2, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
   import { snackBarMessage } from '../api/store';
   import { PackageIcon, PlusIcon } from 'svelte-feather-icons';
   import type { Feed } from '../../../server/api/Api.types';
   import server from '../api/api';
-  import ModalDialog from './ModalDialog.svelte';
+  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
 
-  import { createEventDispatcher } from 'svelte';
-
-  const dispatch = createEventDispatcher();
-
-  let modalOpen: boolean = false;
-  let feed: Feed.Source.FeedSource;
+  export let feedId: string;
 
   let newCollectionTitle: string;
   let newCollectionLoading: boolean = false;
 
   let feedCollections: Promise<Feed.Collection.FeedCollection[]>;
-  export const open = (feedToAdd: Feed.Source.FeedSource) => {
-    feedCollections = server.getFeedCollections();
-    modalOpen = true;
-    feed = feedToAdd;
-  };
+  feedCollections = server.getFeedCollections();
 </script>
 
-<ModalDialog bind:open={modalOpen} noClickaway title={`Manage ${feed?.title} in collections`}>
-  {#if feedCollections}
-    {#await feedCollections}
-      <div class="m-8">
-        <Loading />
-      </div>
-    {:then collections}
+{#await server.getFeed({ feedId })}
+  <div class="m-8">
+    <Loading />
+  </div>
+{:then { feed }}
+  <SetBreadcrumbs
+    items={[
+      {
+        href: `/feed/${feedId}`,
+        text: feed.title,
+      },
+      {
+        href: `/feed/${feedId}/manage`,
+        text: 'Manage collections',
+      },
+    ]} />
+  <Card outline class="m-4 !overflow-visible">
+    {#await feedCollections then collections}
+      <H2 class="flex items-center !mb-4">
+        Manage feed {feed.title} in collections
+      </H2>
       {#each collections as collection}
         <Checkbox
           class="mb-4"
@@ -53,10 +58,6 @@
               } else {
                 await server.removeFeedFromCollection(params);
               }
-              dispatch('feed' + (event.detail.checked ? 'Added' : 'Removed'), {
-                collection,
-                feed,
-              });
             } catch (error) {
               snackBarMessage.set(error.message);
               feedCollections = server.getFeedCollections();
@@ -118,5 +119,5 @@
         </div>
       {/if}
     {/await}
-  {/if}
-</ModalDialog>
+  </Card>
+{/await}

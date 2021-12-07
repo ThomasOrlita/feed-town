@@ -1,18 +1,13 @@
 <script lang="ts">
   import type { Feed } from '../../../server/api/Api.types';
-  import { link } from 'svelte-routing';
+  import { link, links } from 'svelte-routing';
   import { Button, Card, H2 } from 'attractions';
   import { FrownIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
   import GenericMessage from './GenericMessage.svelte';
-  import AddToCollectionModal from './AddToCollectionModal.svelte';
 
   export let feeds: Feed.Source.FeedSource[];
   export let hiddenFeedIds: string[];
-
-  let addToCollectionModal: AddToCollectionModal;
 </script>
-
-<AddToCollectionModal bind:this={addToCollectionModal} />
 
 {#each feeds as feed}
   {#if !hiddenFeedIds.includes(feed._id)}
@@ -25,12 +20,9 @@
         {/if}
         <a href={`/feed/${feed._id}`} use:link> {feed.title}</a>
       </H2>
-      <Button
-        small
-        rectangle
-        on:click={() => {
-          addToCollectionModal.open(feed);
-        }}>add to collection</Button>
+      <div use:links>
+        <Button small rectangle href={`/feed/${feed._id}/manage`}>add to collection</Button>
+      </div>
 
       {feed.input.type}<br />
       {feed.lastChecked}<br />

@@ -13,6 +13,7 @@
   import GenericMessage from './components/GenericMessage.svelte';
   import { RefreshCcwIcon, WifiOffIcon } from 'svelte-feather-icons';
   import { Button, SnackbarContainer } from 'attractions';
+  import ManageCollection from './views/ManageCollection.svelte';
 
   export let url = '';
 
@@ -46,6 +47,9 @@
       </GenericMessage>
     {:else}
       <Route path="account" component={Account} />
+      <Route path="feed/:feedId/manage" let:params>
+        <ManageCollection feedId={params.feedId} />
+      </Route>
       <Route path="feed/:feedId/:itemId/comments" let:params>
         <FeedItemComments feedId={params.feedId} itemId={params.itemId} />
       </Route>
