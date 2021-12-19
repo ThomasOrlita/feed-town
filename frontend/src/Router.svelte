@@ -4,13 +4,13 @@
   import Content from './views/Content.svelte';
 
   import HomeFeed from './views/HomeFeed.svelte';
-  import Header from './components/Header.svelte';
+  import Header from './components/layout/Header.svelte';
   import Feed from './views/feed/Feed.svelte';
   import Feeds from './views/Feeds.svelte';
   import Comments from './views/feed/_feedId/_itemId/Comments.svelte';
-  import Footer from './components/Footer.svelte';
+  import Footer from './components/layout/Footer.svelte';
   import { isConnectionError, snackBarMessage } from './api/store';
-  import GenericMessage from './components/GenericMessage.svelte';
+  import GenericMessage from './components/layout/GenericMessage.svelte';
   import { RefreshCcwIcon, WifiOffIcon } from 'svelte-feather-icons';
   import { Button, SnackbarContainer } from 'attractions';
   import Collections from './views/feed/_feedId/Collections.svelte';

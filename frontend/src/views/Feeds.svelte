@@ -1,12 +1,12 @@
 <script lang="ts">
   import { Loading } from 'attractions';
-  import FeedList from '../components/FeedList.svelte';
+  import FeedList from '../components/feeds/FeedList.svelte';
 
   import server from '../api/api';
   import { AlertCircleIcon } from 'svelte-feather-icons';
-  import GenericMessage from '../components/GenericMessage.svelte';
-  import SetBreadcrumbs from '../components/SetBreadcrumbs.svelte';
-  import FeedCollectionList from '../components/FeedCollectionList.svelte';
+  import GenericMessage from '../components/layout/GenericMessage.svelte';
+  import SetBreadcrumbs from '../components/layout/SetBreadcrumbs.svelte';
+  import FeedCollectionList from '../components/feeds/FeedCollectionList.svelte';
 </script>
 
 {#await Promise.all([server.getFeeds(), server.getFeedCollectionsWithFeedSources()])}

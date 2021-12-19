@@ -1,6 +1,6 @@
 <script lang="ts">
   import { Breadcrumbs, Button } from 'attractions';
-  import type { Breadcrumb } from 'src/api/store';
+  import type { Breadcrumb } from '../../api/store';
   import { ChevronRightIcon } from 'svelte-feather-icons';
   import { links } from 'svelte-routing';
 

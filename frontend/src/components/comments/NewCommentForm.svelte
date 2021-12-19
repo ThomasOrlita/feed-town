@@ -3,8 +3,8 @@
   import { Button, Card, FormField, H2, H3, Label, Loading, TextField } from 'attractions';
   import { FrownIcon, RssIcon, SendIcon, TwitterIcon } from 'svelte-feather-icons';
   import { createEventDispatcher } from 'svelte';
-  import server from '../api/api';
-  import { snackBarMessage } from '../api/store';
+  import server from '../../api/api';
+  import { snackBarMessage } from '../../api/store';
 
   let comment: string = '';
   let loading: boolean = false;

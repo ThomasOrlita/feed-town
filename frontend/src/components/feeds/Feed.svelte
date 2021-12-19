@@ -1,16 +1,16 @@
 <script lang="ts">
   import { Headline, Subhead, H1, H2, H3, Label } from 'attractions';
-  import Wikipedia from './../components/slides/Wikipedia.svelte';
+  import Wikipedia from '../slides/Wikipedia.svelte';
 
   import { Swiper, SwiperSlide } from 'swiper/svelte';
   import 'swiper/css';
   import 'swiper/css/navigation';
   import { Navigation, Mousewheel } from 'swiper';
-  import RssItem from './slides/RssItem.svelte';
-  import type { Feed } from '../../../server/api/Api.types';
-  import Tweet from './slides/Tweet.svelte';
+  import RssItem from '../slides/RssItem.svelte';
+  import type { Feed } from '../../../../server/api/Api.types';
+  import Tweet from '../slides/Tweet.svelte';
   import { navigate } from 'svelte-routing';
-  import GenericMessage from './GenericMessage.svelte';
+  import GenericMessage from '../layout/GenericMessage.svelte';
   import { FrownIcon } from 'svelte-feather-icons';
 
   export let posts: Feed.Item.FeedItem[];

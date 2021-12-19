@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { breadcrumbs } from '../api/store';
-  import type { Breadcrumb } from '../api/store';
+  import { breadcrumbs } from '../../api/store';
+  import type { Breadcrumb } from '../../api/store';
 
   import { RssIcon } from 'svelte-feather-icons';
   import { Link } from 'svelte-routing';

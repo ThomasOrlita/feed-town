@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { Feed } from '../../../server/api/Api.types';
+  import type { Feed } from '../../../../server/api/Api.types';
   import { link } from 'svelte-routing';
   import { Button, Card, H2, Label } from 'attractions';
   import { FrownIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
-  import GenericMessage from './GenericMessage.svelte';
+  import GenericMessage from '../layout/GenericMessage.svelte';
 
   export let comments: Feed.Item.Comment[];
 </script>

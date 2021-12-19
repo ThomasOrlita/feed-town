@@ -5,7 +5,7 @@
   import { PackageIcon, PlusIcon } from 'svelte-feather-icons';
   import type { Feed } from '../../../../../server/api/Api.types';
   import server from '../../../api/api';
-  import SetBreadcrumbs from '../../../components/SetBreadcrumbs.svelte';
+  import SetBreadcrumbs from '../../../components/layout/SetBreadcrumbs.svelte';
 
   export let feedId: string;
 

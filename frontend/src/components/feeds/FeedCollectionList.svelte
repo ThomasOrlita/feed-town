@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Feed } from '../../../server/api/Api.types';
+  import type { Feed } from '../../../../server/api/Api.types';
   import { link, links } from 'svelte-routing';
   import { Button, Card, H2, Label } from 'attractions';
   import { EditIcon, FrownIcon, MinusIcon, PackageIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
-  import GenericMessage from './GenericMessage.svelte';
-  import server from '../api/api';
+  import GenericMessage from '../layout/GenericMessage.svelte';
+  import server from '../../api/api';
 
   export let feedCollections: Feed.Collection.FeedCollectionWithFeedSources[];
 

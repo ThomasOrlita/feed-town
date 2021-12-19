@@ -1,10 +1,10 @@
 <script lang="ts">
   import { Autocomplete, Button, FormField, Loading, TextField } from 'attractions';
-  import server from '../api/api';
+  import server from '../../api/api';
   import { AtSignIcon, CheckIcon } from 'svelte-feather-icons';
   import { navigate } from 'svelte-routing';
-  import type { Feed } from '../../../server/api/Api.types';
-  import ModalDialog from './ModalDialog.svelte';
+  import type { Feed } from '../../../../server/api/Api.types';
+  import ModalDialog from '../ModalDialog.svelte';
 
   let modalOpen: boolean = false;
   export const open = () => {

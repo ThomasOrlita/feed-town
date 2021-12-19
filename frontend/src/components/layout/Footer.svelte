@@ -3,7 +3,7 @@
   import { Button, Tab } from 'attractions';
   import { CompassIcon, HomeIcon, ListIcon, PlusIcon, UserIcon } from 'svelte-feather-icons';
 
-  import NewFeedModal from './NewFeedModal.svelte';
+  import NewFeedModal from '../feeds/NewFeedModal.svelte';
 
   let newFeedModal: NewFeedModal;
 </script>

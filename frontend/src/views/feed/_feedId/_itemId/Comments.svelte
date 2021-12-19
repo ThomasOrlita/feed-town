@@ -4,10 +4,10 @@
   import { Link } from 'svelte-routing';
 
   import server from '../../../../api/api';
-  import CommentsList from '../../../../components/CommentsList.svelte';
-  import NewCommentForm from '../../../../components/NewCommentForm.svelte';
-  import GenericMessage from '../../../../components/GenericMessage.svelte';
-  import SetBreadcrumbs from '../../../../components/SetBreadcrumbs.svelte';
+  import CommentsList from '../../../../components/comments/CommentsList.svelte';
+  import NewCommentForm from '../../../../components/comments/NewCommentForm.svelte';
+  import GenericMessage from '../../../../components/layout/GenericMessage.svelte';
+  import SetBreadcrumbs from '../../../../components/layout/SetBreadcrumbs.svelte';
 
   let latestCommentId: string;
   const newComment = (event: CustomEvent) => {
