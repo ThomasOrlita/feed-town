@@ -20,3 +20,4 @@ export { addFeedCollection } from "./addFeedCollection.ts";
 export { addFeedToCollection } from "./addFeedToCollection.ts";
 export { removeFeedFromCollection } from "./removeFeedFromCollection.ts";
 export { getFeedCollection } from "./getFeedCollection.ts";
+export { getFeedCollectionFeed } from "./getFeedCollectionFeed.ts";

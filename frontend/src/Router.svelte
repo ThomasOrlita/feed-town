@@ -15,6 +15,7 @@
   import { Button, SnackbarContainer } from 'attractions';
   import Collections from '@/views/feed/_feedId/Collections.svelte';
   import Collection from '@/views/collection/Collection.svelte';
+  import ManageCollection from '@/views/collection/_collectionId/ManageCollection.svelte';
 
   export let url = '';
 
@@ -48,8 +49,11 @@
       </GenericMessage>
     {:else}
       <Route path="account" component={Account} />
-      <Route path="collection/:collectionId" let:params>
-        <Collection collectionId={params.collectionId} />
+      <Route path="collection/:feedCollectionId/manage" let:params>
+        <ManageCollection feedCollectionId={params.feedCollectionId} />
+      </Route>
+      <Route path="collection/:feedCollectionId" let:params>
+        <Collection feedCollectionId={params.feedCollectionId} />
       </Route>
       <Route path="feed/:feedId/collections" let:params>
         <Collections feedId={params.feedId} />

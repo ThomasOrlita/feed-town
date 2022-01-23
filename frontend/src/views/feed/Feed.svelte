@@ -30,7 +30,7 @@
       },
     ]} />
   {result.feed.title}
-  <Feed {feedId} posts={result.items} />
+  <Feed posts={result.items} />
 {:catch error}
   <GenericMessage>
     <AlertCircleIcon size="20" class="mr-2" />

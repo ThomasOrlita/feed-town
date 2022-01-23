@@ -12,12 +12,11 @@
   import { FrownIcon } from 'svelte-feather-icons';
 
   export let posts: Feed.Item.FeedItem[];
-  export let feedId: string;
 
   const slideChanged = (slideIndex: number) => {
     const slide = posts[slideIndex];
 
-    navigate(`/feed/${feedId}/#${slide._id}`, { replace: true });
+    // navigate(`/feed/${slide.feedId}/#${slide._id}`, { replace: true });
   };
 </script>
 
@@ -25,13 +24,13 @@
   {#each posts as post}
     <SwiperSlide>
       {#if post.content.type === 'RSS'}
-        <RssItem {feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} />
+        <RssItem feedId={post.feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} />
       {:else if post.content.type === 'WIKIPEDIA_ARTICLE'}
         <Wikipedia title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} />
       {:else if post.content.type === 'TWITTER_USER_TIMELINE'}
-        <Tweet {feedId} itemId={post._id} url={post.content.url} />
+        <Tweet feedId={post.feedId} itemId={post._id} url={post.content.url} />
       {:else if post.content.type === 'REDDIT_SUBREDDIT'}
-        <RssItem {feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} />
+        <RssItem feedId={post.feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} />
       {/if}
     </SwiperSlide>
   {:else}
