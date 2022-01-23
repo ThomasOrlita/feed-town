@@ -11,7 +11,11 @@
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
     "allowJs": true,
-    "checkJs": true
+    "checkJs": true,
+    "paths": {
+      "@/*": ["./src/*"],
+      "@server/*": ["../server/*"],
+    }
   },
   "include": [
     "globals.d.ts",

@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { Feed } from '../../../../server/api/Api.types';
+  import type { Feed } from '@server/api/Api.types';
   import { link, links } from 'svelte-routing';
   import { Button, Card, H2 } from 'attractions';
   import { FrownIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
-  import GenericMessage from '../layout/GenericMessage.svelte';
+  import GenericMessage from '@/components/layout/GenericMessage.svelte';
 
   export let feeds: Feed.Source.FeedSource[];
   export let hiddenFeedIds: string[];

@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Button, Card, Checkbox, Divider, H2, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
-  import { snackBarMessage } from '../../../api/store';
+  import { snackBarMessage } from '@/api/store';
   import { PackageIcon, PlusIcon } from 'svelte-feather-icons';
-  import type { Feed } from '../../../../../server/api/Api.types';
-  import server from '../../../api/api';
-  import SetBreadcrumbs from '../../../components/layout/SetBreadcrumbs.svelte';
+  import type { Feed } from '@server/api/Api.types';
+  import server from '@/api/api';
+  import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
 
   export let feedId: string;
 
@@ -85,12 +85,7 @@
         </div>
       {:else}
         <div class="flex <sm:flex-col">
-          <TextField
-            class="flex-1"
-            outline
-            label="Add to new collection"
-            placeholder="New collection title"
-            bind:value={newCollectionTitle} />
+          <TextField class="flex-1" outline label="Add to new collection" placeholder="New collection title" bind:value={newCollectionTitle} />
           <div class="flex items-end ml-2 <sm:mt-2 <sm:ml-auto">
             <Button
               on:click={async () => {

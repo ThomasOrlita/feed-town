@@ -1,7 +1,7 @@
 import { AsyncCall } from 'async-call-rpc';
 import type { _AsyncVersionOf } from 'async-call-rpc';
 import { WebSocketMessageChannel } from 'async-call-rpc/utils/web/websocket.client';
-import type { Api } from '../../../server/api/Api.types';
+import type { Api } from '@server/api/Api.types';
 import { isConnectionError } from './store';
 
 let serverApi: _AsyncVersionOf<Api>;

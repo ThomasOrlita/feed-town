@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { breadcrumbs } from '../../api/store';
-  import type { Breadcrumb } from '../../api/store';
+  import { breadcrumbs } from '@/api/store';
+  import type { Breadcrumb } from '@/api/store';
 
   import { RssIcon } from 'svelte-feather-icons';
   import { Link } from 'svelte-routing';
-  import Breadcrumbs from './Breadcrumbs.svelte';
+  import Breadcrumbs from '@/components/layout/Breadcrumbs.svelte';
 
   let currentBreadcrumbs: Breadcrumb[] = [];
   breadcrumbs.subscribe((value) => {
