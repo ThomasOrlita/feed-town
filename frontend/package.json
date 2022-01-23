@@ -6,20 +6,20 @@
     "test": "jest"
   },
   "devDependencies": {
-    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.32",
-    "@types/jest": "^27.0.3",
+    "@sveltejs/vite-plugin-svelte": "^1.0.0-next.35",
+    "@types/jest": "^27.4.0",
     "async-call-rpc": "^6.0.1",
-    "attractions": "^3.5.2",
-    "sass": "^1.45.0",
-    "svelte": "^3.44.3",
-    "svelte-preprocess": "^4.10.1",
+    "attractions": "^3.7.0",
+    "sass": "^1.49.0",
+    "svelte": "^3.46.2",
+    "svelte-preprocess": "^4.10.2",
     "svelte-routing": "^1.6.0",
-    "swiper": "^7.3.0",
-    "ts-jest": "^27.1.2",
-    "typescript": "^4.5.4",
-    "vite": "^2.7.3",
-    "vite-plugin-windicss": "^1.5.4",
-    "windicss": "^3.4.0"
+    "swiper": "^7.4.1",
+    "ts-jest": "^27.1.3",
+    "typescript": "^4.5.5",
+    "vite": "^2.7.13",
+    "vite-plugin-windicss": "^1.6.3",
+    "windicss": "^3.4.3"
   },
   "dependencies": {
     "svelte-feather-icons": "^3.5.0"
