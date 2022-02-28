@@ -1,9 +1,10 @@
-import type { Api } from "../api/Api.types.ts";
+import type { Account, Api } from "../api/Api.types.ts";
 import { config } from "https://deno.land/x/dotenv@v3.0.0/mod.ts";
 const env = config({ safe: true });
 
 import { OAuth2Client } from "https://deno.land/x/oauth2_client@v0.2.1/mod.ts";
 import { create, verify } from "https://deno.land/x/djwt@v2.4/mod.ts";
+import { upsertUser } from "./account.ts";
 
 const jwtKey = await window.crypto.subtle.importKey("jwk", JSON.parse(env.JWT_SECRET), { name: "HMAC", hash: "SHA-512" }, false, ["sign", "verify"]);
 
@@ -29,7 +30,10 @@ export const getGitHubAuthUrl: Api["getGitHubAuthUrl"] = (): string => {
 };
 
 
-export const getJwtTokenFromGitHubOAuth: Api["getJwtTokenFromGitHubOAuth"] = async (authCode: string): Promise<string> => {
+export const getJwtTokenFromGitHubOAuth: Api["getJwtTokenFromGitHubOAuth"] = async (authCode: string): Promise<{
+    jwt: string;
+    _id: string;
+}> => {
     try {
         const tokens = await oauth2Client.code.getToken(oauth2Client.config.redirectUri + "?code=" + authCode);
 
@@ -46,8 +50,15 @@ export const getJwtTokenFromGitHubOAuth: Api["getJwtTokenFromGitHubOAuth"] = asy
         } = await userResponse.json();
 
         console.log(userData);
-
-        return generateJwtToken(userData.id);
+        return {
+            jwt: await generateJwtToken(userData.id),
+            _id: await upsertUser({
+                userId: userData.id,
+                avatarUrl: userData.avatar_url,
+                email: userData.email,
+                username: userData.login,
+            })
+        };
     } catch {
         throw new Error("Could not log in via GitHub");
     }

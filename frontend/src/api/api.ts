@@ -50,7 +50,7 @@ const server = new Proxy(serverApi, {
         }
         return new Proxy(serverApi[key], {
             apply: (target, _, argumentsList) =>
-                target(...argumentsList, 'jwt_will_be_here')
+                target(...argumentsList, localStorage.getItem('jwt'))
         });
     },
 });

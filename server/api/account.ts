@@ -1,8 +1,8 @@
 import { users } from "../db/models/User.ts";
-import { Api } from "./Api.types.ts";
+import { Account, Api } from "./Api.types.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 
-const getUserCreateIfNotExists = async (userId: number, userData: {
+export const upsertUser = async ({ userId, username, email, avatarUrl }: {
     userId: number;
     username: string;
     email: string;
@@ -10,24 +10,29 @@ const getUserCreateIfNotExists = async (userId: number, userData: {
 }) => {
     const user = await getUser(userId);
     if (user) {
-        return user;
+        await users.updateOne({ _id: user._id }, {
+            $set: {
+                username,
+                email,
+                avatarUrl,
+            },
+        });
+        return user._id.toHexString();
     }
 
-    await users.insertOne({
+    return (await users.insertOne({
         userId,
-        username: userData.username,
-        email: userData.email,
-        avatarUrl: userData.avatarUrl,
+        username,
+        email,
+        avatarUrl,
         dateCreated: new Date(),
-    });
-
-    return await getUser(userId);
+    })).toHexString();
 };
 
-const getUser = async (userId: number) => {
+export const getUser = async (userId: number) => {
     return users.findOne({
         userId,
-    });
+    }, { noCursorTimeout: false });
 };
 
 export const getAccountInfo: Api["getAccountInfo"] = async (jwt?: string) => {

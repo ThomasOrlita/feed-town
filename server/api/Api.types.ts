@@ -107,7 +107,7 @@ export namespace Account {
         _id: Bson.ObjectId;
         userId: number;
         username: string;
-        email:string;
+        email: string;
         dateCreated: Date;
         avatarUrl: string;
     };
@@ -143,7 +143,10 @@ export type Api = {
 
     // auth
     getGitHubAuthUrl: () => string;
-    getJwtTokenFromGitHubOAuth: (authCode: string) => Promise<string>;
+    getJwtTokenFromGitHubOAuth: (authCode: string) => Promise<{
+        jwt: string;
+        _id: string;
+    }>;
 
     // account
     getAccountInfo: (jwt?: string) => Promise<Account.User>;

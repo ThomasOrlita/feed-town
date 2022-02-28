@@ -13,7 +13,7 @@
     const processCallback = async () => {
         const jwtToken = await server.getJwtTokenFromGitHubOAuth(authCode);
 
-        localStorage.setItem('jwt', jwtToken);
+        localStorage.setItem('jwt', jwtToken.jwt);
         navigate('/account');
     };
 </script>
@@ -27,7 +27,7 @@
         <div class="flex">
             <Button href={authUrl} filled>
                 <GithubIcon size="20" class="mr-2" />
-                Login via GitHub
+                Log in via GitHub
             </Button>
         </div>
     {:catch error}
