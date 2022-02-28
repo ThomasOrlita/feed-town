@@ -16,6 +16,7 @@
   import Collections from '@/views/feed/_feedId/Collections.svelte';
   import Collection from '@/views/collection/Collection.svelte';
   import ManageCollection from '@/views/collection/_collectionId/ManageCollection.svelte';
+  import GitHubLogin from './views/account/GitHubLogin.svelte';
 
   export let url = '';
 
@@ -48,6 +49,9 @@
         </Button>
       </GenericMessage>
     {:else}
+      <Route path="account/github/callback">
+        <GitHubLogin authCode={new URLSearchParams(window.location.search).get('code')} />
+      </Route>
       <Route path="account" component={Account} />
       <Route path="collection/:feedCollectionId/manage" let:params>
         <ManageCollection feedCollectionId={params.feedCollectionId} />

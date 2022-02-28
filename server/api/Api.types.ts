@@ -102,6 +102,17 @@ export namespace Feed {
     export type FeedParser<T extends Feed.Type> = (url: string) => Promise<(Feed.Item.Content & { type: T; })[]>;
 }
 
+export namespace Account {
+    export interface User {
+        _id: Bson.ObjectId;
+        userId: number;
+        username: string;
+        email:string;
+        dateCreated: Date;
+        avatarUrl: string;
+    };
+}
+
 // types of all exposed API functions
 // must be top-level keys
 // and not use 'typeof' other functions
@@ -129,4 +140,11 @@ export type Api = {
     removeFeedFromCollection: (options: { collectionId: string; feedId: string; }, jwt?: string) => Promise<{}>;
     getFeedCollection: (options: { feedCollectionId: string; }, jwt?: string) => Promise<Feed.Collection.FeedCollectionWithFeedSources>;
     getFeedCollectionFeed: (options: { feedCollectionId: string; }, jwt?: string) => Promise<Feed.Item.FeedItem[]>;
+
+    // auth
+    getGitHubAuthUrl: () => string;
+    getJwtTokenFromGitHubOAuth: (authCode: string) => Promise<string>;
+
+    // account
+    getAccountInfo: (jwt?: string) => Promise<Account.User>;
 };
