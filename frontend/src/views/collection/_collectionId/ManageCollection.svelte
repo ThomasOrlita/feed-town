@@ -5,7 +5,7 @@
   import { snackBarMessage } from '@/api/store';
   import { onMount } from 'svelte';
   import type { Feed } from '@server/api/Api.types';
-  import { CheckIcon } from 'svelte-feather-icons';
+  import { CheckIcon, TrashIcon } from 'svelte-feather-icons';
 
   let collection: Feed.Collection.FeedCollectionWithFeedSources;
   onMount(async () => {
@@ -48,6 +48,17 @@
       }}>
       <CheckIcon size="20" class="mr-2" />
       Update title
+    </Button>
+
+    <Button
+      filled
+      small
+      danger
+      on:click={() => {
+        alert('todo delete');
+      }}>
+      <TrashIcon size="20" class="mr-2" />
+      Delete collection
     </Button>
   </Card>
   <Card outline class="m-4 !overflow-visible">

@@ -23,7 +23,7 @@
       },
     ]} />
 
-  author: {feedCollection.author} <br />
+  owner: {feedCollection.owner} <br />
   dateCreated: {feedCollection.dateCreated} <br />
   feedSources: {feedCollection.feedSources.length} <br />
 

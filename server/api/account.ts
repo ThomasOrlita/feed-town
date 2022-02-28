@@ -1,14 +1,15 @@
+import { Bson } from "https://deno.land/x/mongo@v0.28.0/deps.ts";
 import { users } from "../db/models/User.ts";
 import { Account, Api } from "./Api.types.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 
-export const upsertUser = async ({ userId, username, email, avatarUrl }: {
-    userId: number;
+export const upsertUser = async ({ githubUserId, username, email, avatarUrl }: {
+    githubUserId: number;
     username: string;
     email: string;
     avatarUrl: string;
 }) => {
-    const user = await getUser(userId);
+    const user = await getUserByGitHubId(githubUserId);
     if (user) {
         await users.updateOne({ _id: user._id }, {
             $set: {
@@ -21,7 +22,7 @@ export const upsertUser = async ({ userId, username, email, avatarUrl }: {
     }
 
     return (await users.insertOne({
-        userId,
+        githubUserId,
         username,
         email,
         avatarUrl,
@@ -29,9 +30,15 @@ export const upsertUser = async ({ userId, username, email, avatarUrl }: {
     })).toHexString();
 };
 
-export const getUser = async (userId: number) => {
+export const getUser = async (_id: Bson.ObjectId) => {
     return users.findOne({
-        userId,
+        _id,
+    }, { noCursorTimeout: false });
+};
+
+export const getUserByGitHubId = async (githubUserId: number) => {
+    return users.findOne({
+        githubUserId,
     }, { noCursorTimeout: false });
 };
 

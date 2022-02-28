@@ -38,7 +38,7 @@
       </H2>
       <div class="flex flex-col items-start gap-3 mt-4 mx-1.5">
         <Label>Email</Label> <span class="text-sm -mt-2">{accountInfo.email}</span>
-        <Label>User ID</Label> <span class="text-sm -mt-2">{accountInfo.userId}</span>
+        <Label>Connected GitHub User ID</Label> <span class="text-sm -mt-2">{accountInfo.githubUserId}</span>
         <Label>Account created</Label> <span class="text-sm -mt-2">{new Date(accountInfo.dateCreated).toLocaleDateString()}</span>
       </div>
     </Card>

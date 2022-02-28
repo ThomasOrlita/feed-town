@@ -31,7 +31,7 @@ export namespace Feed {
 
         export interface FeedSource {
             _id: Bson.ObjectId;
-            // owner: Bson.ObjectId;
+            owner: Bson.ObjectId;
             title: string;
             input: Feed.Source.Input;
             dateCreated: Date;
@@ -90,7 +90,7 @@ export namespace Feed {
             _id: Bson.ObjectId;
             title: string;
             dateCreated: Date;
-            author?: Bson.ObjectId;
+            owner: Bson.ObjectId;
             feedSources: Bson.ObjectId[];
         };
         export interface FeedCollectionWithFeedSources extends Omit<FeedCollection, 'feedSources'> {
@@ -105,7 +105,7 @@ export namespace Feed {
 export namespace Account {
     export interface User {
         _id: Bson.ObjectId;
-        userId: number;
+        githubUserId: number;
         username: string;
         email: string;
         dateCreated: Date;
@@ -145,7 +145,7 @@ export type Api = {
     getGitHubAuthUrl: () => string;
     getJwtTokenFromGitHubOAuth: (authCode: string) => Promise<{
         jwt: string;
-        _id: string;
+        userId: string;
     }>;
 
     // account

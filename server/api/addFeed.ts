@@ -2,8 +2,11 @@ import { Api } from "../api/Api.types.ts";
 import { feeds } from "../db/models/Feed.ts";
 import { fetchFeedItems } from "../feed/fetchFeedItems.ts";
 import type { Feed } from '../api/Api.types.ts';
+import { getUserIdFromJwtToken } from "./auth.ts";
 
 export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.Input, jwt?: string) => {
+    const userId = await getUserIdFromJwtToken(jwt);
+
     if (input.type === 'RSS') {
         if (!(input.url?.startsWith('http://') || input.url?.startsWith('https://'))) {
             throw new Error('Invalid URL');
@@ -33,6 +36,7 @@ export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.
     }
 
     const feedId = await feeds.insertOne({
+        owner: userId,
         input,
         title,
         dateCreated: new Date(),

@@ -61,8 +61,8 @@
     {/each}
   </Card>
 {:else}
-  <GenericMessage>
+  <!-- <GenericMessage>
     <FrownIcon size="20" class="mr-2" />
-    No feeds found
-  </GenericMessage>
+    No collections found
+  </GenericMessage> -->
 {/each}
