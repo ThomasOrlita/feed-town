@@ -9,25 +9,29 @@ body {
 }
 
 .outline {
-    outline-style: unset!important;
+  outline-style: unset !important;
 }
 
 .swiper {
   width: 100%;
   height: 100%;
 }
+
 .swiper-slide {
   display: flex;
   justify-content: center;
   align-items: center;
 }
 
-.checkbox > .selector {
+.checkbox>.selector {
   flex-shrink: 0;
 }
 
 .snackbar-stack.bottom {
-  bottom: 5em !important;
+  bottom: 4.5em !important;
+  position: absolute;
+  margin-left: 1.5em;
+  z-index: 100;
 }
 
 .modal-overlay {
@@ -35,7 +39,7 @@ body {
   padding: 1em;
 }
 
-.modal-overlay > div {
+.modal-overlay>div {
   max-height: 100%;
   overflow-y: auto;
   word-break: break-word;

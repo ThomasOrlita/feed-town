@@ -140,6 +140,8 @@ export type Api = {
     removeFeedFromCollection: (options: { collectionId: string; feedId: string; }, jwt?: string) => Promise<{}>;
     getFeedCollection: (options: { feedCollectionId: string; }, jwt?: string) => Promise<Feed.Collection.FeedCollectionWithFeedSources>;
     getFeedCollectionFeed: (options: { feedCollectionId: string; }, jwt?: string) => Promise<Feed.Item.FeedItem[]>;
+    renameFeedCollection: (options: { feedCollectionId: string; title: string; }, jwt?: string) => Promise<{}>;
+    deleteFeedCollection: (options: { feedCollectionId: string; }, jwt?: string) => Promise<{}>;
 
     // auth
     getGitHubAuthUrl: () => string;

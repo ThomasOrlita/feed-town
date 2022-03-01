@@ -6,6 +6,7 @@
   import { onMount } from 'svelte';
   import type { Feed } from '@server/api/Api.types';
   import { CheckIcon, TrashIcon } from 'svelte-feather-icons';
+  import { navigate } from 'svelte-routing';
 
   let collection: Feed.Collection.FeedCollectionWithFeedSources;
   onMount(async () => {
@@ -16,7 +17,6 @@
     }
   });
 
-  let collectionTitle: string;
   export let feedCollectionId: string;
 </script>
 
@@ -40,26 +40,42 @@
     <FormField name="Collection title">
       <TextField placeholder="New collection title" bind:value={collection.title} />
     </FormField>
-    <Button
-      filled
-      small
-      on:click={() => {
-        alert('todo update title');
-      }}>
-      <CheckIcon size="20" class="mr-2" />
-      Update title
-    </Button>
-
-    <Button
-      filled
-      small
-      danger
-      on:click={() => {
-        alert('todo delete');
-      }}>
-      <TrashIcon size="20" class="mr-2" />
-      Delete collection
-    </Button>
+    <div class="flex flex-row flex-wrap-reverse gap-4 justify-end">
+      <Button
+        filled
+        small
+        danger
+        on:click={async () => {
+          if (!confirm(`Do you want to delete the "${collection.title}" collection? Existing feeds will not be deleted.`)) return;
+          try {
+            await server.deleteFeedCollection({ feedCollectionId });
+            snackBarMessage.set(`Collection "${collection.title}" deleted`);
+            navigate(`/feeds/`);
+          } catch (error) {
+            snackBarMessage.set(error.message);
+          }
+        }}>
+        <TrashIcon size="20" class="mr-2" />
+        Remove collection
+      </Button>
+      <Button
+        filled
+        small
+        on:click={async () => {
+          try {
+            await server.renameFeedCollection({
+              feedCollectionId,
+              title: collection.title,
+            });
+            snackBarMessage.set('Collection title updated');
+          } catch (error) {
+            snackBarMessage.set(error.message);
+          }
+        }}>
+        <CheckIcon size="20" class="mr-2" />
+        Update title
+      </Button>
+    </div>
   </Card>
   <Card outline class="m-4 !overflow-visible">
     {#await server.getFeeds() then feeds}
