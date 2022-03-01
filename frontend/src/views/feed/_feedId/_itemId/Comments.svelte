@@ -47,7 +47,7 @@
       <NewCommentForm feedItemId={itemId} on:comment={newComment} />
     </Card>
 
-    <CommentsList comments={result.item.comments} />
+    <CommentsList comments={result.commentsPopulated} />
   {:catch error}
     <GenericMessage>
       <AlertCircleIcon size="20" class="mr-2" />

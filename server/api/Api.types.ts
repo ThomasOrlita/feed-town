@@ -73,7 +73,14 @@ export namespace Feed {
             _id: Bson.ObjectId;
             content: string;
             dateCreated: Date;
-            author?: Bson.ObjectId;
+            author: Bson.ObjectId;
+        };
+        export type CommentWithAuthorPopulated = Comment & {
+            authorInfo: {
+                _id: Bson.ObjectId;
+                username: string;
+                avatarUrl: string;
+            };
         };
 
         export interface FeedItem {
@@ -125,7 +132,11 @@ export type Api = {
     getFeed: (options: { feedId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
 
     // feed item
-    getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, item: Feed.Item.FeedItem; }>;
+    getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<{
+        feed: Feed.Source.FeedSource,
+        item: Feed.Item.FeedItem;
+        commentsPopulated: Feed.Item.CommentWithAuthorPopulated[];
+    }>;
 
     // comments
     addComment: (options: { itemId: string; comment: string; }, jwt?: string) => Promise<{ _id: string; }>;

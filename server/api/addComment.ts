@@ -33,6 +33,7 @@ export const addComment: Api['addComment'] = async ({ itemId, comment }: { itemI
                     _id: newCommentId,
                     content: comment,
                     dateCreated: new Date(),
+                    author: userId
                 }]
             },
         },
