@@ -14,6 +14,7 @@
         const jwtToken = await server.getJwtTokenFromGitHubOAuth(authCode);
 
         localStorage.setItem('jwt', jwtToken.jwt);
+        localStorage.setItem('id', jwtToken.userId);
         navigate('/account');
     };
 </script>

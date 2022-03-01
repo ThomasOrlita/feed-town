@@ -7,6 +7,7 @@ export { getFeed } from "./getFeed.ts";
 
 // feed item
 export { getFeedItem } from "./getFeedItem.ts";
+export { likeFeedItem } from "./likeFeedItem.ts";
 
 // comments
 export { addComment } from "./addComment.ts";
@@ -28,3 +29,4 @@ export { getGitHubAuthUrl, getJwtTokenFromGitHubOAuth } from "./auth.ts";
 
 // account
 export { getAccountInfo } from "./account.ts";
+export { getLikedFeedItems } from "./getLikedFeedItems.ts";

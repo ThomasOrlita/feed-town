@@ -6,5 +6,5 @@ $main: #388e3c;
 );
 
 :root {
-  --main: $main;
+  --main: #{$main};
 }

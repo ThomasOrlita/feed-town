@@ -23,14 +23,13 @@
 <Swiper modules={[Mousewheel, Navigation]} direction={'vertical'} mousewheel={true} on:slideChange={(event) => slideChanged(event.detail[0][0].activeIndex)} on:swiper={(e) => console.log(e.detail[0])}>
   {#each posts as post}
     <SwiperSlide>
-      {#if post.content.type === 'RSS'}
-        <RssItem feedId={post.feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} />
+      {#if post.content.type === 'RSS' || post.content.type === 'REDDIT_SUBREDDIT'}
+        <RssItem feedId={post.feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} isLiked={post.likes.includes(localStorage.getItem('id'))} />
       {:else if post.content.type === 'WIKIPEDIA_ARTICLE'}
         <Wikipedia title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} />
       {:else if post.content.type === 'TWITTER_USER_TIMELINE'}
         <Tweet feedId={post.feedId} itemId={post._id} url={post.content.url} />
-      {:else if post.content.type === 'REDDIT_SUBREDDIT'}
-        <RssItem feedId={post.feedId} itemId={post._id} title={post.content.title} imageUrl={post.content.imageUrl} url={post.content.url} description={post.content.description} />
+        
       {/if}
     </SwiperSlide>
   {:else}

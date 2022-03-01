@@ -1,15 +1,22 @@
 import {
     parseFeed,
-} from 'https://deno.land/x/rss@0.5.3/mod.ts';
+} from 'https://deno.land/x/rss@0.5.5/mod.ts';
 import { Feed } from "../../api/Api.types.ts";
 import { DOMParser } from "https://deno.land/x/deno_dom@v0.1.19-alpha/deno-dom-native.ts";
+import { FeedEntry } from "https://deno.land/x/rss@0.5.5/src/types/feed.ts";
 
 
 export const parse: Feed.FeedParser<'RSS'> = async (url: string) => {
     const response = await fetch(url);
     const xml = await response.text();
 
-    const { entries } = await parseFeed(xml);
+    let entries: FeedEntry[] = [];
+    try {
+        entries = (await parseFeed(xml)).entries;
+    } catch (e) {
+        console.error(e);
+        throw new Error(`Could not parse this feed. Please try again later.`);
+    }
 
     console.log(entries);
     const rssItems: Feed.Item.Rss[] = [];

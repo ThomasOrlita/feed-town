@@ -1,5 +1,8 @@
 <script lang="ts">
+  import server from '@/api/api';
+
   import { Headline, Subhead, H1, H2, H3, Label, Card, Button } from 'attractions';
+  import { HeartIcon } from 'svelte-feather-icons';
   import { links } from 'svelte-routing';
 
   export let feedId: string;
@@ -8,12 +11,13 @@
   export let imageUrl: string;
   export let description: string;
   export let url: string;
+  export let isLiked: boolean = false;
 </script>
 
 <article class="flex flex-col w-full">
   <section class="flex flex-col my-10">
-    <Card outline class="m-4 !overflow-visible">
-      <H2 class="mb-4 font-bold text-3xl">
+    <Card outline class="m-4 <mobile:m-1 !overflow-visible">
+      <H2 class="mb-4 font-bold text-3xl <mobile:leading-7">
         {title}
       </H2>
       <div class="flex flex-row">
@@ -34,8 +38,26 @@
         </div>
       </div>
       <div class="flex flex-row flex-wrap" use:links>
-        <Button class="mt-4 text-sm mr-auto" href={url} outline target="_blank">Read more</Button>
-        <Button class="mt-4 text-sm" href={`/feed/${feedId}/${itemId}/comments`} outline>Comments</Button>
+        <Button
+          class="mt-4 mr-auto place-self-center"
+          round
+          on:click={async () => {
+            isLiked = !isLiked;
+            await server.likeFeedItem({
+              itemId,
+              liked: isLiked,
+            });
+          }}>
+          <HeartIcon size="20" class={isLiked ? 'fill-$main' : ''} />
+        </Button>
+
+        <Button class="mt-4 text-sm mr-4" href={`/feed/${feedId}/${itemId}/comments`} small>Comments</Button>
+
+        <Button
+          class="mt-4 text-sm <mobile:w-full <mobile:justify-center"
+          href={url.startsWith('https://') ? url : 'about:invalid'}
+          filled
+          target="_blank">Read more</Button>
       </div>
     </Card>
   </section>
