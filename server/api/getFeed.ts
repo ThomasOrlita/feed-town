@@ -1,9 +1,10 @@
-import type { Api } from "../api/Api.types.ts";
+import type { Api, Feed } from "../api/Api.types.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 
 import { feedItems } from "../db/models/FeedItem.ts";
 import { feeds } from "../db/models/Feed.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
+import { aggregateFeedItems } from "../feed/aggregateFeedItems.ts";
 
 export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
@@ -15,9 +16,7 @@ export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: 
         throw new Error("Feed not found");
     }
 
-    const items = await feedItems.find({
-        feedId: new ObjectId(feedSourceId),
-    }, { noCursorTimeout: false }).toArray();
+    const items = await aggregateFeedItems(userId, new ObjectId(feedSourceId));
 
     return {
         feed,

@@ -78,6 +78,12 @@
         <HeartIcon size="20" class={(isLiked ? 'fill-$main' : '') + ' mr-2'} />
         {isLiked ? 'Added' : 'Add'} to favorites
       </Button>
+
+      <Button
+        class="mt-4 text-sm <mobile:w-full <mobile:justify-center"
+        href={feedItem.item.content.url.startsWith('https://') ? feedItem.item.content.url : 'about:invalid'}
+        filled
+        target="_blank">Read more</Button>
     </Card>
 
     <Card outline class="m-4 !overflow-visible">

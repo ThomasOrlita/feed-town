@@ -4,10 +4,11 @@ import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 import { feedItems } from "../db/models/FeedItem.ts";
 import { feedCollections } from "../db/models/FeedCollection.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
+import { aggregateFeedItems } from "../feed/aggregateFeedItems.ts";
 
 export const getFeedCollectionFeed: Api['getFeedCollectionFeed'] = async ({ feedCollectionId }: { feedCollectionId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
-    
+
     const feedCollection = await feedCollections.findOne({
         _id: new ObjectId(feedCollectionId),
         owner: userId
@@ -16,8 +17,7 @@ export const getFeedCollectionFeed: Api['getFeedCollectionFeed'] = async ({ feed
         throw new Error("Feed collection not found");
     }
 
-    const items = await feedItems.find({
-        feedId: { $in: feedCollection.feedSources },
-    }, { noCursorTimeout: false }).toArray();
+    const items = await aggregateFeedItems(userId, { $in: feedCollection.feedSources });
+
     return items;
 };

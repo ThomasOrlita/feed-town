@@ -23,11 +23,11 @@
       <div class="flex justify-end pl-1" use:links>
         <Button small round neutral class="ml-1" title="Add/remove feed from collections" href={`/feed/${feed._id}/collections`}>
           <EditIcon size="20" class="mr-2" />
-          Manage in collections
+          <span class="<sm:hidden">Manage in collections</span>
         </Button>
         <Button small round neutral class="ml-1" title="Add/remove feed from collections" href={`/feed/${feed._id}/collections`}>
           <SlidersIcon size="20" class="mr-2" />
-          Edit
+          <span class="<sm:hidden">Edit</span>
         </Button>
         <!-- <Button small rectangle href={`/feed/${feed._id}/collections`}>add to collection</Button> -->
       </div>

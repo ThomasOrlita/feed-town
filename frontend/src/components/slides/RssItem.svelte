@@ -22,23 +22,18 @@
       <H2 class="mb-4 font-bold text-3xl <mobile:leading-7">
         {title}
       </H2>
-      <Label small class="!text-cool-gray-500 !lowercase">
+      <Label small class="!text-cool-gray-500 !lowercase mb-1">
         {new URL(url).hostname}
       </Label>
-      <div class="flex flex-row">
+      <div class="flex flex-row pt-2">
         {#if imageUrl}
-          <div class="justify-center" style="max-width: 30%;">
+          <div class="justify-center mr-4" style="max-width: 30%;">
             <img src={imageUrl} alt={title} />
           </div>
         {/if}
         {#if type !== 'REDDIT_SUBREDDIT'}
-          <div class="flex-1 p-4">
-            <div
-              style="
-                            display: -webkit-box;
-                            -webkit-line-clamp: 8;
-                            -webkit-box-orient: vertical;
-                            overflow: hidden;">
+          <div class="flex-1">
+            <div class="description">
               {description}
             </div>
           </div>
@@ -69,3 +64,12 @@
     </Card>
   </section>
 </article>
+
+<style>
+  .description {
+    display: -webkit-box;
+    -webkit-line-clamp: 8;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
