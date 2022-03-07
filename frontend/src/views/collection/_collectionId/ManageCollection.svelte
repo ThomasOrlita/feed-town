@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { Button, Card, Checkbox, Divider, FormField, H2, Label, Loading, TextField } from 'attractions';
   import server from '@/api/api';
-  import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
   import { snackBarMessage } from '@/api/store';
-  import { onMount } from 'svelte';
+  import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
   import type { Feed } from '@server/api/Api.types';
+  import { Button, Card, Checkbox, FormField, H2, Label, Loading, TextField } from 'attractions';
+  import { onMount } from 'svelte';
   import { CheckIcon, TrashIcon } from 'svelte-feather-icons';
   import { navigate } from 'svelte-routing';
 
@@ -36,14 +36,22 @@
         text: 'Manage collection',
       },
     ]} />
+
   <Card outline class="m-4 !overflow-visible">
-    <FormField name="Collection title">
-      <TextField placeholder="New collection title" bind:value={collection.title} />
+    <H2 class="flex items-center">
+      {collection.title}
+    </H2>
+    <div class="flex flex-col items-start gap-3 mt-4 mx-1.5 mb-2">
+      <Label>Created</Label> <span class="text-sm -mt-2">{new Date(collection.dateCreated).toLocaleDateString()}</span>
+    </div>
+
+    <FormField>
+      <TextField label="Collection title" placeholder="New collection title" outline bind:value={collection.title} />
     </FormField>
     <div class="flex flex-row flex-wrap-reverse gap-4 justify-end">
       <Button
-        filled
         small
+        outline
         danger
         on:click={async () => {
           if (!confirm(`Do you want to delete the "${collection.title}" collection? Existing feeds will not be deleted.`)) return;
@@ -77,6 +85,7 @@
       </Button>
     </div>
   </Card>
+
   <Card outline class="m-4 !overflow-visible">
     {#await server.getFeeds() then feeds}
       <H2 class="flex items-center !mb-4">

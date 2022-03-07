@@ -1,7 +1,7 @@
 <script lang="ts">
   import server from '../api/api';
 
-  import Feed from '../components/feeds/Feed.svelte';
+  import Feed from '../components/feeds/FeedItems.svelte';
 
   let date = new Date();
 
