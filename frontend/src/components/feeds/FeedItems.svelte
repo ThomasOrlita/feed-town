@@ -41,6 +41,7 @@
     <SwiperSlide>
       {#if post.content.type === 'RSS' || post.content.type === 'REDDIT_SUBREDDIT'}
         <RssItem
+          type={post.content.type}
           feedId={post.feedId}
           itemId={post._id}
           title={post.content.title}

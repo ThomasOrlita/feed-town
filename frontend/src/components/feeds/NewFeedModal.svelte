@@ -68,7 +68,7 @@
       input = defaultInput;
 
       modalOpen = false;
-      navigate(`/feed/${newFeedResult.feedId}`);
+      navigate(`/feed/${newFeedResult.feedSourceId}`);
 
       console.log(newFeedResult);
       title = '';

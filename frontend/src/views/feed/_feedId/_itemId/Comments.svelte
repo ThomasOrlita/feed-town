@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Button, Card, H2, Loading } from 'attractions';
+  import { Button, Card, H2, Label, Loading } from 'attractions';
   import { AlertCircleIcon, HeartIcon } from 'svelte-feather-icons';
   import { Link } from 'svelte-routing';
 
@@ -13,7 +13,7 @@
   const newComment = (event: CustomEvent) => {
     latestCommentId = event.detail.commentId;
   };
-  export let feedId: string;
+  export let feedSourceId: string;
   export let itemId: string;
 
   let isLiked: boolean;
@@ -24,7 +24,7 @@
     isLiked = feedItem.item.likes.includes(localStorage.getItem('id'));
 
     server.markFeedItemAsViewed({
-      itemId
+      itemId,
     });
 
     return feedItem;
@@ -62,6 +62,9 @@
           {feedItem.item.content.title}
         </a>
       </H2>
+      <Label small class="!text-cool-gray-500 !lowercase">
+        {new URL(feedItem.item.content.url).hostname}
+      </Label>
       <Button
         class="mt-4 mr-auto place-self-center"
         round

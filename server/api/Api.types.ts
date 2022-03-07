@@ -130,8 +130,10 @@ export type Api = {
     getFeeds: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
 
     // feed
-    addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedId: string; }>;
-    getFeed: (options: { feedId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
+    addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedSourceId: string; }>;
+    getFeed: (options: { feedSourceId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
+    renameFeedSource: (options: { feedSourceId: string; title: string; }, jwt?: string) => Promise<{}>;
+    deleteFeedSource: (options: { feedSourceId: string; }, jwt?: string) => Promise<{}>;
 
     // feed item
     getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<{

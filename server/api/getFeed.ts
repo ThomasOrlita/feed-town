@@ -5,10 +5,10 @@ import { feedItems } from "../db/models/FeedItem.ts";
 import { feeds } from "../db/models/Feed.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 
-export const getFeed: Api['getFeed'] = async ({ feedId }: { feedId: string; }, jwt?: string) => {
+export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
     const feed = await feeds.findOne({
-        _id: new ObjectId(feedId),
+        _id: new ObjectId(feedSourceId),
         owner: userId
     }, { noCursorTimeout: false });
     if (!feed) {
@@ -16,7 +16,7 @@ export const getFeed: Api['getFeed'] = async ({ feedId }: { feedId: string; }, j
     }
 
     const items = await feedItems.find({
-        feedId: new ObjectId(feedId),
+        feedId: new ObjectId(feedSourceId),
     }, { noCursorTimeout: false }).toArray();
 
     return {

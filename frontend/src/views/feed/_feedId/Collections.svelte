@@ -2,12 +2,13 @@
   import { Button, Card, Checkbox, Divider, H2, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
   import { snackBarMessage } from '@/api/store';
-  import { PackageIcon, PlusIcon } from 'svelte-feather-icons';
+  import { PackageIcon, PlusIcon, SlidersIcon } from 'svelte-feather-icons';
   import type { Feed } from '@server/api/Api.types';
   import server from '@/api/api';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
+  import { links } from 'svelte-routing';
 
-  export let feedId: string;
+  export let feedSourceId: string;
 
   let newCollectionTitle: string;
   let newCollectionLoading: boolean = false;
@@ -16,7 +17,7 @@
   feedCollections = server.getFeedCollections();
 </script>
 
-{#await server.getFeed({ feedId })}
+{#await server.getFeed({ feedSourceId })}
   <div class="m-8">
     <Loading />
   </div>
@@ -24,11 +25,11 @@
   <SetBreadcrumbs
     items={[
       {
-        href: `/feed/${feedId}`,
+        href: `/feed/${feedSourceId}`,
         text: feed.title,
       },
       {
-        href: `/feed/${feedId}/collections`,
+        href: `/feed/${feedSourceId}/collections`,
         text: 'Manage collections',
       },
     ]} />
@@ -85,7 +86,12 @@
         </div>
       {:else}
         <div class="flex <sm:flex-col">
-          <TextField class="flex-1" outline label="Add to new collection" placeholder="New collection title" bind:value={newCollectionTitle} />
+          <TextField
+            class="flex-1"
+            outline
+            label="Add to new collection"
+            placeholder="New collection title"
+            bind:value={newCollectionTitle} />
           <div class="flex items-end ml-2 <sm:mt-2 <sm:ml-auto">
             <Button
               on:click={async () => {
@@ -115,4 +121,11 @@
       {/if}
     {/await}
   </Card>
+
+  <div class="flex flex-col items-start mx-4 my-2" use:links>
+    <Button filled href={`/feed/${feedSourceId}/manage`}>
+      <SlidersIcon size="20" class="mr-2" />
+      Manage feed options
+    </Button>
+  </div>
 {/await}

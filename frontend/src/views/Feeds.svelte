@@ -7,13 +7,25 @@
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
   import FeedCollectionList from '@/components/feeds/FeedCollectionList.svelte';
+  import type { Feed } from '@server/api/Api.types';
+
+  let feeds: Feed.Source.FeedSource[] = [];
+  let feedCollections: Feed.Collection.FeedCollectionWithFeedSources[] = [];
+
+  const loadData = async () => {
+    [feeds, feedCollections] = await Promise.all([server.getFeeds(), server.getFeedCollectionsWithFeedSources()]);
+  };
+
+  const feedCollectionsUpdated = (event: CustomEvent<Feed.Collection.FeedCollectionWithFeedSources[]>) => {
+    feedCollections = event.detail;
+  };
 </script>
 
-{#await Promise.all([server.getFeeds(), server.getFeedCollectionsWithFeedSources()])}
+{#await loadData()}
   <div class="m-auto">
     <Loading />
   </div>
-{:then [feeds, feedCollections]}
+{:then}
   <SetBreadcrumbs
     items={[
       {
@@ -21,7 +33,7 @@
         text: `My Feeds`,
       },
     ]} />
-  <FeedCollectionList {feedCollections} />
+  <FeedCollectionList {feedCollections} on:feedCollectionsUpdated={feedCollectionsUpdated} />
   <FeedList {feeds} hiddenFeedIds={feedCollections.flatMap((collection) => collection.feedSources.map((source) => source._id))} />
 {:catch error}
   <GenericMessage>

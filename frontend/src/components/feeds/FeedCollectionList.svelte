@@ -2,11 +2,14 @@
   import type { Feed } from '@server/api/Api.types';
   import { link, links } from 'svelte-routing';
   import { Button, Card, H2, Label } from 'attractions';
-  import { EditIcon, FrownIcon, MinusIcon, PackageIcon, RssIcon, TwitterIcon } from 'svelte-feather-icons';
+  import { EditIcon, FrownIcon, MinusIcon, PackageIcon, RssIcon, SlidersIcon, TwitterIcon } from 'svelte-feather-icons';
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
   import server from '@/api/api';
+  import { createEventDispatcher } from 'svelte';
 
   export let feedCollections: Feed.Collection.FeedCollectionWithFeedSources[];
+
+  const dispatch = createEventDispatcher();
 
   const addOrRemoveFeed = async (feed: Feed.Source.FeedSource, feedCollection: Feed.Collection.FeedCollection, type: 'add' | 'remove') => {
     const collection = feedCollections.find((collection) => collection._id === feedCollection._id);
@@ -16,6 +19,8 @@
       collection.feedSources.push(feed);
     } else {
       collection.feedSources = collection.feedSources.filter((source) => source._id !== feed._id);
+
+      dispatch('feedCollectionsUpdated', feedCollections);
     }
     feedCollections = feedCollections;
   };
@@ -32,7 +37,7 @@
       <div class="flex items-center pl-1" use:links>
         {#if feed.input.type === 'TWITTER_USER_TIMELINE'}
           <TwitterIcon size="16" class="mr-2" />
-        {:else if feed.input.type === 'RSS'}
+        {:else if feed.input.type === 'RSS' || feed.input.type === 'REDDIT_SUBREDDIT'}
           <RssIcon size="16" class="mr-2" />
         {/if}
 

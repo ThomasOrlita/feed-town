@@ -45,6 +45,6 @@ export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.
     await fetchFeedItems(feedId);
 
     return {
-        feedId: feedId.toHexString()
+        feedSourceId: feedId.toHexString()
     };
 };

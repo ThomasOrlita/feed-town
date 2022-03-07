@@ -1,10 +1,12 @@
 <script lang="ts">
   import server from '@/api/api';
+  import type { Feed } from '@server/api/Api.types';
 
   import { Headline, Subhead, H1, H2, H3, Label, Card, Button } from 'attractions';
   import { HeartIcon } from 'svelte-feather-icons';
   import { links } from 'svelte-routing';
 
+  export let type: Feed.Type;
   export let feedId: string;
   export let itemId: string;
   export let title: string;
@@ -20,22 +22,27 @@
       <H2 class="mb-4 font-bold text-3xl <mobile:leading-7">
         {title}
       </H2>
+      <Label small class="!text-cool-gray-500 !lowercase">
+        {new URL(url).hostname}
+      </Label>
       <div class="flex flex-row">
         {#if imageUrl}
           <div class="justify-center" style="max-width: 30%;">
             <img src={imageUrl} alt={title} />
           </div>
         {/if}
-        <div class="flex-1 p-4">
-          <div
-            style="
+        {#if type !== 'REDDIT_SUBREDDIT'}
+          <div class="flex-1 p-4">
+            <div
+              style="
                             display: -webkit-box;
                             -webkit-line-clamp: 8;
                             -webkit-box-orient: vertical;
                             overflow: hidden;">
-            {description}
+              {description}
+            </div>
           </div>
-        </div>
+        {/if}
       </div>
       <div class="flex flex-row flex-wrap" use:links>
         <Button

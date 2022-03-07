@@ -2,7 +2,7 @@
   import { Button, Label, Loading } from 'attractions';
 
   import server from '@/api/api';
-  import { AlertCircleIcon, EditIcon, ListIcon } from 'svelte-feather-icons';
+  import { AlertCircleIcon, EditIcon, ListIcon, SlidersIcon } from 'svelte-feather-icons';
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
   import Feed from '@/components/feeds/FeedItems.svelte';
@@ -32,11 +32,11 @@
       feedSources: {feedCollection.feedSources.length} <br /> -->
 
       <Link to={`/collection/${feedCollectionId}/manage`} class="flex items-center">
-        <ListIcon size="20" class="mr-1.5" />
+        <ListIcon size="16" class="mr-1.5" />
         <Label small class="<sm:hidden !text-inherit">{feedCollection.feedSources.length} feed{s(feedCollection.feedSources.length)}</Label>
       </Link>
       <Link to={`/collection/${feedCollectionId}/manage`} class="flex items-center ml-auto">
-        <EditIcon size="20" class="mr-1.5" />
+        <SlidersIcon size="16" class="mr-1.5" />
         <Label small class="<sm:hidden !text-inherit">Manage collection</Label>
       </Link>
     </section>

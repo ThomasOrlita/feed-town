@@ -17,6 +17,7 @@
   import Collection from '@/views/collection/Collection.svelte';
   import ManageCollection from '@/views/collection/_collectionId/ManageCollection.svelte';
   import GitHubLogin from './views/account/GitHubLogin.svelte';
+import ManageFeed from './views/feed/_feedId/ManageFeed.svelte';
 
   export let url = '';
 
@@ -59,14 +60,17 @@
       <Route path="collection/:feedCollectionId" let:params>
         <Collection feedCollectionId={params.feedCollectionId} />
       </Route>
-      <Route path="feed/:feedId/collections" let:params>
-        <Collections feedId={params.feedId} />
+      <Route path="feed/:feedSourceId/manage" let:params>
+        <ManageFeed feedSourceId={params.feedSourceId} />
       </Route>
-      <Route path="feed/:feedId/:itemId/comments" let:params>
-        <Comments feedId={params.feedId} itemId={params.itemId} />
+      <Route path="feed/:feedSourceId/collections" let:params>
+        <Collections feedSourceId={params.feedSourceId} />
       </Route>
-      <Route path="feed/:feedId" let:params>
-        <Feed feedId={params.feedId} />
+      <Route path="feed/:feedSourceId/:itemId/comments" let:params>
+        <Comments feedSourceId={params.feedSourceId} itemId={params.itemId} />
+      </Route>
+      <Route path="feed/:feedSourceId" let:params>
+        <Feed feedSourceId={params.feedSourceId} />
       </Route>
       <Route path="feeds" component={Feeds} />
       <Route path="feed" component={HomeFeed} />
