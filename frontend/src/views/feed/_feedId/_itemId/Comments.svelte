@@ -23,6 +23,10 @@
 
     isLiked = feedItem.item.likes.includes(localStorage.getItem('id'));
 
+    server.markFeedItemAsViewed({
+      itemId
+    });
+
     return feedItem;
   };
 </script>

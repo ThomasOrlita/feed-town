@@ -8,6 +8,7 @@ export { getFeed } from "./getFeed.ts";
 // feed item
 export { getFeedItem } from "./getFeedItem.ts";
 export { likeFeedItem } from "./likeFeedItem.ts";
+export { markFeedItemAsViewed } from "./markFeedItemAsViewed.ts";
 
 // comments
 export { addComment } from "./addComment.ts";

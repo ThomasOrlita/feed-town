@@ -90,6 +90,7 @@ export namespace Feed {
             content: Feed.Item.Content;
             dateCreated: Date;
             likes: Bson.ObjectId[];
+            views: Bson.ObjectId[];
         };
     }
 
@@ -139,6 +140,7 @@ export type Api = {
         commentsPopulated: Feed.Item.CommentWithAuthorPopulated[];
     }>;
     likeFeedItem: (options: { itemId: string; liked: boolean; }, jwt?: string) => Promise<{}>;
+    markFeedItemAsViewed: (options: { itemId: string; }, jwt?: string) => Promise<{}>;
 
     // comments
     addComment: (options: { itemId: string; comment: string; }, jwt?: string) => Promise<{ _id: string; }>;

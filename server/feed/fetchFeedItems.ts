@@ -49,6 +49,7 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
                 content,
                 dateCreated: new Date(),
                 likes: [],
+                views: [],
             });
         }
     }
