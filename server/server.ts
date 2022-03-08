@@ -12,7 +12,7 @@ try {
         serializer: {
             deserialization: (data: string) => JSON.parse(data),
             serialization: (data: any) => JSON.stringify(data, (_key, value) => {
-                if (typeof value.toHexString === "function") {
+                if (typeof value?.toHexString === "function") {
                     return value.toHexString();
                 } else if (value === null) {
                     return undefined;
