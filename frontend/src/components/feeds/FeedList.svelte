@@ -25,11 +25,10 @@
           <EditIcon size="20" class="mr-2" />
           <span class="<sm:hidden">Manage in collections</span>
         </Button>
-        <Button small round neutral class="ml-1" title="Add/remove feed from collections" href={`/feed/${feed._id}/collections`}>
+        <Button small round neutral class="ml-1" href={`/feed/${feed._id}/manage`}>
           <SlidersIcon size="20" class="mr-2" />
           <span class="<sm:hidden">Edit</span>
         </Button>
-        <!-- <Button small rectangle href={`/feed/${feed._id}/collections`}>add to collection</Button> -->
       </div>
       <!-- <ClockIcon size="16" class="mr-1.5" />
       <Label small class="!text-inherit">Last updated: {new Date(feed.lastChecked).toLocaleString()}</Label> -->

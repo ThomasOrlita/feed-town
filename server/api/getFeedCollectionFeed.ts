@@ -11,7 +11,7 @@ export const getFeedCollectionFeed: Api['getFeedCollectionFeed'] = async ({ feed
 
     const feedCollection = await feedCollections.findOne({
         _id: new ObjectId(feedCollectionId),
-        owner: userId
+        $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });
     if (!feedCollection) {
         throw new Error("Feed collection not found");

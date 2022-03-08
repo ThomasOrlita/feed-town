@@ -57,7 +57,7 @@
           }}>
           <MinusIcon size="20" />
         </Button>
-        <Button small round neutral class="ml-1" title="Add/remove feed from collections" href={`/feed/${feed._id}/collections`}>
+        <Button small round neutral class="ml-1" href={`/feed/${feed._id}/manage`}>
           <EditIcon size="20" />
         </Button>
       </div>

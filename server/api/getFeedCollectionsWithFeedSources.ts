@@ -21,7 +21,7 @@ export const getFeedCollectionsWithFeedSources: Api['getFeedCollectionsWithFeedS
         for (const feedId of collection.feedSources) {
             const feed = await feeds.findOne({
                 _id: new ObjectId(feedId),
-                owner: userId
+                $or: [{ owner: userId }, { public: true }],
             }, { noCursorTimeout: false });
             if (!feed) {
                 throw new Error(`Feed ${feedId} not found`);

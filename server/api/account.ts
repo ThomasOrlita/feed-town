@@ -1,4 +1,4 @@
-import { Bson } from "https://deno.land/x/mongo@v0.28.0/deps.ts";
+import { Bson, ObjectId } from "https://deno.land/x/mongo@v0.28.0/deps.ts";
 import { users } from "../db/models/User.ts";
 import { Account, Api } from "./Api.types.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
@@ -58,4 +58,16 @@ export const getAccountInfo: Api["getAccountInfo"] = async (jwt?: string) => {
     //     email: user.email,
     //     avatarUrl: user.avatarUrl,
     // };
+};
+
+export const getPublicAccountInfo: Api["getPublicAccountInfo"] = async (userId: string, jwt?: string) => {
+    if (!await getUserIdFromJwtToken(jwt)) throw new Error("Invalid JWT token");
+
+    const user = await getUser(new ObjectId(userId));
+    if (!user) throw new Error("User not found");
+    return {
+        _id: user._id,
+        username: user.username,
+        avatarUrl: user.avatarUrl,
+    };
 };

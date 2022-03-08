@@ -4,18 +4,20 @@
     import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
     import type { Feed } from '@server/api/Api.types';
     import { Button, Card, Checkbox, FormField, H2, Label, Loading, TextField } from 'attractions';
-    import { onMount } from 'svelte';
-    import { CheckIcon, EditIcon, GlobeIcon, LockIcon, TrashIcon } from 'svelte-feather-icons';
+    import { CheckIcon, EditIcon, GlobeIcon, LockIcon, TrashIcon, UnlockIcon } from 'svelte-feather-icons';
     import { Link, navigate, links } from 'svelte-routing';
 
     let feedSource: Feed.Source.FeedSource;
-    onMount(async () => {
-        try {
-            feedSource = (await server.getFeed({ feedSourceId })).feed;
-        } catch (error) {
-            snackBarMessage.set(error.message);
-        }
-    });
+    $: {
+        server
+            .getFeed({ feedSourceId })
+            .then(({ feed }) => {
+                feedSource = feed;
+            })
+            .catch((error) => {
+                snackBarMessage.set(error.message);
+            });
+    }
 
     export let feedSourceId: string;
 </script>
@@ -45,15 +47,18 @@
             <Label>Created</Label> <span class="text-sm -mt-2">{new Date(feedSource.dateCreated).toLocaleDateString()}</span>
             <Label>Visibility</Label>
             <span class="text-sm -mt-2 flex items-center">
-                <LockIcon size="16" class="mr-2" />
-                Private
-                <GlobeIcon size="16" class="mr-2" />
-                Public
+                {#if feedSource.public}
+                    <GlobeIcon size="16" class="mr-2" />
+                    Public
+                {:else}
+                    <LockIcon size="16" class="mr-2" />
+                    Private
+                {/if}
             </span>
             <Label>Last updated</Label> <span class="text-sm -mt-2">{new Date(feedSource.lastChecked).toLocaleString()}</span>
             {#if feedSource.input.type === 'RSS'}
                 <Label>Type</Label> <span class="text-sm -mt-2">RSS source</span>
-                <Label>URL</Label> <span class="text-sm -mt-2">{feedSource.input.url}</span>
+                <Label>URL</Label> <span class="text-sm -mt-2 break-all">{feedSource.input.url}</span>
             {:else if feedSource.input.type === 'TWITTER_USER_TIMELINE'}
                 <Label>Type</Label> <span class="text-sm -mt-2">Twitter timeline</span>
                 <Label>Username</Label> <span class="text-sm -mt-2">@{feedSource.input.username}</span>
@@ -63,6 +68,15 @@
             {:else if feedSource.input.type === 'WIKIPEDIA_ARTICLE'}
                 <Label>Type</Label> <span class="text-sm -mt-2">Wikipedia</span>
             {/if}
+            {#if localStorage.getItem('id') !== feedSource.owner}
+                {#await server.getPublicAccountInfo(feedSource.owner) then ownerUser}
+                    <Label>Owner</Label>
+                    <span class="flex items-center text-sm -mt-2">
+                        <img src={ownerUser.avatarUrl} class="max-w-6 max-h-6 mr-2 place-self-center rounded-1" alt={ownerUser.username} />
+                        {ownerUser.username}
+                    </span>
+                {/await}
+            {/if}
         </div>
 
         {#if localStorage.getItem('id') === feedSource.owner}
@@ -70,6 +84,27 @@
                 <TextField label="Feed title" placeholder="New feed title" outline bind:value={feedSource.title} />
             </FormField>
             <div class="flex flex-row flex-wrap-reverse gap-4 justify-end">
+                {#if !feedSource.public}
+                    <Button
+                        small
+                        outline
+                        neutral
+                        on:click={async () => {
+                            try {
+                                if (!confirm(`Are you sure you want to make the "${feedSource.title}" feed public? This cannot be undone.`))
+                                    return;
+                                await server.setFeedSourceAsPublic({
+                                    feedSourceId,
+                                });
+                                feedSource.public = true;
+                            } catch (error) {
+                                snackBarMessage.set(error.message);
+                            }
+                        }}>
+                        <UnlockIcon size="20" class="mr-2" />
+                        Make public
+                    </Button>
+                {/if}
                 <Button
                     small
                     outline

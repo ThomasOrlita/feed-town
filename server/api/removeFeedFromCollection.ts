@@ -5,6 +5,16 @@ import { feedCollections } from "../db/models/FeedCollection.ts";
 import { feeds } from "../db/models/Feed.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 
+export const removeFeedFromCollectionPrivate = async ({ collectionId, feedId }: { collectionId: string; feedId: string; }) => {
+    return await feedCollections.updateOne({
+        _id: new ObjectId(collectionId),
+    }, {
+        $pull: {
+            feedSources: new ObjectId(feedId),
+        },
+    });
+};
+
 export const removeFeedFromCollection: Api['removeFeedFromCollection'] = async ({ collectionId, feedId }: { collectionId: string; feedId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
 
@@ -17,19 +27,12 @@ export const removeFeedFromCollection: Api['removeFeedFromCollection'] = async (
     }
     const feed = await feeds.findOne({
         _id: new ObjectId(feedId),
-        owner: userId
     }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error("Feed not found");
     }
 
-    if (await feedCollections.updateOne({
-        _id: new ObjectId(collectionId),
-    }, {
-        $pull: {
-            feedSources: feed._id,
-        },
-    })) {
+    if (await removeFeedFromCollectionPrivate({ collectionId, feedId })) {
         return {};
     }
     throw new Error("Failed to remove feed from collection");

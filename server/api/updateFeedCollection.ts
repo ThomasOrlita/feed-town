@@ -3,6 +3,7 @@ import { Api } from "../api/Api.types.ts";
 import { feedCollections } from "../db/models/FeedCollection.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 import { removeFeedFromCollection } from "./removeFeedFromCollection.ts";
+import { setFeedSourceAsPublic } from "./updateFeedSource.ts";
 
 export const renameFeedCollection: Api['renameFeedCollection'] = async ({ feedCollectionId, title }: { feedCollectionId: string; title: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
@@ -30,16 +31,39 @@ export const deleteFeedCollection: Api['deleteFeedCollection'] = async ({ feedCo
 
     if (!feedCollection) throw new Error("Feed collection not found");
 
-    for (const feedSourceId of feedCollection?.feedSources ?? []) {
-        await removeFeedFromCollection({
-            collectionId: feedCollectionId,
-            feedId: feedSourceId.toHexString()
-        }, jwt);
-    }
-
     await feedCollections.deleteOne({
         _id: new Bson.ObjectId(feedCollectionId),
         owner: userId
+    });
+
+    return {};
+};
+
+export const setFeedCollectionAsPublic: Api['setFeedCollectionAsPublic'] = async ({ feedCollectionId }: { feedCollectionId: string; }, jwt?: string) => {
+    const userId = await getUserIdFromJwtToken(jwt);
+
+
+    const feedCollection = await feedCollections.findOne({
+        _id: new Bson.ObjectId(feedCollectionId),
+        owner: userId
+    }, { noCursorTimeout: false });
+
+    if (!feedCollection) throw new Error("Feed collection not found");
+
+
+    for (const feedSourceId of feedCollection?.feedSources ?? []) {
+        await setFeedSourceAsPublic({
+            feedSourceId: feedSourceId.toHexString()
+        }, jwt);
+    }
+
+    await feedCollections.updateOne({
+        _id: new Bson.ObjectId(feedCollectionId),
+        owner: userId
+    }, {
+        $set: {
+            public: true
+        }
     });
 
     return {};

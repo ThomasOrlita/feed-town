@@ -17,7 +17,7 @@ export const addComment: Api['addComment'] = async ({ itemId, comment }: { itemI
 
     const feed = await feeds.findOne({
         _id: feedItem.feedId,
-        owner: userId
+        $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error("Feed not found");

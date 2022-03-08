@@ -10,7 +10,7 @@ export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: 
     const userId = await getUserIdFromJwtToken(jwt);
     const feed = await feeds.findOne({
         _id: new ObjectId(feedSourceId),
-        owner: userId
+        $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error("Feed not found");

@@ -35,7 +35,7 @@
   {:then accountInfo}
     <Card outline class="m-4 !overflow-visible">
       <H2 class="flex items-center">
-        <img src={accountInfo.avatarUrl} class="max-w-10 mr-2" alt={accountInfo.username} />
+        <img src={accountInfo.avatarUrl} class="max-w-10 mr-2 rounded-1" alt={accountInfo.username} />
         {accountInfo.username}
       </H2>
       <div class="flex flex-col items-start gap-3 mt-4 mx-1.5">

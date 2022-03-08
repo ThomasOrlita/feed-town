@@ -37,6 +37,7 @@ export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.
 
     const feedId = await feeds.insertOne({
         owner: userId,
+        public: false,
         input,
         title,
         dateCreated: new Date(),

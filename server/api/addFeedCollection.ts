@@ -9,7 +9,8 @@ export const addFeedCollection: Api['addFeedCollection'] = async ({ title }: { t
         title,
         dateCreated: new Date(),
         feedSources: [],
-        owner: userId
+        owner: userId,
+        public: false,
     });
 
     return {

@@ -18,7 +18,7 @@ export const getFeedItem: Api['getFeedItem'] = async ({ itemId }: { itemId: stri
 
     const feed = await feeds.findOne({
         _id: feedItem.feedId,
-        owner: userId
+        $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error("Feed not found");

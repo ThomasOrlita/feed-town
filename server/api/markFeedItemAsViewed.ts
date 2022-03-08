@@ -17,7 +17,7 @@ export const markFeedItemAsViewed: Api['markFeedItemAsViewed'] = async ({ itemId
 
     const feed = await feeds.findOne({
         _id: feedItem.feedId,
-        owner: userId
+        $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error("Feed not found");
@@ -27,7 +27,7 @@ export const markFeedItemAsViewed: Api['markFeedItemAsViewed'] = async ({ itemId
         _id: new ObjectId(itemId),
         feedId: feed._id,
     }, {
-         $addToSet: {
+        $addToSet: {
             views: userId
         }
     });

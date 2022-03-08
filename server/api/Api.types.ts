@@ -32,6 +32,7 @@ export namespace Feed {
         export interface FeedSource {
             _id: Bson.ObjectId;
             owner: Bson.ObjectId;
+            public: boolean;
             title: string;
             input: Feed.Source.Input;
             dateCreated: Date;
@@ -100,6 +101,7 @@ export namespace Feed {
             title: string;
             dateCreated: Date;
             owner: Bson.ObjectId;
+            public: boolean;
             feedSources: Bson.ObjectId[];
         };
         export interface FeedCollectionWithFeedSources extends Omit<FeedCollection, 'feedSources'> {
@@ -120,6 +122,11 @@ export namespace Account {
         dateCreated: Date;
         avatarUrl: string;
     };
+    export interface PublicUserInfo {
+        _id: Bson.ObjectId;
+        username: string;
+        avatarUrl: string;
+    };
 }
 
 // types of all exposed API functions
@@ -134,6 +141,7 @@ export type Api = {
     getFeed: (options: { feedSourceId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
     renameFeedSource: (options: { feedSourceId: string; title: string; }, jwt?: string) => Promise<{}>;
     deleteFeedSource: (options: { feedSourceId: string; }, jwt?: string) => Promise<{}>;
+    setFeedSourceAsPublic: (options: { feedSourceId: string; }, jwt?: string) => Promise<{}>;
 
     // feed item
     getFeedItem: (options: { itemId: string; }, jwt?: string) => Promise<{
@@ -159,6 +167,7 @@ export type Api = {
     getFeedCollectionFeed: (options: { feedCollectionId: string; }, jwt?: string) => Promise<Feed.Item.FeedItem[]>;
     renameFeedCollection: (options: { feedCollectionId: string; title: string; }, jwt?: string) => Promise<{}>;
     deleteFeedCollection: (options: { feedCollectionId: string; }, jwt?: string) => Promise<{}>;
+    setFeedCollectionAsPublic: (options: { feedCollectionId: string; }, jwt?: string) => Promise<{}>;
 
     // auth
     getGitHubAuthUrl: () => string;
@@ -169,5 +178,6 @@ export type Api = {
 
     // account
     getAccountInfo: (jwt?: string) => Promise<Account.User>;
+    getPublicAccountInfo: (userId: string, jwt?: string) => Promise<Account.PublicUserInfo>;
     getLikedFeedItems: (jwt?: string) => Promise<Feed.Item.FeedItem[]>;
 };

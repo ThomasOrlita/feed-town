@@ -16,10 +16,13 @@ export const addFeedToCollection: Api['addFeedToCollection'] = async ({ collecti
     }
     const feed = await feeds.findOne({
         _id: new ObjectId(feedId),
-        owner: userId
+        $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error("Feed not found");
+    }
+    if (feedCollection.public === true && feed.public === false) {
+        throw new Error("You cannot add a private feed to a public collection.");
     }
 
     if (await feedCollections.updateOne({
