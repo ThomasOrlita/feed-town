@@ -2,7 +2,7 @@
   import { Swiper, SwiperSlide } from 'swiper/svelte';
   import 'swiper/css';
   import 'swiper/css/navigation';
-  import { Navigation, Mousewheel } from 'swiper';
+  import { Navigation, Mousewheel, Keyboard } from 'swiper';
   import RssItem from '@/components/slides/RssItem.svelte';
   import Tweet from '@/components/slides/Tweet.svelte';
   import Wikipedia from '@/components/slides/Wikipedia.svelte';
@@ -32,9 +32,13 @@
 </script>
 
 <Swiper
-  modules={[Mousewheel, Navigation]}
+  modules={[Mousewheel, Navigation, Keyboard]}
   direction={'vertical'}
   mousewheel={true}
+  keyboard={{
+    enabled: true,
+    onlyInViewport: true,
+  }}
   on:slideChange={(event) => slideChanged(event.detail[0][0].activeIndex)}
   on:swiper={(e) => console.log(e.detail[0])}>
   {#each posts as post}
