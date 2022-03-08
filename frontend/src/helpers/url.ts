@@ -1,0 +1,1 @@
+export const sanitizeUrl = (url: string): string => (url.startsWith('http://') || url.startsWith('https://')) ? url : 'about:invalid';

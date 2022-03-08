@@ -65,6 +65,8 @@
                 </Link>
               </div>
             </div>
+          {:else}
+            <Label small class="!text-inherit">You haven't liked any posts yet.</Label>
           {/each}
         </div>
 

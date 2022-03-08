@@ -1,5 +1,6 @@
 <script lang="ts">
   import server from '@/api/api';
+import { sanitizeUrl } from '@/helpers/url';
   import type { Feed } from '@server/api/Api.types';
 
   import { Headline, Subhead, H1, H2, H3, Label, Card, Button } from 'attractions';
@@ -57,7 +58,7 @@
 
         <Button
           class="mt-4 text-sm <mobile:w-full <mobile:justify-center"
-          href={url.startsWith('https://') ? url : 'about:invalid'}
+          href={sanitizeUrl(url)}
           filled
           target="_blank">Read more</Button>
       </div>

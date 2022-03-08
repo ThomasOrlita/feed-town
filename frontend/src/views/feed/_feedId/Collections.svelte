@@ -2,7 +2,7 @@
   import { Button, Card, Checkbox, Divider, H2, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
   import { snackBarMessage } from '@/api/store';
-  import { PackageIcon, PlusIcon, SlidersIcon } from 'svelte-feather-icons';
+  import { EyeIcon, PackageIcon, PlusIcon, SlidersIcon } from 'svelte-feather-icons';
   import type { Feed } from '@server/api/Api.types';
   import server from '@/api/api';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
@@ -65,8 +65,18 @@
             }
           }}>
           <div class="ml-4 flex flex-col">
-            {collection.title} <small>{collection._id}</small>
+            {collection.title}
             <Label class="w-full" small>{collection.feedSources.length} feed{s(collection.feedSources.length)}</Label>
+          </div>
+          <div class="flex ml-auto pl-1" use:links>
+            <Button small round neutral class="ml-1" href={`/collection/${collection._id}/`}>
+              <EyeIcon size="16" class="mr-2" />
+              <span class="<sm:hidden">View</span>
+            </Button>
+            <Button small round neutral class="ml-1" href={`/collection/${collection._id}/manage`}>
+              <SlidersIcon size="16" class="mr-2" />
+              <span class="<sm:hidden">Manage</span>
+            </Button>
           </div>
         </Checkbox>
       {/each}
