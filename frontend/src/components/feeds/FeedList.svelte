@@ -22,12 +22,12 @@
       </H2>
       <div class="flex justify-end pl-1" use:links>
         <Button small round neutral class="ml-1" title="Add/remove feed from collections" href={`/feed/${feed._id}/collections`}>
-          <EditIcon size="20" class="mr-2" />
-          <span class="<sm:hidden">Manage in collections</span>
+          <EditIcon size="20" />
+          <span class="ml-2 <sm:hidden">Manage in collections</span>
         </Button>
         <Button small round neutral class="ml-1" href={`/feed/${feed._id}/manage`}>
-          <SlidersIcon size="20" class="mr-2" />
-          <span class="<sm:hidden">Edit</span>
+          <SlidersIcon size="20" />
+          <span class="ml-2 <sm:hidden">Edit</span>
         </Button>
       </div>
       <!-- <ClockIcon size="16" class="mr-1.5" />

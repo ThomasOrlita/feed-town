@@ -2,7 +2,7 @@
   import { Button, Card, Checkbox, Divider, H2, Label, Loading, TextField } from 'attractions';
   import { s } from 'attractions/utils';
   import { snackBarMessage } from '@/api/store';
-  import { EyeIcon, PackageIcon, PlusIcon, SlidersIcon } from 'svelte-feather-icons';
+  import { EyeIcon, LockIcon, PackageIcon, PlusIcon, SlidersIcon } from 'svelte-feather-icons';
   import type { Feed } from '@server/api/Api.types';
   import server from '@/api/api';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
@@ -41,6 +41,7 @@
       {#each collections as collection}
         <Checkbox
           class="mb-4"
+          disabled={collection.public === true && feed.public === false}
           checked={collection.feedSources.includes(feed._id)}
           on:change={async (event) => {
             if (event.detail.checked) {
@@ -65,17 +66,22 @@
             }
           }}>
           <div class="ml-4 flex flex-col">
-            {collection.title}
+            <div class="flex items-center">
+              {#if collection.public === true && feed.public === false}
+                <LockIcon size="16" class="-ml-1 mr-1.5" />
+              {/if}
+              {collection.title}
+            </div>
             <Label class="w-full" small>{collection.feedSources.length} feed{s(collection.feedSources.length)}</Label>
           </div>
           <div class="flex ml-auto pl-1" use:links>
             <Button small round neutral class="ml-1" href={`/collection/${collection._id}/`}>
-              <EyeIcon size="16" class="mr-2" />
-              <span class="<sm:hidden">View</span>
+              <EyeIcon size="16" />
+              <span class="ml-2 <sm:hidden">View</span>
             </Button>
             <Button small round neutral class="ml-1" href={`/collection/${collection._id}/manage`}>
-              <SlidersIcon size="16" class="mr-2" />
-              <span class="<sm:hidden">Manage</span>
+              <SlidersIcon size="16" />
+              <span class="ml-2 <sm:hidden">Manage</span>
             </Button>
           </div>
         </Checkbox>

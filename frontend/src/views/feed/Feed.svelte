@@ -33,12 +33,12 @@
   <nav class="-mt-2 -mx-2 px-4 py-2 bg-light-200 border-b-gray-200 border-b-width-1px">
     <section class="flex flex-row" use:links>
       <div class="flex items-center">
-        <ClockIcon size="16" class="mr-1.5" />
-        <Label small class="!text-inherit">Last updated: {new Date(feedSource.feed.lastChecked).toLocaleString()}</Label>
+        <ClockIcon size="16" />
+        <Label small class="ml-1.5 !text-inherit">Last updated: {new Date(feedSource.feed.lastChecked).toLocaleString()}</Label>
       </div>
       <Link to={`/feed/${feedSource.feed._id}/manage`} class="flex items-center ml-auto">
-        <SlidersIcon size="16" class="mr-1.5" />
-        <Label small class="<sm:hidden !text-inherit">Manage feed</Label>
+        <SlidersIcon size="16" />
+        <Label small class="ml-1.5 <sm:hidden !text-inherit">Manage feed</Label>
       </Link>
     </section>
   </nav>

@@ -32,12 +32,12 @@
       feedSources: {feedCollection.feedSources.length} <br /> -->
 
       <Link to={`/collection/${feedCollectionId}/manage`} class="flex items-center">
-        <ListIcon size="16" class="mr-1.5" />
-        <Label small class="<sm:hidden !text-inherit">{feedCollection.feedSources.length} feed{s(feedCollection.feedSources.length)}</Label>
+        <ListIcon size="16" />
+        <Label small class="ml-1.5 <sm:hidden !text-inherit">{feedCollection.feedSources.length} feed{s(feedCollection.feedSources.length)}</Label>
       </Link>
       <Link to={`/collection/${feedCollectionId}/manage`} class="flex items-center ml-auto">
-        <SlidersIcon size="16" class="mr-1.5" />
-        <Label small class="<sm:hidden !text-inherit">Manage collection</Label>
+        <SlidersIcon size="16" />
+        <Label small class="ml-1.5 <sm:hidden !text-inherit">Manage collection</Label>
       </Link>
     </section>
   </nav>
