@@ -15,7 +15,7 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
 
     for (const feedItem of parsedFeedItems) {
 
-        // check if feed item already in db
+        // check if feed item is already in db
         // and insert it if it's not
         const existingFeedItem = await feedItems.findOne({
             content: {
@@ -23,35 +23,36 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
             },
             feed: feedId,
         }, { noCursorTimeout: false });
-        if (!existingFeedItem) {
-            console.log(`Inserting new feed item: ${feedItem.url}`);
+        if (existingFeedItem) continue;
 
-            let content: Feed.Item.Content;
+        console.log(`Inserting new feed item: ${feedItem.url}`);
 
-            if (feed.input.type === 'TWITTER_USER_TIMELINE') {
-                content = {
-                    ...feedItem,
-                    username: feedItem.url.split('/')[3],
-                    type: feed.input.type
-                };
-            } else if (feed.input.type === 'REDDIT_SUBREDDIT' || feed.input.type === 'RSS') {
-                content = {
-                    ...feedItem,
-                    type: feed.input.type
-                };
-            } else {
-                throw new Error(`Feed type ${feed.input.type} is not an RSS feed`);
-            }
+        let content: Feed.Item.Content;
 
-            await feedItems.insertOne({
-                feedId,
-                comments: [],
-                content,
-                dateCreated: new Date(),
-                likes: [],
-                views: [],
-            });
+        if (feed.input.type === 'TWITTER_USER_TIMELINE') {
+            content = {
+                ...feedItem,
+                username: feedItem.url.split('/')[3],
+                type: feed.input.type
+            };
+        } else if (feed.input.type === 'REDDIT_SUBREDDIT' || feed.input.type === 'RSS') {
+            content = {
+                ...feedItem,
+                type: feed.input.type
+            };
+        } else {
+            throw new Error(`Feed type ${feed.input.type} is not an RSS feed`);
         }
+
+        await feedItems.insertOne({
+            feedId,
+            comments: [],
+            content,
+            dateCreated: new Date(),
+            likes: [],
+            views: [],
+        });
+
     }
 
     return true;
