@@ -4,6 +4,7 @@ export { getFeeds } from "./getFeeds.ts";
 // feed
 export { addFeed } from "./addFeed.ts";
 export { getFeed } from "./getFeed.ts";
+export { getHomeFeed } from "./getHomeFeed.ts";
 export { renameFeedSource, deleteFeedSource, setFeedSourceAsPublic } from "./updateFeedSource.ts";
 
 // feed item

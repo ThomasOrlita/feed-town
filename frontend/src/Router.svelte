@@ -73,8 +73,7 @@
         <Feed feedSourceId={params.feedSourceId} />
       </Route>
       <Route path="feeds" component={Feeds} />
-      <Route path="feed" component={HomeFeed} />
-      <Route path="/"><Content /></Route>
+      <Route path="/" component={HomeFeed}></Route>
     {/if}
   </main>
   <Footer />

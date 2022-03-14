@@ -1,28 +1,21 @@
 <script lang="ts">
-  import server from '../api/api';
+  import server from '@/api/api';
 
-  import Feed from '../components/feeds/FeedItems.svelte';
-
-  let date = new Date();
-
-  const fetchItems = async () => {
-    const items = await fetch(
-      'https://en.wikipedia.org/api/rest_v1/feed/featured/' +
-        [date.getFullYear(), ('0' + (date.getMonth() + 1)).slice(-2), ('0' + date.getDate()).slice(-2)].join('/')
-    );
-    return (await items.json()).mostread.articles
-      .map((item) => ({
-        title: item.titles.normalized,
-        imageUrl: item.thumbnail?.source,
-        content: item.extract,
-        url: item.content_urls.desktop.page,
-      }))
-      .slice(0, 30);
-  };
+  import Feed from '@/components/feeds/FeedItems.svelte';
+  import GenericMessage from '@/components/layout/GenericMessage.svelte';
+  import { Loading } from 'attractions';
+  import { AlertCircleIcon } from 'svelte-feather-icons';
 </script>
 
-{#await fetchItems()}
-  loading
+{#await server.getHomeFeed()}
+  <div class="m-auto">
+    <Loading />
+  </div>
 {:then items}
   <Feed posts={items} />
+{:catch error}
+  <GenericMessage>
+    <AlertCircleIcon size="20" class="mr-2" />
+    {error.message}
+  </GenericMessage>
 {/await}

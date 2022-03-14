@@ -139,6 +139,7 @@ export type Api = {
     // feed
     addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedSourceId: string; }>;
     getFeed: (options: { feedSourceId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
+    getHomeFeed: (jwt?: string) => Promise<Feed.Item.FeedItem[]>;
     renameFeedSource: (options: { feedSourceId: string; title: string; }, jwt?: string) => Promise<{}>;
     deleteFeedSource: (options: { feedSourceId: string; }, jwt?: string) => Promise<{}>;
     setFeedSourceAsPublic: (options: { feedSourceId: string; }, jwt?: string) => Promise<{}>;
