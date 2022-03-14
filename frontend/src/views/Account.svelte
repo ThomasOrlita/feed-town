@@ -1,21 +1,21 @@
 <script lang="ts">
-  import { Headline, Subhead, H2, H3, Label, Button, Loading, Card } from 'attractions';
+  import { Headline, Subhead, H2, H3, Label, Button, Loading, Card, H1 } from 'attractions';
   import { Link } from 'svelte-routing';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
-  import { AlertCircleIcon, HeartIcon, LogOutIcon } from 'svelte-feather-icons';
+  import { AlertCircleIcon, CheckIcon, HeartIcon, LogOutIcon, RssIcon, UserIcon } from 'svelte-feather-icons';
   import GitHubLogin from './account/GitHubLogin.svelte';
   import server from '@/api/api';
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
 </script>
 
-<SetBreadcrumbs
-  items={[
-    {
-      href: `/account`,
-      text: `My Account`,
-    },
-  ]} />
 {#if localStorage.getItem('jwt')}
+  <SetBreadcrumbs
+    items={[
+      {
+        href: `/account`,
+        text: `My Account`,
+      },
+    ]} />
   <div class="ml-auto">
     <Button
       on:click={() => {
@@ -69,8 +69,6 @@
             <Label small class="!text-inherit">You haven't liked any posts yet.</Label>
           {/each}
         </div>
-
-        <!-- <Feed posts={feedCollectionFeeds} /> -->
       {/await}
     </Card>
   {:catch error}
@@ -80,11 +78,40 @@
     </GenericMessage>
   {/await}
 {:else}
-  <Card outline class="m-auto">
-    <div class="flex flex-col items-center">
-      <Headline>My account</Headline>
-      <Subhead class="mt-2 mb-8 text-center">Create your account or log in via GitHub to create your own feeds!</Subhead>
-      <GitHubLogin />
-    </div>
-  </Card>
+  <section class="m-auto">
+    <Card outline class="mb-8">
+      <div class="flex flex-col md:items-center md:max-w-64 m-auto">
+        <H1 class="flex items-center !text-3xl">
+          <RssIcon size="32" class="mr-2" />
+          Feed&thinsp;Town
+        </H1>
+        <Subhead class="md:-mt-1 !md:text-sm mb-2">Your RSS feed aggregator</Subhead>
+
+        <div class="flex flex-col items-start gap-3 mt-4 mx-1.5">
+          <div class="flex items-center">
+            <CheckIcon size="20" class="mr-2 flex-shrink-0" /> Follow RSS feeds
+          </div>
+          <div class="flex items-center">
+            <CheckIcon size="20" class="mr-2 flex-shrink-0" /> Organize in collections
+          </div>
+          <div class="flex items-center">
+            <CheckIcon size="20" class="mr-2 flex-shrink-0" /> Popular public feeds
+          </div>
+          <div class="flex items-center">
+            <CheckIcon size="20" class="mr-2 flex-shrink-0" /> Star and comment on posts
+          </div>
+        </div>
+      </div>
+    </Card>
+    <Card outline class="">
+      <div class="flex flex-col md:items-center">
+        <H2 class="flex items-center !text-md">
+          <UserIcon size="24" class="mr-2" />
+          My account
+        </H2>
+        <Subhead class="mt-2 mb-8 !md:text-sm text-center">Create your account or log in via GitHub to create your own feeds!</Subhead>
+        <GitHubLogin />
+      </div>
+    </Card>
+  </section>
 {/if}

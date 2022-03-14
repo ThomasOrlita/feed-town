@@ -11,7 +11,7 @@
   import Footer from '@/components/layout/Footer.svelte';
   import { isConnectionError, snackBarMessage } from '@/api/store';
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
-  import { RefreshCcwIcon, WifiOffIcon } from 'svelte-feather-icons';
+  import { FrownIcon, RefreshCcwIcon, WifiOffIcon } from 'svelte-feather-icons';
   import { Button, SnackbarContainer } from 'attractions';
   import Collections from '@/views/feed/_feedId/Collections.svelte';
   import Collection from '@/views/collection/Collection.svelte';
@@ -53,28 +53,40 @@
       <Route path="account/github/callback">
         <GitHubLogin authCode={new URLSearchParams(window.location.search).get('code')} />
       </Route>
-      <Route path="account" component={Account} />
-      <Route path="collection/:feedCollectionId/manage" let:params>
-        <ManageCollection feedCollectionId={params.feedCollectionId} />
-      </Route>
-      <Route path="collection/:feedCollectionId" let:params>
-        <Collection feedCollectionId={params.feedCollectionId} />
-      </Route>
-      <Route path="feed/:feedSourceId/manage" let:params>
-        <ManageFeed feedSourceId={params.feedSourceId} />
-      </Route>
-      <Route path="feed/:feedSourceId/collections" let:params>
-        <Collections feedSourceId={params.feedSourceId} />
-      </Route>
-      <Route path="feed/:feedSourceId/:itemId/comments" let:params>
-        <Comments feedSourceId={params.feedSourceId} itemId={params.itemId} />
-      </Route>
-      <Route path="feed/:feedSourceId" let:params>
-        <Feed feedSourceId={params.feedSourceId} />
-      </Route>
-      <Route path="feeds" component={Feeds} />
-      <Route path="/" component={HomeFeed}></Route>
+      {#if localStorage.getItem('jwt')}
+        <Route path="account" component={Account} />
+        <Route path="collection/:feedCollectionId/manage" let:params>
+          <ManageCollection feedCollectionId={params.feedCollectionId} />
+        </Route>
+        <Route path="collection/:feedCollectionId" let:params>
+          <Collection feedCollectionId={params.feedCollectionId} />
+        </Route>
+        <Route path="feed/:feedSourceId/manage" let:params>
+          <ManageFeed feedSourceId={params.feedSourceId} />
+        </Route>
+        <Route path="feed/:feedSourceId/collections" let:params>
+          <Collections feedSourceId={params.feedSourceId} />
+        </Route>
+        <Route path="feed/:feedSourceId/:itemId/comments" let:params>
+          <Comments feedSourceId={params.feedSourceId} itemId={params.itemId} />
+        </Route>
+        <Route path="feed/:feedSourceId" let:params>
+          <Feed feedSourceId={params.feedSourceId} />
+        </Route>
+        <Route path="feeds" component={Feeds} />
+        <Route path="/" component={HomeFeed} />
+        <Route>
+          <GenericMessage>
+            <FrownIcon size="20" class="mr-2" />
+            Not found
+          </GenericMessage>
+        </Route>
+      {:else}
+        <Route component={Account} />
+      {/if}
     {/if}
   </main>
-  <Footer />
+  {#if localStorage.getItem('jwt')}
+    <Footer />
+  {/if}
 </Router>
