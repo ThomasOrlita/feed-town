@@ -36,7 +36,7 @@ export namespace Feed {
             title: string;
             input: Feed.Source.Input;
             dateCreated: Date;
-            lastChecked?: Date;
+            lastChecked: Date;
         };
 
     }
@@ -136,6 +136,7 @@ export type Api = {
     // feeds
     getFeedSources: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
     addFeedSource: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedSourceId: string; }>;
+    refreshFeedSource: (options: { feedSourceId: string; force: boolean; }, jwt?: string) => Promise<boolean>;
     getFeed: (options: { feedSourceId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
     getHomeFeed: (jwt?: string) => Promise<Feed.Item.FeedItem[]>;
     renameFeedSource: (options: { feedSourceId: string; title: string; }, jwt?: string) => Promise<{}>;

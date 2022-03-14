@@ -86,7 +86,7 @@
       {/if}
     {/if}
   </main>
-  {#if localStorage.getItem('jwt')}
+  {#if localStorage.getItem('jwt') || new URLSearchParams(window.location.search).get('code')}
     <Footer />
   {/if}
 </Router>

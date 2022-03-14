@@ -5,6 +5,7 @@ import { feedItems } from "../db/models/FeedItem.ts";
 import { feedSources } from "../db/models/FeedSource.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 import { aggregateFeedItems } from "../feed/aggregateFeedItems.ts";
+import { fetchFeedItems } from "../feed/fetchFeedItems.ts";
 
 export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
@@ -17,6 +18,10 @@ export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: 
     }
 
     const items = await aggregateFeedItems(userId, new ObjectId(feedSourceId));
+
+    try {
+        fetchFeedItems(feed._id);
+    } catch { }
 
     return {
         feed,

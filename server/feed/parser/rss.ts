@@ -14,7 +14,7 @@ export const parse: Feed.FeedParser<'RSS'> = async (url: string) => {
     try {
         entries = (await parseFeed(xml)).entries;
     } catch (e) {
-        console.error(e);
+        console.error(url + ': ' + e);
         throw new Error(`Could not parse this feed. Please try again later.`);
     }
 
@@ -25,13 +25,11 @@ export const parse: Feed.FeedParser<'RSS'> = async (url: string) => {
             const title = (new DOMParser().parseFromString(entry.title?.value ?? 'An untitled post', 'text/html'))?.textContent ?? '';
             let description: string = (new DOMParser().parseFromString(entry.description?.value ?? entry?.content?.value ?? '', 'text/html'))?.textContent ?? '';
 
-            if (description.trimStart().startsWith('<')) {
-                // if the description starts with <, it's probably an HTML description
-                // safely parse it as HTML and get the text content
-                // the resulting text will be stripped of tags for display reasons only
-                // and it must not be used in an HTML context as it can be unsafe
-                description = (new DOMParser().parseFromString(description, 'text/html'))?.documentElement?.textContent ?? '';
-            }
+            // safely parse the description as HTML and get the text content
+            // the resulting text will be stripped of tags for display reasons only (will create some false positives)
+            // and it must not be used in an HTML context as it can be unsafe
+            description = (new DOMParser().parseFromString(description, 'text/html'))?.documentElement?.textContent ?? '';
+
 
             rssItems.push({
                 type: 'RSS',

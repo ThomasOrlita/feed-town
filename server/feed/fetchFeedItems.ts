@@ -18,10 +18,8 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
         // check if feed item is already in db
         // and insert it if it's not
         const existingFeedItem = await feedItems.findOne({
-            content: {
-                url: feedItem.url,
-            },
-            feed: feedId,
+            'content.url': feedItem.url,
+            feedId,
         }, { noCursorTimeout: false });
         if (existingFeedItem) continue;
 
@@ -54,6 +52,12 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
         });
 
     }
+
+    await feedSources.updateOne({ _id: feedId }, {
+        $set: {
+            lastChecked: new Date(),
+        },
+    });
 
     return true;
 };

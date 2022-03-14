@@ -4,7 +4,7 @@
     import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
     import type { Feed } from '@server/api/Api.types';
     import { Button, Card, FormField, H2, Label, Loading, TextField } from 'attractions';
-    import { CheckIcon, EditIcon, GlobeIcon, LockIcon, TrashIcon, UnlockIcon } from 'svelte-feather-icons';
+    import { CheckIcon, EditIcon, GlobeIcon, LockIcon, RefreshCcwIcon, TrashIcon, UnlockIcon } from 'svelte-feather-icons';
     import { navigate, links } from 'svelte-routing';
 
     let feedSource: Feed.Source.FeedSource;
@@ -55,7 +55,26 @@
                     Private
                 {/if}
             </span>
-            <Label>Last updated</Label> <span class="text-sm -mt-2">{new Date(feedSource.lastChecked).toLocaleString()}</span>
+            <Label>Last updated</Label>
+            <span class="text-sm -mt-2 flex items-center">
+                {new Date(feedSource.lastChecked).toLocaleString()}
+                <Button
+                    class="!text-xs !p-1 ml-2 flex items-center"
+                    small
+                    rectangle
+                    on:click={async () => {
+                        try {
+                            if (await server.refreshFeedSource({ feedSourceId, force: true })) {
+                                feedSource.lastChecked = new Date();
+                            }
+                            snackBarMessage.set('Feed refreshed');
+                        } catch (error) {
+                            snackBarMessage.set('Could not refresh feed');
+                        }
+                    }}>
+                    <RefreshCcwIcon size="12" class="mr-2 mt-0.5" /> refresh
+                </Button>
+            </span>
             {#if feedSource.input.type === 'RSS'}
                 <Label>Type</Label> <span class="text-sm -mt-2">RSS source</span>
                 <Label>URL</Label> <span class="text-sm -mt-2 break-all">{feedSource.input.url}</span>

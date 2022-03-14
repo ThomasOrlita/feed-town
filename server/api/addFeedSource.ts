@@ -41,6 +41,7 @@ export const addFeedSource: Api['addFeedSource'] = async (title: string, input: 
         input,
         title,
         dateCreated: new Date(),
+        lastChecked: new Date(),
     });
 
     await fetchFeedItems(feedId);
