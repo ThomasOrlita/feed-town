@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Router, Link, Route } from 'svelte-routing';
+  import { Router, Route } from 'svelte-routing';
   import Account from '@/views/Account.svelte';
   import Content from '@/views/Content.svelte';
 
@@ -17,7 +17,7 @@
   import Collection from '@/views/collection/Collection.svelte';
   import ManageCollection from '@/views/collection/_collectionId/ManageCollection.svelte';
   import GitHubLogin from './views/account/GitHubLogin.svelte';
-import ManageFeed from './views/feed/_feedId/ManageFeed.svelte';
+  import ManageFeed from './views/feed/_feedId/ManageFeed.svelte';
 
   export let url = '';
 
@@ -39,7 +39,7 @@ import ManageFeed from './views/feed/_feedId/ManageFeed.svelte';
 
 <Router {url}>
   <Header />
-  <main class="flex flex-col flex-1 overflow-y-auto p-2">
+  <main class="flex flex-col flex-1 overflow-y-auto overflow-x-hidden p-2">
     {#if connectionError}
       <GenericMessage>
         <WifiOffIcon size="20" class="mr-2" />

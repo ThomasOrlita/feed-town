@@ -20,7 +20,7 @@
       });
   }
 
-  const getCollectionFeedSources = async (_collectionId: string) => {
+  const getCollectionFeedSources = async () => {
     let feedSources = [...collection.feedSources];
     if (localStorage.getItem('id') === collection.owner) {
       feedSources.push(...(await server.getFeeds()));
@@ -175,7 +175,7 @@
   </Card>
 
   <Card outline class="m-4 !overflow-visible">
-    {#await getCollectionFeedSources(collection._id) then feeds}
+    {#await getCollectionFeedSources() then feeds}
       <H2 class="flex items-center !mb-4">
         Manage feeds in collection {collection.title}
       </H2>

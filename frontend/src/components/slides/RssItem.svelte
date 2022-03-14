@@ -1,10 +1,10 @@
 <script lang="ts">
   import server from '@/api/api';
-import { sanitizeUrl } from '@/helpers/url';
+  import { sanitizeUrl } from '@/helpers/url';
   import type { Feed } from '@server/api/Api.types';
 
-  import { Headline, Subhead, H1, H2, H3, Label, Card, Button } from 'attractions';
-  import { HeartIcon } from 'svelte-feather-icons';
+  import { H2, Label, Card, Button } from 'attractions';
+  import { ExternalLinkIcon, HeartIcon, MessageSquareIcon } from 'svelte-feather-icons';
   import { links } from 'svelte-routing';
 
   export let type: Feed.Type;
@@ -17,19 +17,19 @@ import { sanitizeUrl } from '@/helpers/url';
   export let isLiked: boolean = false;
 </script>
 
-<article class="flex flex-col w-full">
+<article class="flex flex-col justify-center w-full h-full">
   <section class="flex flex-col my-10">
-    <Card outline class="m-4 <mobile:m-1 !overflow-visible">
-      <H2 class="mb-4 font-bold text-3xl <mobile:leading-7">
+    <Card outline class="flex flex-col max-h-[calc(100vh-216px)] m-4 <xs:m-1 !overflow-visible">
+      <H2 class="mb-4 font-bold text-3xl <xs:leading-7">
         {title}
       </H2>
       <Label small class="!text-cool-gray-500 !lowercase mb-1">
         {new URL(url).hostname}
       </Label>
-      <div class="flex flex-row pt-2">
+      <div class="flex pt-2 <xs:flex-col <xs:gap-2 overflow-auto">
         {#if imageUrl}
-          <div class="justify-center mr-4" style="max-width: 30%;">
-            <img src={imageUrl} alt={title} />
+          <div class="justify-center mr-4 xs:max-w-[30%] flex max-h-[30vh]">
+            <img src={imageUrl} alt={title} class="object-cover" />
           </div>
         {/if}
         {#if type !== 'REDDIT_SUBREDDIT'}
@@ -54,13 +54,15 @@ import { sanitizeUrl } from '@/helpers/url';
           <HeartIcon size="20" class={isLiked ? 'fill-$main' : ''} />
         </Button>
 
-        <Button class="mt-4 text-sm mr-4" href={`/feed/${feedId}/${itemId}/comments`} small>Comments</Button>
+        <Button class="mt-4 text-sm mr-4" href={`/feed/${feedId}/${itemId}/comments`} small>
+          <MessageSquareIcon size="20" />
+          <span class="ml-2 <sm:hidden">Comments</span>
+        </Button>
 
-        <Button
-          class="mt-4 text-sm <mobile:w-full <mobile:justify-center"
-          href={sanitizeUrl(url)}
-          filled
-          target="_blank">Read more</Button>
+        <Button class="mt-4 text-sm <xs:w-full <xs:justify-center" href={sanitizeUrl(url)} filled target="_blank">
+          <ExternalLinkIcon size="20" />
+          <span class="ml-2">Read more</span>
+        </Button>
       </div>
     </Card>
   </section>

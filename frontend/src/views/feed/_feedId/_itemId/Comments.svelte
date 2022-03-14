@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Button, Card, H2, Label, Loading } from 'attractions';
-  import { AlertCircleIcon, HeartIcon } from 'svelte-feather-icons';
-  import { Link } from 'svelte-routing';
+  import { AlertCircleIcon, ExternalLinkIcon, HeartIcon } from 'svelte-feather-icons';
 
   import server from '@/api/api';
   import CommentsList from '@/components/comments/CommentsList.svelte';
@@ -45,7 +44,7 @@
           text: feedItem.feed.title,
         },
         {
-          href: `/feed/${feedItem.feed._id}/${feedItem.item._id}`,
+          href: `/feed/${feedItem.feed._id}#${feedItem.item._id}`,
           text: feedItem.item.content.title.slice(0, 32),
         },
         {
@@ -74,15 +73,18 @@
               liked: isLiked,
             });
           }}>
-          <HeartIcon size="20" class={(isLiked ? 'fill-$main' : '') + ' mr-2'} />
-          {isLiked ? 'Added' : 'Add'} to favorites
+          <HeartIcon size="20" class={isLiked ? 'fill-$main' : ''} />
+          <span class="ml-2 <sm:hidden"> {isLiked ? 'Added' : 'Add'} to favorites</span>
         </Button>
 
         <Button
-          class="mt-4 text-sm <mobile:w-full <mobile:justify-center"
+          class="mt-4 text-sm <xs:justify-center"
           href={sanitizeUrl(feedItem.item.content.url)}
           filled
-          target="_blank">Read more</Button>
+          target="_blank">
+          <ExternalLinkIcon class="<xs:hidden" size="20" />
+          <span class="ml-2">Read more</span>
+        </Button>
       </div>
     </Card>
 

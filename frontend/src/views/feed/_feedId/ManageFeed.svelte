@@ -3,9 +3,9 @@
     import { snackBarMessage } from '@/api/store';
     import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
     import type { Feed } from '@server/api/Api.types';
-    import { Button, Card, Checkbox, FormField, H2, Label, Loading, TextField } from 'attractions';
+    import { Button, Card, FormField, H2, Label, Loading, TextField } from 'attractions';
     import { CheckIcon, EditIcon, GlobeIcon, LockIcon, TrashIcon, UnlockIcon } from 'svelte-feather-icons';
-    import { Link, navigate, links } from 'svelte-routing';
+    import { navigate, links } from 'svelte-routing';
 
     let feedSource: Feed.Source.FeedSource;
     $: {

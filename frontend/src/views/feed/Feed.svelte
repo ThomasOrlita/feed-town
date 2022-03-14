@@ -1,20 +1,14 @@
 <script lang="ts">
-  import { Card, Label, Loading } from 'attractions';
+  import { Label, Loading } from 'attractions';
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
-  import { AlertCircleIcon, ClockIcon, EditIcon, SlidersIcon } from 'svelte-feather-icons';
-  import { Link, navigate, links } from 'svelte-routing';
+  import { AlertCircleIcon, ClockIcon, SlidersIcon } from 'svelte-feather-icons';
+  import { Link, links } from 'svelte-routing';
 
   import server from '@/api/api';
   import FeedItems from '@/components/feeds/FeedItems.svelte';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
 
   export let feedSourceId: string;
-
-  if (location.hash.slice(1).length === 24) {
-    // feed item id is specified in hash
-    // todo show in feed
-    // navigate(`/feed/${feedId}/${location.hash.slice(1)}/comments`);
-  }
 </script>
 
 {#await server.getFeed({ feedSourceId })}

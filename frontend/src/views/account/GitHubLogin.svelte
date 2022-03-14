@@ -1,12 +1,10 @@
 <script lang="ts">
-    import { Button, Card, H2, Loading } from 'attractions';
+    import { Button, H2, Loading } from 'attractions';
     import { AlertCircleIcon, GithubIcon } from 'svelte-feather-icons';
-    import { link, Link, navigate } from 'svelte-routing';
+    import GenericMessage from '@/components/layout/GenericMessage.svelte';
+    import { navigate } from 'svelte-routing';
 
     import server from '@/api/api';
-
-    import GenericMessage from '@/components/layout/GenericMessage.svelte';
-    import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
 
     export let authCode: string | undefined = undefined;
 

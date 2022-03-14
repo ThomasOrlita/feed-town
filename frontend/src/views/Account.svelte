@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { Headline, Subhead, H1, H2, H3, Label, Button, Loading, Card, Chip } from 'attractions';
-  import { Link, links } from 'svelte-routing';
+  import { Headline, Subhead, H2, H3, Label, Button, Loading, Card } from 'attractions';
+  import { Link } from 'svelte-routing';
   import SetBreadcrumbs from '@/components/layout/SetBreadcrumbs.svelte';
   import { AlertCircleIcon, HeartIcon, LogOutIcon } from 'svelte-feather-icons';
   import GitHubLogin from './account/GitHubLogin.svelte';

@@ -2,14 +2,13 @@
   import { Swiper, SwiperSlide } from 'swiper/svelte';
   import 'swiper/css';
   import 'swiper/css/navigation';
-  import { Navigation, Mousewheel, Keyboard } from 'swiper';
+  import { Navigation, Mousewheel, Keyboard, HashNavigation } from 'swiper';
   import RssItem from '@/components/slides/RssItem.svelte';
   import Tweet from '@/components/slides/Tweet.svelte';
   import Wikipedia from '@/components/slides/Wikipedia.svelte';
   import type { Feed } from '@server/api/Api.types';
-  import { navigate } from 'svelte-routing';
   import GenericMessage from '@/components/layout/GenericMessage.svelte';
-  import { ApertureIcon, FrownIcon } from 'svelte-feather-icons';
+  import { FrownIcon } from 'svelte-feather-icons';
   import server from '@/api/api';
 
   export let posts: Feed.Item.FeedItem[];
@@ -27,14 +26,16 @@
     await server.markFeedItemAsViewed({
       itemId: slide._id,
     });
-    // navigate(`/feed/${slide.feedId}/#${slide._id}`, { replace: true });
   };
 </script>
 
 <Swiper
-  modules={[Mousewheel, Navigation, Keyboard]}
+  modules={[Mousewheel, Navigation, Keyboard, HashNavigation]}
   direction={'vertical'}
   mousewheel={true}
+  hashNavigation={{
+    replaceState: true,
+  }}
   keyboard={{
     enabled: true,
     onlyInViewport: true,
@@ -42,7 +43,7 @@
   on:slideChange={(event) => slideChanged(event.detail[0][0].activeIndex)}
   on:swiper={(e) => console.log(e.detail[0])}>
   {#each posts as post}
-    <SwiperSlide>
+    <SwiperSlide data-hash={post._id}>
       {#if post.content.type === 'RSS' || post.content.type === 'REDDIT_SUBREDDIT'}
         <RssItem
           type={post.content.type}
