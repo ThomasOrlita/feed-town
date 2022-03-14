@@ -1,7 +1,7 @@
 <script lang="ts">
   import { Link } from 'svelte-routing';
   import { Button, Tab } from 'attractions';
-  import { CompassIcon, HomeIcon, ListIcon, PlusIcon, UserIcon } from 'svelte-feather-icons';
+  import { HeartIcon, HomeIcon, ListIcon, PlusIcon, UserIcon } from 'svelte-feather-icons';
 
   import NewFeedModal from '@/components/feeds/NewFeedModal.svelte';
 
@@ -33,10 +33,10 @@
       <PlusIcon size="24" />
     </Button>
   </div>
-  <Link to="feed">
-    <Tab value="feed">
-      <CompassIcon size="20" />
-      <span class="ml-2.5 <md:hidden">Explore</span>
+  <Link to="favorites">
+    <Tab>
+      <HeartIcon size="20" />
+      <span class="ml-2.5 <md:hidden">Favorites</span>
     </Tab>
   </Link>
   <Link to="account">

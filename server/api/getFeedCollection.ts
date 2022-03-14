@@ -29,9 +29,8 @@ export const getFeedCollection: Api['getFeedCollection'] = async ({ feedCollecti
             throw new Error(`Feed ${feedId} not found`);
         }
         feedSourcesList.push(feed);
-        try {
-            fetchFeedItems(feed._id);
-        } catch { }
+
+        fetchFeedItems(feed._id).catch(console.error);
     }
 
     return {

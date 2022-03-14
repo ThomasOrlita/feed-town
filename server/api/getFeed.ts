@@ -19,9 +19,7 @@ export const getFeed: Api['getFeed'] = async ({ feedSourceId }: { feedSourceId: 
 
     const items = await aggregateFeedItems(userId, new ObjectId(feedSourceId));
 
-    try {
-        fetchFeedItems(feed._id);
-    } catch { }
+    fetchFeedItems(feed._id).catch(console.error);
 
     return {
         feed,

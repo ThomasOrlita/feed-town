@@ -19,9 +19,7 @@ export const getHomeFeed: Api['getHomeFeed'] = async (jwt?: string) => {
     const feedSourceIdsToAggregate = [...collectionsFeedSourceIds, ...feedSourceIds];
 
     for (const feedSourceId of feedSourceIdsToAggregate) {
-        try {
-            fetchFeedItems(feedSourceId);
-        } catch { }
+        fetchFeedItems(feedSourceId).catch(console.error);
     }
 
     const items = await aggregateFeedItems(userId, { $in: feedSourceIdsToAggregate });

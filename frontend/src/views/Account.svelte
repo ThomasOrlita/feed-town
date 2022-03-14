@@ -44,33 +44,6 @@
         <Label>Account created</Label> <span class="text-sm -mt-2">{new Date(accountInfo.dateCreated).toLocaleDateString()}</span>
       </div>
     </Card>
-
-    <Card outline class="m-4 !overflow-visible">
-      <H2 class="flex items-center">
-        <HeartIcon size="20" class="mr-2" />
-        Favorite posts
-      </H2>
-
-      {#await server.getLikedFeedItems()}
-        <div class="m-auto">
-          <Loading />
-        </div>
-      {:then likedFeedItems}
-        <div class="flex flex-col gap-3 ml-7">
-          {#each likedFeedItems as feedItem}
-            <div class="flex items-center">
-              <div class="flex-1">
-                <Link to={`/feed/${feedItem.feedId}/${feedItem._id}/comments`}>
-                  <H3 class="!text-sm">{feedItem.content.title}</H3>
-                </Link>
-              </div>
-            </div>
-          {:else}
-            <Label small class="!text-inherit">You haven't liked any posts yet.</Label>
-          {/each}
-        </div>
-      {/await}
-    </Card>
   {:catch error}
     <GenericMessage>
       <AlertCircleIcon size="20" class="mr-2" />

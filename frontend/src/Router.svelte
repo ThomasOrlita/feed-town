@@ -18,6 +18,7 @@
   import ManageCollection from '@/views/collection/_collectionId/ManageCollection.svelte';
   import GitHubLogin from './views/account/GitHubLogin.svelte';
   import ManageFeed from './views/feed/_feedId/ManageFeed.svelte';
+  import Favorites from './views/Favorites.svelte';
 
   export let url = '';
 
@@ -74,6 +75,7 @@
           <Feed feedSourceId={params.feedSourceId} />
         </Route>
         <Route path="feeds" component={Feeds} />
+        <Route path="favorites" component={Favorites} />
         <Route path="/" component={HomeFeed} />
         <Route>
           <GenericMessage>
