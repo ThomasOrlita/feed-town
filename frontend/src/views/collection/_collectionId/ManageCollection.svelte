@@ -23,7 +23,7 @@
   const getCollectionFeedSources = async () => {
     let feedSources = [...collection.feedSources];
     if (localStorage.getItem('id') === collection.owner) {
-      feedSources.push(...(await server.getFeeds()));
+      feedSources.push(...(await server.getFeedSources()));
     }
     return feedSources.filter((v, i, a) => a.findIndex((t) => t._id === v._id) === i);
   };
@@ -197,7 +197,7 @@
               }
             } catch (error) {
               snackBarMessage.set(error.message);
-              feeds = await server.getFeeds();
+              feeds = await server.getFeedSources();
             }
           }}>
           <div class="ml-4 flex flex-row items-center">

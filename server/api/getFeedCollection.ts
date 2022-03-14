@@ -2,7 +2,7 @@ import type { Api, Feed } from "../api/Api.types.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 
 import { feedItems } from "../db/models/FeedItem.ts";
-import { feeds } from "../db/models/Feed.ts";
+import { feedSources } from "../db/models/FeedSource.ts";
 import { feedCollections } from "../db/models/FeedCollection.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 
@@ -17,21 +17,21 @@ export const getFeedCollection: Api['getFeedCollection'] = async ({ feedCollecti
         throw new Error("Feed collection not found");
     }
 
-    const feedSources: Feed.Source.FeedSource[] = [];
+    const feedSourcesList: Feed.Source.FeedSource[] = [];
 
     for (const feedId of feedCollection.feedSources) {
-        const feed = await feeds.findOne({
+        const feed = await feedSources.findOne({
             _id: new ObjectId(feedId),
             $or: [{ owner: userId }, { public: true }],
         }, { noCursorTimeout: false });
         if (!feed) {
             throw new Error(`Feed ${feedId} not found`);
         }
-        feedSources.push(feed);
+        feedSourcesList.push(feed);
     }
 
     return {
         ...feedCollection,
-        feedSources
+        feedSources: feedSourcesList
     };
 };

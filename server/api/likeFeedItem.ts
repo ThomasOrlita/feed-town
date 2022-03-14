@@ -2,7 +2,7 @@ import type { Account, Api } from "../api/Api.types.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 
 import { feedItems } from "../db/models/FeedItem.ts";
-import { feeds } from "../db/models/Feed.ts";
+import { feedSources } from "../db/models/FeedSource.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 
 export const likeFeedItem: Api['likeFeedItem'] = async ({ itemId, liked }: { itemId: string; liked: boolean; }, jwt?: string) => {
@@ -15,7 +15,7 @@ export const likeFeedItem: Api['likeFeedItem'] = async ({ itemId, liked }: { ite
         throw new Error("Feed item not found");
     }
 
-    const feed = await feeds.findOne({
+    const feed = await feedSources.findOne({
         _id: feedItem.feedId,
         $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });

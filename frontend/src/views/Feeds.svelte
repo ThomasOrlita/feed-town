@@ -13,7 +13,7 @@
   let feedCollections: Feed.Collection.FeedCollectionWithFeedSources[] = [];
 
   const loadData = async () => {
-    [feeds, feedCollections] = await Promise.all([server.getFeeds(), server.getFeedCollectionsWithFeedSources()]);
+    [feeds, feedCollections] = await Promise.all([server.getFeedSources(), server.getFeedCollectionsWithFeedSources()]);
   };
 
   const feedCollectionsUpdated = (event: CustomEvent<Feed.Collection.FeedCollectionWithFeedSources[]>) => {

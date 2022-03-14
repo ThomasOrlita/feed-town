@@ -134,10 +134,8 @@ export namespace Account {
 // and not use 'typeof' other functions
 export type Api = {
     // feeds
-    getFeeds: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
-
-    // feed
-    addFeed: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedSourceId: string; }>;
+    getFeedSources: (jwt?: string) => Promise<Feed.Source.FeedSource[]>;
+    addFeedSource: (type: string, input: Feed.Source.Input, jwt?: string) => Promise<{ feedSourceId: string; }>;
     getFeed: (options: { feedSourceId: string; }, jwt?: string) => Promise<{ feed: Feed.Source.FeedSource, items: Feed.Item.FeedItem[]; }>;
     getHomeFeed: (jwt?: string) => Promise<Feed.Item.FeedItem[]>;
     renameFeedSource: (options: { feedSourceId: string; title: string; }, jwt?: string) => Promise<{}>;

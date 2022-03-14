@@ -1,12 +1,12 @@
 import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
-import { feeds } from "../db/models/Feed.ts";
+import { feedSources } from "../db/models/FeedSource.ts";
 import { feedItems } from "../db/models/FeedItem.ts";
 import { parse } from "./parser/rss.ts";
 import { getUrlForFeed } from "./feedUrl.ts";
 import type { Feed } from "../api/Api.types.ts";
 
 export const fetchFeedItems = async (feedId: ObjectId) => {
-    const feed = await feeds.findOne({ _id: feedId }, { noCursorTimeout: false });
+    const feed = await feedSources.findOne({ _id: feedId }, { noCursorTimeout: false });
     if (!feed) {
         throw new Error('Feed not found');
     }

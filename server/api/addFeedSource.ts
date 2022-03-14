@@ -1,10 +1,10 @@
 import { Api } from "../api/Api.types.ts";
-import { feeds } from "../db/models/Feed.ts";
+import { feedSources } from "../db/models/FeedSource.ts";
 import { fetchFeedItems } from "../feed/fetchFeedItems.ts";
 import type { Feed } from '../api/Api.types.ts';
 import { getUserIdFromJwtToken } from "./auth.ts";
 
-export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.Input, jwt?: string) => {
+export const addFeedSource: Api['addFeedSource'] = async (title: string, input: Feed.Source.Input, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
 
     if (input.type === 'RSS') {
@@ -35,7 +35,7 @@ export const addFeed: Api['addFeed'] = async (title: string, input: Feed.Source.
         throw new Error('Invalid feed type');
     }
 
-    const feedId = await feeds.insertOne({
+    const feedId = await feedSources.insertOne({
         owner: userId,
         public: false,
         input,

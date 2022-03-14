@@ -3,7 +3,7 @@ import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 
 import { feedItems } from "../db/models/FeedItem.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
-import { feeds } from "../db/models/Feed.ts";
+import { feedSources } from "../db/models/FeedSource.ts";
 
 export const addComment: Api['addComment'] = async ({ itemId, comment }: { itemId: string; comment: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
@@ -15,7 +15,7 @@ export const addComment: Api['addComment'] = async ({ itemId, comment }: { itemI
         throw new Error("Feed item not found");
     }
 
-    const feed = await feeds.findOne({
+    const feed = await feedSources.findOne({
         _id: feedItem.feedId,
         $or: [{ owner: userId }, { public: true }],
     }, { noCursorTimeout: false });

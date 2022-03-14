@@ -1,6 +1,6 @@
 import { Bson } from "https://deno.land/x/mongo@v0.28.0/deps.ts";
 import { Api } from "../api/Api.types.ts";
-import { feeds } from "../db/models/Feed.ts";
+import { feedSources } from "../db/models/FeedSource.ts";
 import { feedCollections } from "../db/models/FeedCollection.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
 import { removeFeedFromCollectionPrivate } from "./removeFeedFromCollection.ts";
@@ -8,7 +8,7 @@ import { removeFeedFromCollectionPrivate } from "./removeFeedFromCollection.ts";
 export const renameFeedSource: Api['renameFeedSource'] = async ({ feedSourceId, title }: { feedSourceId: string; title: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
 
-    await feeds.updateOne({
+    await feedSources.updateOne({
         _id: new Bson.ObjectId(feedSourceId),
         owner: userId
     }, {
@@ -23,7 +23,7 @@ export const renameFeedSource: Api['renameFeedSource'] = async ({ feedSourceId, 
 export const deleteFeedSource: Api['deleteFeedSource'] = async ({ feedSourceId }: { feedSourceId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
 
-    const feedSource = await feeds.findOne({
+    const feedSource = await feedSources.findOne({
         _id: new Bson.ObjectId(feedSourceId),
         owner: userId
     }, { noCursorTimeout: false });
@@ -43,7 +43,7 @@ export const deleteFeedSource: Api['deleteFeedSource'] = async ({ feedSourceId }
         });
     }
 
-    await feeds.deleteOne({
+    await feedSources.deleteOne({
         _id: new Bson.ObjectId(feedSourceId),
         owner: userId
     });
@@ -54,7 +54,7 @@ export const deleteFeedSource: Api['deleteFeedSource'] = async ({ feedSourceId }
 export const setFeedSourceAsPublic: Api['setFeedSourceAsPublic'] = async ({ feedSourceId }: { feedSourceId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
 
-    await feeds.updateOne({
+    await feedSources.updateOne({
         _id: new Bson.ObjectId(feedSourceId),
         owner: userId
     }, {

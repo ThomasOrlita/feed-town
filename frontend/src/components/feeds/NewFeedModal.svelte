@@ -59,7 +59,7 @@
 
     try {
       loading = true;
-      const newFeedResult = await server.addFeed(title, {
+      const newFeedResult = await server.addFeedSource(title, {
         type: selectedType,
         ...input[selectedType],
       });
