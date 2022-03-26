@@ -11,19 +11,16 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
         throw new Error('Feed not found');
     }
 
+    await feedSources.updateOne({ _id: feedId }, {
+        $set: {
+            lastChecked: new Date(),
+        },
+    });
+
     const parsedFeedItems = await parse(getUrlForFeed(feed.input));
 
     for (const feedItem of parsedFeedItems) {
-
-        // check if feed item is already in db
-        // and insert it if it's not
-        const existingFeedItem = await feedItems.findOne({
-            'content.url': feedItem.url,
-            feedId,
-        }, { noCursorTimeout: false });
-        if (existingFeedItem) continue;
-
-        console.log(`Inserting new feed item: ${feedItem.url}`);
+        console.log(`Processing feed item: ${feedItem.url}`);
 
         let content: Feed.Item.Content;
 
@@ -42,22 +39,22 @@ export const fetchFeedItems = async (feedId: ObjectId) => {
             throw new Error(`Feed type ${feed.input.type} is not an RSS feed`);
         }
 
-        await feedItems.insertOne({
+        // insert the feed item
+        // only if it does not already exist
+        await feedItems.updateOne({
+            'content.url': feedItem.url,
             feedId,
-            comments: [],
-            content,
-            dateCreated: new Date(),
-            likes: [],
-            views: [],
-        });
-
+        }, {
+            $setOnInsert: {
+                feedId,
+                comments: [],
+                content,
+                dateCreated: new Date(),
+                likes: [],
+                views: [],
+            }
+        }, { upsert: true });
     }
-
-    await feedSources.updateOne({ _id: feedId }, {
-        $set: {
-            lastChecked: new Date(),
-        },
-    });
 
     return true;
 };
