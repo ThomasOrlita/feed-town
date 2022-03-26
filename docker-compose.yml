@@ -1,0 +1,14 @@
+version: "3.8"
+
+services:
+  deno:
+    image: "feed-town-api:1.0.0"
+    build: .
+    restart: always
+    ports:
+      - "4000:4000"
+    networks: 
+      - deno
+
+networks:
+  deno: {}
