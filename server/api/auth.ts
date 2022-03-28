@@ -1,17 +1,15 @@
 import type { Account, Api } from "../api/Api.types.ts";
-import { config } from "https://deno.land/x/dotenv@v3.0.0/mod.ts";
-const env = config({ safe: true });
 
 import { OAuth2Client } from "https://deno.land/x/oauth2_client@v0.2.1/mod.ts";
 import { create, verify } from "https://deno.land/x/djwt@v2.4/mod.ts";
 import { upsertUser } from "./account.ts";
 import { Bson } from "https://deno.land/x/mongo@v0.28.0/deps.ts";
 
-const jwtKey = await window.crypto.subtle.importKey("jwk", JSON.parse(env.JWT_SECRET), { name: "HMAC", hash: "SHA-512" }, false, ["sign", "verify"]);
+const jwtKey = await window.crypto.subtle.importKey("jwk", JSON.parse(Deno.env.get('JWT_SECRET') ?? ''), { name: "HMAC", hash: "SHA-512" }, false, ["sign", "verify"]);
 
 const oauth2Client = new OAuth2Client({
-    clientId: env.GITHUB_CLIENT_ID,
-    clientSecret: env.GITHUB_CLIENT_SECRET,
+    clientId: Deno.env.get('GITHUB_CLIENT_ID') ?? '',
+    clientSecret: Deno.env.get('GITHUB_CLIENT_SECRET') ?? '',
     authorizationEndpointUri: "https://github.com/login/oauth/authorize",
     tokenUri: "https://github.com/login/oauth/access_token",
     redirectUri: "https://appio.link/feedtown-github-callback",
@@ -30,7 +28,6 @@ export const getUserIdFromJwtToken = async (jwtToken?: string) => {
 
 export const getGitHubAuthUrl: Api["getGitHubAuthUrl"] = (): string => {
     return oauth2Client.code.getAuthorizationUri().toString();
-    // return "https://github.com/login/oauth/authorize?client_id=" + env.GITHUB_CLIENT_ID + "&scope=user:email";
 };
 
 

@@ -1,12 +1,13 @@
-import { Bson, MongoClient,  } from 'https://deno.land/x/mongo@v0.28.0/mod.ts';
+import { Bson, MongoClient, } from 'https://deno.land/x/mongo@v0.28.0/mod.ts';
 
-import { config } from 'https://deno.land/x/dotenv@v3.0.0/mod.ts';
-
-const env = config({ safe: true });
+import 'https://deno.land/x/dotenv@v3.2.0/load.ts';
 
 const client = new MongoClient();
 
-await client.connect(env.MONGODB_CONNECTION_STRING);
+const MONGODB_CONNECTION_STRING = Deno.env.get('MONGODB_CONNECTION_STRING');
+if (!MONGODB_CONNECTION_STRING) throw new Error('Environment variables not set');
+
+await client.connect(MONGODB_CONNECTION_STRING);
 
 const db = client.database('feedTown');
 
