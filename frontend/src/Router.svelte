@@ -1,7 +1,6 @@
 <script lang="ts">
   import { Router, Route } from 'svelte-routing';
   import Account from '@/views/Account.svelte';
-  import Content from '@/views/Content.svelte';
 
   import HomeFeed from '@/views/HomeFeed.svelte';
   import Header from '@/components/layout/Header.svelte';
