@@ -13,7 +13,7 @@
 
         localStorage.setItem('jwt', jwtToken.jwt);
         localStorage.setItem('id', jwtToken.userId);
-        navigate('/account');
+        location.href = '/account';
     };
 </script>
 
