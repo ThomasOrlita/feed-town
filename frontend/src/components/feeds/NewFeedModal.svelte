@@ -149,7 +149,7 @@
       </TextField>
     </FormField>
   {/if}
-  <div class="min-h-24">
+  <div class="min-h-32">
     <FormField errors={[error ?? '\n\n']}>
       {#if loading}
         <Loading />
