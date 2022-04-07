@@ -7,7 +7,7 @@ import { isConnectionError } from './store';
 let serverApi: _AsyncVersionOf<Api>;
 let wsChannel: WebSocketMessageChannel;
 const startServerConnection = (timeout?: number) => {
-    wsChannel = new WebSocketMessageChannel(location.host.includes('8000') ? (location.host.replace('8000', '4000') + ':443') : 'wss://ft-api.h.thomasorlita.com');
+    wsChannel = new WebSocketMessageChannel('wss://' + (location.host.includes('8000') ? (location.host.replace('8000', '4000')) : 'ft-api.h.thomasorlita.com'));
 
     if (timeout) {
         wsChannel.addEventListener('error', () => {
