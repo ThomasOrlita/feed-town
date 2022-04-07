@@ -85,11 +85,11 @@
       name: 'RSS',
       details: 'Generic RSS feed',
     },
-    {
-      type: 'TWITTER_USER_TIMELINE',
-      name: 'Twitter',
-      details: 'Latest tweets by a Twitter account',
-    },
+    // {
+    //   type: 'TWITTER_USER_TIMELINE',
+    //   name: 'Twitter',
+    //   details: 'Latest tweets by a Twitter account',
+    // },
     {
       type: 'REDDIT_SUBREDDIT',
       name: 'Reddit',
