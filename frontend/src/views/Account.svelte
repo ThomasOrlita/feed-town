@@ -39,7 +39,9 @@
         {accountInfo.username}
       </H2>
       <div class="flex flex-col items-start gap-3 mt-4 mx-1.5">
-        <Label>Email</Label> <span class="text-sm -mt-2">{accountInfo.email}</span>
+        {#if accountInfo.email}
+          <Label>Email</Label> <span class="text-sm -mt-2">{accountInfo.email}</span>
+        {/if}
         <Label>Connected GitHub User ID</Label> <span class="text-sm -mt-2">{accountInfo.githubUserId}</span>
         <Label>Account created</Label> <span class="text-sm -mt-2">{new Date(accountInfo.dateCreated).toLocaleDateString()}</span>
       </div>
