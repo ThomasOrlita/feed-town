@@ -1,11 +1,10 @@
 import type { Api, Feed } from "../api/Api.types.ts";
 import { ObjectId } from "https://deno.land/x/mongo@v0.28.0/bson/mod.ts";
 
-import { feedItems } from "../db/models/FeedItem.ts";
 import { feedSources } from "../db/models/FeedSource.ts";
 import { feedCollections } from "../db/models/FeedCollection.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
-import { fetchFeedItems } from "../feed/fetchFeedItems.ts";
+import { refreshFeedSource } from "./refreshFeedSource.ts";
 
 export const getFeedCollection: Api['getFeedCollection'] = async ({ feedCollectionId }: { feedCollectionId: string; }, jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
@@ -30,7 +29,10 @@ export const getFeedCollection: Api['getFeedCollection'] = async ({ feedCollecti
         }
         feedSourcesList.push(feed);
 
-        fetchFeedItems(feed._id).catch(console.error);
+        refreshFeedSource({
+            feedSourceId: feed._id.toHexString(),
+            force: false
+        }, jwt).catch(console.error);
     }
 
     return {

@@ -18,7 +18,6 @@ export const parse: Feed.FeedParser<'RSS'> = async (url: string) => {
         throw new Error(`Could not parse this feed. Please try again later.`);
     }
 
-    console.log(entries);
     const rssItems: Feed.Item.Rss[] = [];
     for (const entry of entries) {
         try {

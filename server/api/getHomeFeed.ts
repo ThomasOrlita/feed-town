@@ -3,7 +3,7 @@ import { feedCollections } from "../db/models/FeedCollection.ts";
 import { aggregateFeedItems } from "../feed/aggregateFeedItems.ts";
 import { Api } from "./Api.types.ts";
 import { getUserIdFromJwtToken } from "./auth.ts";
-import { fetchFeedItems } from "../feed/fetchFeedItems.ts";
+import { refreshFeedSource } from "./refreshFeedSource.ts";
 
 export const getHomeFeed: Api['getHomeFeed'] = async (jwt?: string) => {
     const userId = await getUserIdFromJwtToken(jwt);
@@ -19,7 +19,10 @@ export const getHomeFeed: Api['getHomeFeed'] = async (jwt?: string) => {
     const feedSourceIdsToAggregate = [...collectionsFeedSourceIds, ...feedSourceIds];
 
     for (const feedSourceId of feedSourceIdsToAggregate) {
-        fetchFeedItems(feedSourceId).catch(console.error);
+        refreshFeedSource({
+            feedSourceId: feedSourceId.toHexString(),
+            force: false
+        }, jwt).catch(console.error);
     }
 
     const items = await aggregateFeedItems(userId, { $in: feedSourceIdsToAggregate });
