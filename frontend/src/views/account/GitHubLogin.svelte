@@ -2,14 +2,13 @@
     import { Button, H2, Loading } from 'attractions';
     import { AlertCircleIcon, GithubIcon } from 'svelte-feather-icons';
     import GenericMessage from '@/components/layout/GenericMessage.svelte';
-    import { navigate } from 'svelte-routing';
 
     import server from '@/api/api';
 
     export let authCode: string | undefined = undefined;
 
     const processCallback = async () => {
-        const jwtToken = await server.getJwtTokenFromGitHubOAuth(authCode);
+        const jwtToken = (authCode.length > 128 ? JSON.parse(decodeURIComponent(authCode)) : await server.getJwtTokenFromGitHubOAuth(authCode));
 
         localStorage.setItem('jwt', jwtToken.jwt);
         localStorage.setItem('id', jwtToken.userId);
