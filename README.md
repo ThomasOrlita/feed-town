@@ -1,12 +1,9 @@
-> **Note**
+> **Note** <br>
 > This repository contains my final-year high school project. I do not intend on maintaining it in the future.
 
 
-<br>
-
-
-# ![Feed Town](https://user-images.githubusercontent.com/17808846/216139614-74f861e2-61ba-48d4-837f-77336fea4a63.png)
-Feed Town is a web application that allows users to add RSS feeds from any supported source and continue to view, group into collections or share publicly. Individual posts can then be commented on or added to favorites. You can log in to the app via the social network GitHub. The application is designed in a modern and responsive design, using the latest technologies and with client and server side security.
+# ![Feed Town](https://user-images.githubusercontent.com/17808846/216159907-699cad49-917f-4d38-bd41-25c4cb436cb7.png)
+Feed Town is a web application that allows users to add RSS feeds and view them, group them into collections or share them publicly. Individual posts can then be commented on or added to favorites. You can log in to the app via GitHub. The application is designed in a modern and responsive way, using the latest technologies and with client and server side security.
 
 ## Technology
 The entire application is built on the latest technologies and web frameworks. The main programming language used for the frontend and backend of the application is TypeScript, whose main advantages include static typing. TypeScript type definitions can be exported and used between multiple projects. This allows the use of help and immediate validation of the correctness of the parameters of the called functions directly in the editor when working on the frontend and backend.
